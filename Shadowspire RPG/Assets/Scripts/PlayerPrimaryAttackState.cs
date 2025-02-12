@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerPrimaryAttack : PlayerState
+public class PlayerPrimaryAttackState : PlayerState
 {
     private int comboCounter;
 
     private float lastTimeAttacked;
     private float comboWindow = 2f;
 
-    public PlayerPrimaryAttack(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public PlayerPrimaryAttackState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
     {
     }
 
@@ -24,7 +24,14 @@ public class PlayerPrimaryAttack : PlayerState
 
         player.anim.SetInteger("ComboCounter", comboCounter);
 
-        player.SetVelocity(player.attackMovement[comboCounter].x * player.facingDirection, player.attackMovement[comboCounter].y);
+        float attackDirection = player.facingDirection;
+
+        if (xInput != 0)
+        {
+            attackDirection = xInput;
+        }
+
+        player.SetVelocity(player.attackMovement[comboCounter].x * attackDirection, player.attackMovement[comboCounter].y);
 
         stateTimer = 0.1f;
     }
