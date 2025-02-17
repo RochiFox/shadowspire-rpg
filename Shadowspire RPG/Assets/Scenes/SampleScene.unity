@@ -318,7 +318,7 @@ GameObject:
   - component: {fileID: 372886106}
   - component: {fileID: 372886109}
   - component: {fileID: 372886108}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy_Skeleton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -344,8 +344,15 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 64
   moveSpeed: 1.5
   idleTime: 2
+  battleTime: 7
+  attackCooldown: 0.4
+  lastTimeAttacked: 0
+  attackDistance: 1.5
 --- !u!4 &372886107
 Transform:
   m_ObjectHideFlags: 0
@@ -447,7 +454,8 @@ GameObject:
   - component: {fileID: 424718108}
   - component: {fileID: 424718110}
   - component: {fileID: 424718109}
-  m_Layer: 0
+  - component: {fileID: 424718111}
+  m_Layer: 7
   m_Name: Animator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -542,6 +550,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &424718111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424718107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c80838e1a91440b4c8dbfa1a531431f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &462139419
 GameObject:
   m_ObjectHideFlags: 0
@@ -4162,7 +4182,7 @@ GameObject:
   - component: {fileID: 644362263}
   - component: {fileID: 644362265}
   - component: {fileID: 644362266}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5121,7 +5141,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1069147562}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: WallCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5324,7 +5344,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1527236721}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5427,7 +5447,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1793241223}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5458,7 +5478,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1942039421}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WallCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5492,7 +5512,7 @@ GameObject:
   - component: {fileID: 1974768072}
   - component: {fileID: 1974768073}
   - component: {fileID: 1974768074}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Animator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
