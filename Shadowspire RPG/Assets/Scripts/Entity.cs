@@ -5,6 +5,8 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     [Header("Collision info")]
+    public Transform attackCheck;
+    public float attackCheckRadius;
     [SerializeField] protected Transform groundCheck;
     [SerializeField] protected float groundCheckDistance;
     [SerializeField] protected Transform wallCheck;
@@ -35,6 +37,11 @@ public class Entity : MonoBehaviour
 
     }
 
+    public virtual void Damage()
+    {
+        Debug.Log(gameObject.name + " was damaged!");
+    }
+
     #region Collision
     public virtual bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
     public virtual bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDirection, wallCheckDistance, whatIsGround);
@@ -44,6 +51,8 @@ public class Entity : MonoBehaviour
         Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
 
         Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance, wallCheck.position.y));
+
+        Gizmos.DrawWireSphere(attackCheck.position, attackCheckRadius);
     }
     #endregion
 
