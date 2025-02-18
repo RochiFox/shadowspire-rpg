@@ -338,6 +338,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f729db676cfd5e438050130f50643d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  knockbackDirection: {x: 7, y: 12}
+  knockbackDuration: 0.07
   attackCheck: {fileID: 1293870439}
   attackCheckRadius: 1
   groundCheck: {fileID: 1527236721}
@@ -435,7 +437,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 4
+  m_GravityScale: 12
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -459,6 +461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0e0ea6b3d3a19548aecaf69ea27bba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flashDuration: 0.2
   hitMaterial: {fileID: 2100000, guid: 0bfd43e89748733478789299c7066d21, type: 2}
 --- !u!1 &424718107
 GameObject:
@@ -4219,6 +4222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3b3cb0348ebc674f8e12710b58071ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  knockbackDirection: {x: 0, y: 0}
+  knockbackDuration: 0
   attackCheck: {fileID: 1380816348}
   attackCheckRadius: 0.8
   groundCheck: {fileID: 1793241223}
@@ -4330,6 +4335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0e0ea6b3d3a19548aecaf69ea27bba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flashDuration: 0.2
   hitMaterial: {fileID: 2100000, guid: 0bfd43e89748733478789299c7066d21, type: 2}
 --- !u!1 &654088173
 GameObject:
