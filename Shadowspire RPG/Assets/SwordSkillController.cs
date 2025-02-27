@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class SwordSkillController : MonoBehaviour
 {
+    [SerializeField] private float returnSpeed = 12f;
+
     private Animator anim;
     private Rigidbody2D rb;
     private CircleCollider2D cd;
     private Player player;
+
+    private bool canRotate = true;
+    private bool isReturning;
 
     void Awake()
     {
@@ -16,9 +21,50 @@ public class SwordSkillController : MonoBehaviour
         cd = GetComponent<CircleCollider2D>();
     }
 
-    public void SetupSword(Vector2 direction, float gravityScale)
+    public void SetupSword(Vector2 _direction, float _gravityScale, Player _player)
     {
-        rb.velocity = direction;
-        rb.gravityScale = gravityScale;
+        rb.velocity = _direction;
+        rb.gravityScale = _gravityScale;
+        player = _player;
+
+        anim.SetBool("Rotation", true);
+    }
+
+    public void ReturnSword()
+    {
+        rb.isKinematic = false;
+        transform.parent = null;
+        isReturning = true;
+    }
+
+    void Update()
+    {
+        if (canRotate)
+        {
+            transform.right = rb.velocity;
+        }
+
+        if (isReturning)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, returnSpeed * Time.deltaTime);
+
+            if (Vector2.Distance(transform.position, player.transform.position) < 1)
+            {
+                player.ClearTheSword();
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        anim.SetBool("Rotation", false);
+
+        canRotate = false;
+        cd.enabled = false;
+
+        rb.isKinematic = true;
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+
+        transform.parent = collision.transform;
     }
 }
