@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,8 +16,12 @@ public class SwordSkill : Skill
     public SwordType swordType = SwordType.Regular;
 
     [Header("Bounce info")]
-    [SerializeField] private int amountOfBounce;
+    [SerializeField] private int bounceAmount;
     [SerializeField] private float bounceGravity;
+
+    [Header("Peirce info")]
+    [SerializeField] private int pierceAmount;
+    [SerializeField] private float pierceGravity;
 
     [Header("Skill info")]
     [SerializeField] private GameObject swordPrefab;
@@ -38,6 +43,8 @@ public class SwordSkill : Skill
         base.Start();
 
         GenerateDots();
+
+        SetupGravity();
     }
 
     protected override void Update()
@@ -56,6 +63,18 @@ public class SwordSkill : Skill
         }
     }
 
+    private void SetupGravity()
+    {
+        if (swordType == SwordType.Bounce)
+        {
+            swordGravity = bounceGravity;
+        }
+        else if (swordType == SwordType.Pierce)
+        {
+            swordGravity = pierceGravity;
+        }
+    }
+
     public void CreateSword()
     {
         GameObject newSword = Instantiate(swordPrefab, player.transform.position, transform.rotation);
@@ -63,8 +82,11 @@ public class SwordSkill : Skill
 
         if (swordType == SwordType.Bounce)
         {
-            swordGravity = bounceGravity;
-            newSwordScript.SetupBounce(true, amountOfBounce);
+            newSwordScript.SetupBounce(true, bounceAmount);
+        }
+        else if (swordType == SwordType.Pierce)
+        {
+            newSwordScript.SetupPierce(pierceAmount);
         }
 
         newSwordScript.SetupSword(finalDirection, swordGravity, player);
