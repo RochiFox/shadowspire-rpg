@@ -7286,11 +7286,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 0
-  swordType: 2
+  swordType: 3
   bounceAmount: 4
   bounceGravity: 1
   pierceAmount: 2
   pierceGravity: 1
+  maxTravelDistance: 7
+  spinDuration: 2
+  spinGravity: 1
   swordPrefab: {fileID: 8754353302154023622, guid: bc7a3b42629425b489f753d1c90355d7, type: 3}
   launchForce: {x: 35, y: 25}
   swordGravity: 0.5
