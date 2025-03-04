@@ -5,12 +5,14 @@ using UnityEngine;
 public class BlackholeSkill : Skill
 {
     [SerializeField] private GameObject blackHolePrefab;
-
     [SerializeField] private float maxSize;
     [SerializeField] private float growSpeed;
     [SerializeField] private float shrinkSpeed;
     [SerializeField] private int amountOfAttacks;
     [SerializeField] private float cloneCooldown;
+    [SerializeField] private float blackholeDuration;
+
+    BlackholeSkillController currentBlackHole;
 
     public override bool CanUseSkill()
     {
@@ -23,9 +25,9 @@ public class BlackholeSkill : Skill
 
         GameObject newBlackHole = Instantiate(blackHolePrefab, player.transform.position, Quaternion.identity);
 
-        BlackholeSkillController newBlackHoleScript = newBlackHole.GetComponent<BlackholeSkillController>();
+        currentBlackHole = newBlackHole.GetComponent<BlackholeSkillController>();
 
-        newBlackHoleScript.SetupBlackhole(maxSize, growSpeed, shrinkSpeed, amountOfAttacks, cloneCooldown);
+        currentBlackHole.SetupBlackhole(maxSize, growSpeed, shrinkSpeed, amountOfAttacks, cloneCooldown, blackholeDuration);
     }
 
     protected override void Start()
@@ -36,5 +38,21 @@ public class BlackholeSkill : Skill
     protected override void Update()
     {
         base.Update();
+    }
+
+    public bool SkillCompleted()
+    {
+        if (!currentBlackHole)
+        {
+            return false;
+        }
+
+        if (currentBlackHole.playerCanExitState)
+        {
+            currentBlackHole = null;
+            return true;
+        }
+
+        return false;
     }
 }
