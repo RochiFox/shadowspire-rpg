@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CloneSkillController : MonoBehaviour
 {
+    private Player player;
     private SpriteRenderer sr;
     private Animator anim;
 
@@ -38,13 +39,14 @@ public class CloneSkillController : MonoBehaviour
         }
     }
 
-    public void SetupClone(Transform newTransform, float cloneDuration, bool canAttack, Vector3 _offset, Transform _closestEnemy, bool _canDuplicateClone, float _chanceToDuplicate)
+    public void SetupClone(Transform newTransform, float cloneDuration, bool canAttack, Vector3 _offset, Transform _closestEnemy, bool _canDuplicateClone, float _chanceToDuplicate, Player _player)
     {
         if (canAttack)
         {
             anim.SetInteger("AttackNumber", Random.Range(1, 3));
         }
 
+        player = _player;
         transform.position = newTransform.position + _offset;
 
         cloneTimer = cloneDuration;
@@ -72,7 +74,7 @@ public class CloneSkillController : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
-                hit.GetComponent<Enemy>().DamageEffect();
+                player.stats.DoDamage(hit.GetComponent<CharacterStats>());
 
                 if (canDuplicateClone)
                 {
