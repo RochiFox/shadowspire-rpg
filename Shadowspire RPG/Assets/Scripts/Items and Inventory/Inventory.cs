@@ -75,6 +75,9 @@ public class Inventory : MonoBehaviour
 
         equipment.Add(newItem);
         equipmentDictianory.Add(newEquipment, newItem);
+
+        newEquipment.AddModifiers();
+
         RemoveItem(_item);
 
         UpdateSlotUI();
@@ -86,6 +89,7 @@ public class Inventory : MonoBehaviour
         {
             equipment.Remove(value);
             equipmentDictianory.Remove(itemToRemove);
+            itemToRemove.RemoveModifiers();
         }
     }
 
