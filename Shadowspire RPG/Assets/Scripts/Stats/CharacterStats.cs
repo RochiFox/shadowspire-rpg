@@ -76,7 +76,7 @@ public class CharacterStats : MonoBehaviour
             isShocked = false;
         }
 
-        if (isIgnited)
+        if (isIgnited && !isDead)
         {
             ApplyIgniteDamage();
         }
