@@ -14,6 +14,8 @@ public class ItemDataEquipment : ItemData
 {
     public EquipmentType equipmentType;
 
+    public ItemEffect[] itemEffects;
+
     [Header("Major stats")]
     public int strength;
     public int agility;
@@ -39,6 +41,13 @@ public class ItemDataEquipment : ItemData
     [Header("Craft requirements")]
     public List<InventoryItem> craftingMaterials;
 
+    public void ExecuteItemEffect()
+    {
+        foreach (var item in itemEffects)
+        {
+            item.ExecuteEffect();
+        }
+    }
 
     public void AddModifiers()
     {
