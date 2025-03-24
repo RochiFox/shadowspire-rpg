@@ -989,7 +989,7 @@ MonoBehaviour:
     baseValue: 10
     modifiers: 
   damage:
-    baseValue: 10
+    baseValue: 20
     modifiers: 
   critChance:
     baseValue: 99
@@ -8886,6 +8886,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8f8cc8b644c7f1b46ba960d6b8dba5f1, type: 2}
   - {fileID: 11400000, guid: 77d1e39aea5c0174d808b4f942c8d37d, type: 2}
   - {fileID: 11400000, guid: 9d5d45f113aa631428d73d996942f430, type: 2}
+  - {fileID: 11400000, guid: 2ae0f8776c45cdc49bafff58c59419ef, type: 2}
+  - {fileID: 11400000, guid: 75303c207019a384695973ed6eaa955b, type: 2}
   equipment: []
   inventory: []
   stash: []
@@ -12583,7 +12585,7 @@ MonoBehaviour:
     baseValue: 10
     modifiers: 
   damage:
-    baseValue: 10
+    baseValue: 20
     modifiers: 
   critChance:
     baseValue: 99
