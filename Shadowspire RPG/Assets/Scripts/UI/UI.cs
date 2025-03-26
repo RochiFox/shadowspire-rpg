@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class UI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
+    [SerializeField] private GameObject characterUI;
 
-    }
+    public ItemTooltipUI itemTooltip;
 
     // Update is called once per frame
     void Update()
