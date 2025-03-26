@@ -21,10 +21,12 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Transform inventorySlotParent;
     [SerializeField] private Transform stashSlotParent;
     [SerializeField] private Transform equipmentSlotParent;
+    [SerializeField] private Transform statSlotParent;
 
     private ItemSlotUI[] inventoryItemSlot;
     private ItemSlotUI[] stashItemSlot;
     private EquipmentSlotUI[] equipmentSlot;
+    private StatSlotUI[] statSlot;
 
     [Header("Items cooldown")]
     private float lastTimeUsedFlask;
@@ -59,6 +61,7 @@ public class Inventory : MonoBehaviour
         inventoryItemSlot = inventorySlotParent.GetComponentsInChildren<ItemSlotUI>();
         stashItemSlot = stashSlotParent.GetComponentsInChildren<ItemSlotUI>();
         equipmentSlot = equipmentSlotParent.GetComponentsInChildren<EquipmentSlotUI>();
+        statSlot = statSlotParent.GetComponentsInChildren<StatSlotUI>();
 
         AddStartingItems();
     }
@@ -143,6 +146,11 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < stash.Count; i++)
         {
             stashItemSlot[i].UpdateSlot(stash[i]);
+        }
+
+        for (int i = 0; i < statSlot.Length; i++)
+        {
+            statSlot[i].UpdateStatValueUI();
         }
     }
 

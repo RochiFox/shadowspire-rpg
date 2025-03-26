@@ -42,7 +42,7 @@ public class ItemSlotUI : MonoBehaviour, IPointerDownHandler
 
     public virtual void OnPointerDown(PointerEventData eventData)
     {
-        if (item == null || item.data == null)
+        if (item == null)
         {
             return;
         }
