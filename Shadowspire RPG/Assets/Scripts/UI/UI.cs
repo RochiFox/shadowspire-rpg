@@ -7,6 +7,7 @@ public class UI : MonoBehaviour
     [SerializeField] private GameObject characterUI;
 
     public ItemTooltipUI itemTooltip;
+    public StatTooltipUI statTooltip;
 
     // Update is called once per frame
     void Update()
