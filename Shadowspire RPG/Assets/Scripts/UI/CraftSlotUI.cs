@@ -1,19 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class CraftSlotUI : ItemSlotUI
 {
-    void OnEnable()
+    protected override void Start()
     {
-        UpdateSlot(item);
+        base.Start();
+    }
+
+    public void SetupCraftSlot(ItemDataEquipment _data)
+    {
+        if (_data == null)
+        {
+            return;
+        }
+
+        item.data = _data;
+        itemImage.sprite = _data.itemIcon;
+        itemText.text = _data.itemName;
+
+        if (itemText.text.Length > 12)
+        {
+            itemText.fontSize = itemText.fontSize * 0.8f;
+        }
+        else
+        {
+            itemText.fontSize = 24;
+        }
     }
 
     public override void OnPointerDown(PointerEventData eventData)
     {
-        ItemDataEquipment craftData = item.data as ItemDataEquipment;
-
-        Inventory.instance.CanCraft(craftData, craftData.craftingMaterials);
+        ui.craftWindow.SetupCraftWindow(item.data as ItemDataEquipment);
     }
 }
