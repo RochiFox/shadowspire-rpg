@@ -156,6 +156,11 @@ public class Player : Entity
             return;
         }
 
+        if (skill.dash.dashUnlocked == false)
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.LeftShift) && SkillManager.instance.dash.CanUseSkill())
         {
 
