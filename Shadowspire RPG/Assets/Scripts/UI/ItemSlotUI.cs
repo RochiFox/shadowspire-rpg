@@ -74,7 +74,32 @@ public class ItemSlotUI : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
             return;
         }
 
+        Vector2 mousePosition = Input.mousePosition;
+        float xOffset = 0;
+        float yOffset = 0;
+
+         if (mousePosition.x > 600)
+        {
+            xOffset = -125;
+        }
+        else
+        {
+            xOffset = 125;
+        }
+
+        if (mousePosition.y > 600)
+        {
+            yOffset = -125;
+        }
+        else
+        {
+            yOffset = 125;
+        }
+
+        ui.skillTooltip.transform.position = new Vector2(mousePosition.x + xOffset, mousePosition.y + yOffset);
+
         ui.itemTooltip.ShowTooltip(item.data as ItemDataEquipment);
+        ui.itemTooltip.transform.position = new Vector2(mousePosition.x + xOffset, mousePosition.y + yOffset);
     }
 
     public void OnPointerExit(PointerEventData eventData)
