@@ -20607,11 +20607,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 1
-  dashUnlocked: 0
   dashUnlockButton: {fileID: 673607922}
-  cloneOnDashUnlocked: 0
   cloneOnDashUnlockButton: {fileID: 250618358}
-  cloneOnArrivalUnlocked: 0
   cloneOnArrivalUnlockButton: {fileID: 1286820104}
 --- !u!114 &1391224029
 MonoBehaviour:
@@ -20629,7 +20626,6 @@ MonoBehaviour:
   clonePrefab: {fileID: 4841902735725643599, guid: 6bc0f3184895cfd4bb3859192eed4446, type: 3}
   cloneDuration: 1.5
   canAttack: 0
-  createCloneOnCounterAttack: 0
   canDuplicateClone: 0
   chanceToDuplicate: 0
   crystlalInsteadOfClone: 0
@@ -20700,10 +20696,15 @@ MonoBehaviour:
   cooldown: 0
   crystalDuration: 1.5
   crystalPrefab: {fileID: 3653627268367194988, guid: c8fb63d4ea8fc6b4a927c0de200a1d97, type: 3}
+  unlockCloneInsteadButton: {fileID: 1262213913}
   cloneInsteadOfCrystal: 0
+  unlockCrystalButton: {fileID: 1156082246}
+  unlockExplosiveButton: {fileID: 1382264778}
   canExplode: 0
+  unlockMovingCrystalButton: {fileID: 1551525074}
   canMoveToEnemy: 0
   moveSpeed: 4
+  unlockMultiStackButton: {fileID: 1959538498}
   canUseMultiStacks: 0
   amountOfStacks: 3
   multiStackCooldown: 4
@@ -20726,12 +20727,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldown: 0
   parryUnlockButton: {fileID: 2127246672}
-  parryUnlocked: 0
   restoreUnlockButton: {fileID: 2111056986}
-  restoreUnlocked: 0
   restoreHealthPercentage: 0.05
   parryWithMirageUnlockButton: {fileID: 12455612}
-  parryWithMirageUnlocked: 0
 --- !u!1 &1393418290
 GameObject:
   m_ObjectHideFlags: 3
