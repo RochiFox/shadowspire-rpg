@@ -20559,6 +20559,7 @@ GameObject:
   - component: {fileID: 1391224030}
   - component: {fileID: 1391224031}
   - component: {fileID: 1391224032}
+  - component: {fileID: 1391224033}
   m_Layer: 0
   m_Name: Skill Manager
   m_TagString: Untagged
@@ -20711,6 +20712,26 @@ MonoBehaviour:
   - {fileID: 3653627268367194988, guid: c8fb63d4ea8fc6b4a927c0de200a1d97, type: 3}
   - {fileID: 3653627268367194988, guid: c8fb63d4ea8fc6b4a927c0de200a1d97, type: 3}
   - {fileID: 3653627268367194988, guid: c8fb63d4ea8fc6b4a927c0de200a1d97, type: 3}
+--- !u!114 &1391224033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1391224025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d30b9fea5e5194418ff8c74206a5cf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 0
+  parryUnlockButton: {fileID: 2127246672}
+  parryUnlocked: 0
+  restoreUnlockButton: {fileID: 2111056986}
+  restoreUnlocked: 0
+  restoreHealthPercentage: 0.05
+  parryWithMirageUnlockButton: {fileID: 12455612}
+  parryWithMirageUnlocked: 0
 --- !u!1 &1393418290
 GameObject:
   m_ObjectHideFlags: 3

@@ -32,7 +32,7 @@ public class PlayerGroundedState : PlayerState
             stateMachine.ChangeState(player.aimSwordState);
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && player.skill.parry.parryUnlocked)
         {
             stateMachine.ChangeState(player.counterAttackState);
         }
