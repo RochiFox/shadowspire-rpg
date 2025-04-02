@@ -18229,8 +18229,7 @@ MonoBehaviour:
   skillDescription: You getting 10% of evasion.
   lockedSkillColor: {r: 0.4716981, g: 0.42497328, b: 0.42497328, a: 1}
   unlocked: 0
-  shouldBeUnlocked:
-  - {fileID: 1262213913}
+  shouldBeUnlocked: []
   shouldBeLocked: []
 --- !u!114 &1203781218
 MonoBehaviour:
@@ -20560,6 +20559,7 @@ GameObject:
   - component: {fileID: 1391224031}
   - component: {fileID: 1391224032}
   - component: {fileID: 1391224033}
+  - component: {fileID: 1391224034}
   m_Layer: 0
   m_Name: Skill Manager
   m_TagString: Untagged
@@ -20625,7 +20625,7 @@ MonoBehaviour:
   cooldown: 0
   clonePrefab: {fileID: 4841902735725643599, guid: 6bc0f3184895cfd4bb3859192eed4446, type: 3}
   cloneDuration: 1.5
-  canAttack: 0
+  canAttack: 1
   canDuplicateClone: 0
   chanceToDuplicate: 0
   crystlalInsteadOfClone: 0
@@ -20730,6 +20730,24 @@ MonoBehaviour:
   restoreUnlockButton: {fileID: 2111056986}
   restoreHealthPercentage: 0.05
   parryWithMirageUnlockButton: {fileID: 12455612}
+--- !u!114 &1391224034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1391224025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8919cee4774b4b840aac273cab838cad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 0
+  unlockDodgeButton: {fileID: 1203781217}
+  evasionAmount: 10
+  dodgeUnlocked: 0
+  unlockMirageButton: {fileID: 2075942830}
+  dodgeMirageUnlocked: 0
 --- !u!1 &1393418290
 GameObject:
   m_ObjectHideFlags: 3

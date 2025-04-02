@@ -376,6 +376,10 @@ public class CharacterStats : MonoBehaviour
         return totalMagicalDamage;
     }
 
+    public virtual void OnEvasion()
+    {
+
+    }
 
     private bool TargetCanAvoidAttack(CharacterStats _targetStats)
     {
@@ -388,6 +392,7 @@ public class CharacterStats : MonoBehaviour
 
         if (Random.Range(0, 100) < totalEvasion)
         {
+            _targetStats.OnEvasion();
             return true;
         }
 
