@@ -20625,9 +20625,17 @@ MonoBehaviour:
   cooldown: 0
   clonePrefab: {fileID: 4841902735725643599, guid: 6bc0f3184895cfd4bb3859192eed4446, type: 3}
   cloneDuration: 1.5
-  canAttack: 1
+  attackMultiplier: 0
+  cloneAttackUnlockButton: {fileID: 961361368}
+  cloneAttackMultiplier: 0.3
+  canAttack: 0
+  aggresiveCloneUnlockButton: {fileID: 1602553570}
+  aggresiveCloneAttackMultiplier: 0.8
+  multipleUnlockButton: {fileID: 43812418}
+  multiCloneAttackMultiplier: 0.3
   canDuplicateClone: 0
-  chanceToDuplicate: 0
+  chanceToDuplicate: 99
+  crystalInsteadUnlockButton: {fileID: 1305371702}
   crystlalInsteadOfClone: 0
 --- !u!114 &1391224030
 MonoBehaviour:
@@ -20680,6 +20688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 0
+  blackholeUnlockButton: {fileID: 1488518651}
   blackHolePrefab: {fileID: 4219884518701509255, guid: 8628b6995499c6444a3a7b1f18f2c2fd, type: 3}
   maxSize: 15
   growSpeed: 3
