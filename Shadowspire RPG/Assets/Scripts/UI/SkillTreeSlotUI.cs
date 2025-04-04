@@ -8,7 +8,7 @@ public class SkillTreeSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
 {
     private UI ui;
 
-    [SerializeField] private int skillPrice;
+    [SerializeField] private int skillCost;
     [SerializeField] private string skillName;
     [TextArea]
     [SerializeField] private string skillDescription;
@@ -42,7 +42,7 @@ public class SkillTreeSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void UnlockSkillSlot()
     {
-        if (PlayerManager.instance.HaveEnoughMoney(skillPrice) == false)
+        if (PlayerManager.instance.HaveEnoughMoney(skillCost) == false)
         {
             return;
         }
@@ -71,7 +71,7 @@ public class SkillTreeSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ui.skillTooltip.ShowTooltip(skillDescription, skillName);
+        ui.skillTooltip.ShowTooltip(skillDescription, skillName, skillCost);
     }
 
     public void OnPointerExit(PointerEventData eventData)
