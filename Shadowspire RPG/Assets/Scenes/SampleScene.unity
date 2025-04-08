@@ -24490,7 +24490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e9e18289038a74e99df8cff1c76aa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileName: data.rochiyoung
+  fileName: data.player
 --- !u!4 &1490995003
 Transform:
   m_ObjectHideFlags: 0
