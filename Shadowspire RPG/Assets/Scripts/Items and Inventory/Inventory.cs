@@ -40,6 +40,7 @@ public class Inventory : MonoBehaviour, ISaveManager
 
     [Header("Data base")]
     public List<InventoryItem> loadedItems;
+    public List<ItemDataEquipment> loadedEquipment;
 
     void Awake()
     {
@@ -74,6 +75,11 @@ public class Inventory : MonoBehaviour, ISaveManager
 
     private void AddStartingItems()
     {
+        foreach (ItemDataEquipment item in loadedEquipment)
+        {
+            EquipItem(item);
+        }
+
         if (loadedItems.Count > 0)
         {
             foreach (InventoryItem item in loadedItems)
@@ -375,15 +381,37 @@ public class Inventory : MonoBehaviour, ISaveManager
                 }
             }
         }
+
+        foreach (string loadedItemId in _data.equipmentId)
+        {
+            foreach (var item in GetItemDataBase())
+            {
+                if (item != null && loadedItemId == item.itemId)
+                {
+                    loadedEquipment.Add(item as ItemDataEquipment);
+                }
+            }
+        }
     }
 
     public void SaveData(ref GameData _data)
     {
         _data.inventory.Clear();
+        _data.equipmentId.Clear();
 
         foreach (KeyValuePair<ItemData, InventoryItem> pair in inventoryDictianory)
         {
             _data.inventory.Add(pair.Key.itemId, pair.Value.stackSize);
+        }
+
+        foreach (KeyValuePair<ItemData, InventoryItem> pair in stashDictianory)
+        {
+            _data.inventory.Add(pair.Key.itemId, pair.Value.stackSize);
+        }
+
+        foreach (KeyValuePair<ItemDataEquipment, InventoryItem> pair in equipmentDictianory)
+        {
+            _data.equipmentId.Add(pair.Key.itemId);
         }
     }
 
@@ -391,7 +419,7 @@ public class Inventory : MonoBehaviour, ISaveManager
     {
         List<ItemData> itemDataBase = new List<ItemData>();
 
-        string[] assetName = AssetDatabase.FindAssets("", new[] { "Assets/Data/Equipment" });
+        string[] assetName = AssetDatabase.FindAssets("", new[] { "Assets/Data/Items" });
 
         foreach (string SOName in assetName)
         {
