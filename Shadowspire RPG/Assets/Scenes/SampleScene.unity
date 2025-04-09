@@ -4756,7 +4756,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &339624271
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18894,6 +18894,8 @@ MonoBehaviour:
   stashSlotParent: {fileID: 1859107150}
   equipmentSlotParent: {fileID: 2046434514}
   statSlotParent: {fileID: 2114817742}
+  loadedItems: []
+  loadedEquipment: []
 --- !u!4 &1056469968
 Transform:
   m_ObjectHideFlags: 0
@@ -34522,7 +34524,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2105783414
 RectTransform:
   m_ObjectHideFlags: 0
