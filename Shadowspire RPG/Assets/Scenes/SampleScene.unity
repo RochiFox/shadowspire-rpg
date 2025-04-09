@@ -24493,6 +24493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: data.player
+  encryptData: 1
 --- !u!4 &1490995003
 Transform:
   m_ObjectHideFlags: 0
