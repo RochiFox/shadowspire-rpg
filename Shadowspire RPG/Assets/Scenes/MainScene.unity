@@ -5673,6 +5673,9 @@ MonoBehaviour:
   ailmentsDuration: 4
   shockStrikePrefab: {fileID: 8916083413164600485, guid: e7767975c23caae4eba95be11392ba68, type: 3}
   currentHealth: 0
+  soulsDropAmount:
+    baseValue: 0
+    modifiers: 
   level: 1
   percantageModifier: 0.4
 --- !u!70 &372886112
@@ -11549,6 +11552,8 @@ MonoBehaviour:
   blackholeImage: {fileID: 1850615752}
   flaskImage: {fileID: 274994105}
   currentSouls: {fileID: 2073533112}
+  soulsAmount: 0
+  increaseRate: 500
 --- !u!114 &521822349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13807,7 +13812,7 @@ MonoBehaviour:
     baseValue: 150
     modifiers: 
   maxHealth:
-    baseValue: 10
+    baseValue: 100
     modifiers: 
   armor:
     baseValue: 50
@@ -13880,7 +13885,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 644362263}
-  currency: 0
+  currency: 50
 --- !u!4 &652684198
 Transform:
   m_ObjectHideFlags: 0
@@ -16149,6 +16154,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   checkpoints: []
   closestCheckpointId: 
+  lostCurrencyPrefab: {fileID: 8411415012727378643, guid: ed25691ce4da748419f34a6dd3c67763, type: 3}
+  lostCurrencyAmount: 0
+  lostCurrencyX: 0
+  lostCurrencyY: 0
 --- !u!4 &798479772
 Transform:
   m_ObjectHideFlags: 0
@@ -35772,6 +35781,9 @@ MonoBehaviour:
   ailmentsDuration: 4
   shockStrikePrefab: {fileID: 8916083413164600485, guid: e7767975c23caae4eba95be11392ba68, type: 3}
   currentHealth: 0
+  soulsDropAmount:
+    baseValue: 0
+    modifiers: 
   level: 1
   percantageModifier: 0.4
 --- !u!114 &2134213535
@@ -36368,6 +36380,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1919181410628244662, guid: 213a61e7b9cd7eb40b473b251e0850b0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4315817450339532729, guid: 213a61e7b9cd7eb40b473b251e0850b0, type: 3}
+      propertyPath: encryptData
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
