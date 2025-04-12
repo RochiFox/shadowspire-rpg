@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1919181410628244662}
   - component: {fileID: 4315817450339532729}
   m_Layer: 0
-  m_Name: SaveManager
+  m_Name: Save Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: data.player
-  encryptData: 1
+  encryptData: 0
