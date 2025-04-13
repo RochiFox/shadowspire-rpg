@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UI : MonoBehaviour
+public class UI : MonoBehaviour, ISaveManager
 {
     [Header("End Screen")]
     [SerializeField] private GameObject endText;
@@ -20,6 +20,8 @@ public class UI : MonoBehaviour
     public StatTooltipUI statTooltip;
     public CraftWindowUI craftWindow;
     public SkillTooltipUI skillTooltip;
+
+    [SerializeField] private VolumeSliderUI[] volumeSettings;
 
     void Awake()
     {
@@ -117,4 +119,28 @@ public class UI : MonoBehaviour
     }
 
     public void RestartGameButton() => GameManager.instance.RestartScene();
+
+    public void LoadData(GameData _data)
+    {
+        foreach (KeyValuePair<string, float> pair in _data.volumeSettings)
+        {
+            foreach (VolumeSliderUI item in volumeSettings)
+            {
+                if (item.parameter == pair.Key)
+                {
+                    item.LoadSlider(pair.Value);
+                }
+            }
+        }
+    }
+
+    public void SaveData(ref GameData _data)
+    {
+        _data.volumeSettings.Clear();
+
+        foreach (VolumeSliderUI item in volumeSettings)
+        {
+            _data.volumeSettings.Add(item.parameter, item.slider.value);
+        }
+    }
 }
