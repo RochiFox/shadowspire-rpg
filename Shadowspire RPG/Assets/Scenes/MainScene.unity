@@ -4640,7 +4640,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 17f1abe31ca7f584d88ed88e33e9b278, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -7615,7 +7615,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 8f397150faf31264bb32d32283c6b851, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -22635,7 +22635,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 8dc8fde242a12544eb5c14646271a2fb, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -26587,7 +26587,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 470a4ef1acbafde48821a531d927081d, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -27781,6 +27781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 2
+  cooldownTimer: 0
   dashUnlockButton: {fileID: 673607922}
   cloneOnDashUnlockButton: {fileID: 250618358}
   cloneOnArrivalUnlockButton: {fileID: 1286820104}
@@ -27797,6 +27798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 0
+  cooldownTimer: 0
   clonePrefab: {fileID: 4841902735725643599, guid: 6bc0f3184895cfd4bb3859192eed4446, type: 3}
   cloneDuration: 1.5
   attackMultiplier: 0
@@ -27824,6 +27826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 0
+  cooldownTimer: 0
   swordType: 3
   bounceUnlockButton: {fileID: 544380329}
   bounceAmount: 4
@@ -27862,6 +27865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 60
+  cooldownTimer: 0
   blackholeUnlockButton: {fileID: 1488518651}
   blackHolePrefab: {fileID: 4219884518701509255, guid: 8628b6995499c6444a3a7b1f18f2c2fd, type: 3}
   maxSize: 15
@@ -27883,6 +27887,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 3
+  cooldownTimer: 0
   crystalDuration: 1.5
   crystalPrefab: {fileID: 3653627268367194988, guid: c8fb63d4ea8fc6b4a927c0de200a1d97, type: 3}
   unlockCloneInsteadButton: {fileID: 1262213913}
@@ -27915,6 +27920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 2
+  cooldownTimer: 0
   parryUnlockButton: {fileID: 2127246672}
   restoreUnlockButton: {fileID: 2111056986}
   restoreHealthPercentage: 0.05
@@ -27932,6 +27938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 0
+  cooldownTimer: 0
   unlockDodgeButton: {fileID: 1203781217}
   evasionAmount: 10
   dodgeUnlocked: 0
@@ -36108,7 +36115,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f283eec2bc9bdbe46aa9e2962f22dc23, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -41953,6 +41960,10 @@ PrefabInstance:
     - target: {fileID: 1919181410628244662, guid: 213a61e7b9cd7eb40b473b251e0850b0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4315817450339532729, guid: 213a61e7b9cd7eb40b473b251e0850b0, type: 3}
+      propertyPath: encryptData
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
