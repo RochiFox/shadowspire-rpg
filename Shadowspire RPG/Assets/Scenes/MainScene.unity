@@ -7745,6 +7745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3deae99ea7b37e74588683d0f314f10f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sfxMininumDistance: 10
   sfx:
   - {fileID: 1794802541}
   - {fileID: 1157832039}
@@ -30349,7 +30350,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 9fc85d42054705b4fb24c2a09dee6994, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
