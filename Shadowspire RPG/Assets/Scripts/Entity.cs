@@ -14,7 +14,7 @@ public class Entity : MonoBehaviour
     #endregion
 
     [Header("Knockback info")]
-    [SerializeField] protected Vector2 knockbackDirection;
+    [SerializeField] protected Vector2 knockbackPower;
     [SerializeField] protected float knockbackDuration;
     protected bool isKnocked;
 
@@ -26,6 +26,8 @@ public class Entity : MonoBehaviour
     [SerializeField] protected Transform wallCheck;
     [SerializeField] protected float wallCheckDistance;
     [SerializeField] protected LayerMask whatIsGround;
+
+    public int knockbackDirection { get; private set; }
 
     public int facingDirection { get; private set; } = 1;
     protected bool facingRight = true;
@@ -64,11 +66,23 @@ public class Entity : MonoBehaviour
 
     public virtual void DamageImpact() => StartCoroutine("HitKnockback");
 
+    public virtual void SetupKnockbackDirection(Transform _damageDirection)
+    {
+        if (_damageDirection.position.x > transform.position.x)
+        {
+            knockbackDirection = -1;
+        }
+        else if (_damageDirection.position.x < transform.position.x)
+        {
+            knockbackDirection = 1;
+        }
+    }
+
     protected virtual IEnumerator HitKnockback()
     {
         isKnocked = true;
 
-        rb.velocity = new Vector2(knockbackDirection.x * -facingDirection, knockbackDirection.y);
+        rb.velocity = new Vector2(knockbackPower.x * -knockbackDirection, knockbackPower.y);
 
         yield return new WaitForSeconds(knockbackDuration);
 

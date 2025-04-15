@@ -134,6 +134,8 @@ public class CharacterStats : MonoBehaviour
             return;
         }
 
+        _targetStats.GetComponent<Entity>().SetupKnockbackDirection(transform);
+
         int totalDamage = damage.GetValue() + strength.GetValue();
 
         if (CanCrit())
