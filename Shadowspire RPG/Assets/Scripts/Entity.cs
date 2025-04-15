@@ -78,6 +78,8 @@ public class Entity : MonoBehaviour
         }
     }
 
+    public void SetupKnockbackPower(Vector2 _knockbackPower) => knockbackPower = _knockbackPower;
+
     protected virtual IEnumerator HitKnockback()
     {
         isKnocked = true;
@@ -85,8 +87,13 @@ public class Entity : MonoBehaviour
         rb.velocity = new Vector2(knockbackPower.x * -knockbackDirection, knockbackPower.y);
 
         yield return new WaitForSeconds(knockbackDuration);
-
         isKnocked = false;
+        SetupZeroKnockbackPower();
+    }
+
+    protected virtual void SetupZeroKnockbackPower()
+    {
+
     }
 
     #region Collision

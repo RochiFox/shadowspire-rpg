@@ -7186,7 +7186,7 @@ MonoBehaviour:
   - {fileID: 716512447}
   - {fileID: 1836048647}
   - {fileID: 663764049}
-  playBgm: 1
+  playBgm: 0
 --- !u!1 &431662978
 GameObject:
   m_ObjectHideFlags: 0
@@ -14489,7 +14489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knockbackPower: {x: 0, y: 0}
-  knockbackDuration: 0
+  knockbackDuration: 0.3
   attackCheck: {fileID: 1380816348}
   attackCheckRadius: 0.8
   groundCheck: {fileID: 1793241223}
