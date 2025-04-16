@@ -39,12 +39,12 @@ public class UI : MonoBehaviour, ISaveManager
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             SwitchWithKeyTo(characterUI);
         }
 
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             SwitchWithKeyTo(craftUI);
         }
@@ -54,7 +54,7 @@ public class UI : MonoBehaviour, ISaveManager
             SwitchWithKeyTo(skillTreeUI);
         }
 
-        if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             SwitchWithKeyTo(optionsUI);
         }
