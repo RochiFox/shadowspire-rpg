@@ -14518,7 +14518,7 @@ Transform:
   m_GameObject: {fileID: 644362262}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.06, y: 9.08, z: 0}
+  m_LocalPosition: {x: 5.06, y: 8.46, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -40150,14 +40150,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1423229846872045498, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1815701165824046260, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
-      propertyPath: iceDamage.baseValue
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1815701165824046260, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
-      propertyPath: lightingDamage.baseValue
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6000329345391993455, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}

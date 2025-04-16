@@ -339,7 +339,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1223552399865378381}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.98, y: -2.5, z: -4.8278174}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -367,7 +367,7 @@ MonoBehaviour:
   knockbackPower: {x: 7, y: 12}
   knockbackDuration: 0.07
   attackCheck: {fileID: 5687224985352578918}
-  attackCheckRadius: 1
+  attackCheckRadius: 1.1
   groundCheck: {fileID: 2007631611117806137}
   groundCheckDistance: 1
   wallCheck: {fileID: 7885101437580501508}
@@ -384,9 +384,11 @@ MonoBehaviour:
   moveSpeed: 1.5
   idleTime: 2
   battleTime: 7
+  attackDistance: 2
   attackCooldown: 0.4
+  minAttackCooldown: 0.35
+  maxAttackCooldown: 0.55
   lastTimeAttacked: 0
-  attackDistance: 1.5
 --- !u!70 &2535302172365387612
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -521,10 +523,10 @@ MonoBehaviour:
     baseValue: 0
     modifiers: 
   iceDamage:
-    baseValue: 2
+    baseValue: 0
     modifiers: 
   lightingDamage:
-    baseValue: 5
+    baseValue: 0
     modifiers: 
   isIgnited: 0
   isChilled: 0
