@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Video;
 
 public class EntityFX : MonoBehaviour
 {
@@ -21,6 +20,10 @@ public class EntityFX : MonoBehaviour
     [SerializeField] private ParticleSystem igniteFX;
     [SerializeField] private ParticleSystem chillFX;
     [SerializeField] private ParticleSystem shockFX;
+
+    [Header("Hit FX")]
+    [SerializeField] private GameObject hitFX;
+    [SerializeField] private GameObject criticalHitFX;
 
     private void Start()
     {
@@ -134,5 +137,38 @@ public class EntityFX : MonoBehaviour
         {
             sr.color = shockColor[1];
         }
+    }
+
+    public void CreateHitFX(Transform _target, bool _critical)
+    {
+
+        float zRotation = Random.Range(-90, 90);
+        float xPosition = Random.Range(-0.5f, 0.5f);
+        float yPosition = Random.Range(-0.5f, 0.5f);
+
+        Vector3 hitFXRotation = new Vector3(0, 0, zRotation);
+
+        GameObject hitPrefab = hitFX;
+
+        if (_critical)
+        {
+            hitPrefab = criticalHitFX;
+
+            float yRotation = 0;
+            zRotation = Random.Range(-45, 45);
+
+            if (GetComponent<Entity>().facingDirection == -1)
+            {
+                yRotation = 180;
+            }
+
+            hitFXRotation = new Vector3(0, yRotation, zRotation);
+        }
+
+        GameObject newHitFX = Instantiate(hitPrefab, _target.position + new Vector3(xPosition, yPosition), Quaternion.identity);
+
+        newHitFX.transform.Rotate(hitFXRotation);
+
+        Destroy(newHitFX, 0.5f);
     }
 }

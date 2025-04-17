@@ -14662,6 +14662,8 @@ MonoBehaviour:
   igniteFX: {fileID: 0}
   chillFX: {fileID: 0}
   shockFX: {fileID: 0}
+  hitFX: {fileID: 3195192274092474573, guid: 8f94669f7ae58be449fed60f2ec52b35, type: 3}
+  criticalHitFX: {fileID: 6812274687729969470, guid: 0f0539f088b8c274798c8ffeca40c6bf, type: 3}
 --- !u!114 &644362268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14690,7 +14692,7 @@ MonoBehaviour:
     baseValue: 10
     modifiers: 
   critChance:
-    baseValue: 0
+    baseValue: 15
     modifiers: 
   critPower:
     baseValue: 150
@@ -14708,7 +14710,7 @@ MonoBehaviour:
     baseValue: 1
     modifiers: 
   fireDamage:
-    baseValue: 10
+    baseValue: 0
     modifiers: 
   iceDamage:
     baseValue: 0
@@ -54811,6 +54813,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 403854827}
     m_Modifications:
+    - target: {fileID: 900918259571393849, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
+      propertyPath: hitFX
+      value: 
+      objectReference: {fileID: 3195192274092474573, guid: 8f94669f7ae58be449fed60f2ec52b35, type: 3}
+    - target: {fileID: 900918259571393849, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
+      propertyPath: criticalHitFX
+      value: 
+      objectReference: {fileID: 6812274687729969470, guid: 0f0539f088b8c274798c8ffeca40c6bf, type: 3}
     - target: {fileID: 1223552399865378381, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
       propertyPath: m_Name
       value: Enemy_Skeleton
@@ -54853,6 +54863,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1423229846872045498, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1815701165824046260, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
+      propertyPath: critChance.baseValue
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6000329345391993455, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
