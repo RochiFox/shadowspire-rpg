@@ -372,6 +372,14 @@ public class CharacterStats : MonoBehaviour
         isDead = true;
     }
 
+    public void KillEntity()
+    {
+        if (!isDead)
+        {
+            Die();
+        }
+    }
+
     #region Stat calculations
     protected int CheckTargetArmor(CharacterStats _targetStats, int totalDamage)
     {
