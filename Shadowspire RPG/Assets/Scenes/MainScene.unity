@@ -19479,6 +19479,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0e0ea6b3d3a19548aecaf69ea27bba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  afterImagePrefab: {fileID: 1739048291404652709, guid: b9767b4761a02da419251d44cc304531, type: 3}
+  afterImageCooldown: 0.05
+  colorLooseRate: 3
   flashDuration: 0.2
   hitMaterial: {fileID: 2100000, guid: 0bfd43e89748733478789299c7066d21, type: 2}
   chillColor:

@@ -6,6 +6,12 @@ public class EntityFX : MonoBehaviour
 {
     private SpriteRenderer sr;
 
+    [Header("After image FX")]
+    [SerializeField] private GameObject afterImagePrefab;
+    [SerializeField] private float afterImageCooldown;
+    [SerializeField] private float colorLooseRate;
+    private float afterImageCooldownTimer;
+
     [Header("Flash FX")]
     [SerializeField] private float flashDuration = 0.2f;
     [SerializeField] private Material hitMaterial;
@@ -32,6 +38,21 @@ public class EntityFX : MonoBehaviour
     {
         sr = GetComponentInChildren<SpriteRenderer>();
         originalMaterial = sr.material;
+    }
+
+    void Update()
+    {
+        afterImageCooldownTimer -= Time.deltaTime;
+    }
+
+    public void CreateAfterImage()
+    {
+        if (afterImageCooldownTimer < 0)
+        {
+            afterImageCooldownTimer = afterImageCooldown;
+            GameObject newAfterImage = Instantiate(afterImagePrefab, transform.position, transform.rotation);
+            newAfterImage.GetComponent<AfterImageFX>().SetupAfterImage(colorLooseRate, sr.sprite);
+        }
     }
 
     public void MakeTransparent(bool _transparent)
