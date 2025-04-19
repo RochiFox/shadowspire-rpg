@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using System.Data.Common;
 
 public class SaveManager : MonoBehaviour
 {
@@ -33,11 +31,12 @@ public class SaveManager : MonoBehaviour
         {
             instance = this;
         }
+
+        dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, encryptData);
     }
 
     void Start()
     {
-        dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, encryptData);
         saveManagers = FindAllSaveManagers();
 
         LoadGame();
@@ -88,6 +87,11 @@ public class SaveManager : MonoBehaviour
 
     public bool HasSavedData()
     {
+        if (dataHandler == null)
+        {
+            return false;
+        }
+
         if (dataHandler.Load() != null)
         {
             return true;
