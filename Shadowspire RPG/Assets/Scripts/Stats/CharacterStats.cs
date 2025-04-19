@@ -373,6 +373,11 @@ public class CharacterStats : MonoBehaviour
 
         currentHealth -= _damage;
 
+        if (_damage > 0)
+        {
+            fx.CreatePopUpText(_damage.ToString());
+        }
+
         if (onHealthCnaged != null)
         {
             onHealthCnaged();

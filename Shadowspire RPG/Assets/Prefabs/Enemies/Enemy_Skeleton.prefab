@@ -466,6 +466,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0e0ea6b3d3a19548aecaf69ea27bba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  popUpTextPrefab: {fileID: 6016912627991092385, guid: 104725e9d80f5ff4797a01fe2a8f6572, type: 3}
+  shakeMultiplier: 0
+  shakeSwordImpact: {x: 0, y: 0, z: 0}
+  shakeHighDamage: {x: 0, y: 0, z: 0}
+  afterImagePrefab: {fileID: 1739048291404652709, guid: b9767b4761a02da419251d44cc304531, type: 3}
+  afterImageCooldown: 0
+  colorLooseRate: 0
   flashDuration: 0.2
   hitMaterial: {fileID: 2100000, guid: 0bfd43e89748733478789299c7066d21, type: 2}
   chillColor:
@@ -480,8 +487,9 @@ MonoBehaviour:
   igniteFX: {fileID: 744240607874494310}
   chillFX: {fileID: 7404298564101572773}
   shockFX: {fileID: 3445999201743646595}
-  hitFX: {fileID: 0}
-  criticalHitFX: {fileID: 0}
+  hitFX: {fileID: 3195192274092474573, guid: 8f94669f7ae58be449fed60f2ec52b35, type: 3}
+  criticalHitFX: {fileID: 6812274687729969470, guid: 0f0539f088b8c274798c8ffeca40c6bf, type: 3}
+  dustFX: {fileID: 0}
 --- !u!114 &1815701165824046260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -507,10 +515,10 @@ MonoBehaviour:
     baseValue: 10
     modifiers: 
   damage:
-    baseValue: 20
+    baseValue: 50
     modifiers: 
   critChance:
-    baseValue: 99
+    baseValue: 0
     modifiers: 
   critPower:
     baseValue: 0

@@ -17215,7 +17215,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.992223, y: 4.04, z: -10}
+  m_LocalPosition: {x: -5.277777, y: 4.04, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19390,7 +19390,7 @@ Transform:
   m_GameObject: {fileID: 644362262}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.06, y: 8.46, z: 0}
+  m_LocalPosition: {x: -5.97, y: -0.42, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -19480,6 +19480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0e0ea6b3d3a19548aecaf69ea27bba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  popUpTextPrefab: {fileID: 6016912627991092385, guid: 104725e9d80f5ff4797a01fe2a8f6572, type: 3}
   shakeMultiplier: 0.2
   shakeSwordImpact: {x: 1, y: 0, z: 0}
   shakeHighDamage: {x: 2, y: 2, z: 0}
@@ -47468,7 +47469,7 @@ Transform:
   m_GameObject: {fileID: 1772915525}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.992223, y: 4.04, z: -10}
+  m_LocalPosition: {x: -5.277777, y: 4.04, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -59729,25 +59730,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 403854827}
     m_Modifications:
-    - target: {fileID: 900918259571393849, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
-      propertyPath: hitFX
-      value: 
-      objectReference: {fileID: 3195192274092474573, guid: 8f94669f7ae58be449fed60f2ec52b35, type: 3}
-    - target: {fileID: 900918259571393849, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
-      propertyPath: criticalHitFX
-      value: 
-      objectReference: {fileID: 6812274687729969470, guid: 0f0539f088b8c274798c8ffeca40c6bf, type: 3}
     - target: {fileID: 1223552399865378381, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
       propertyPath: m_Name
       value: Enemy_Skeleton
       objectReference: {fileID: 0}
     - target: {fileID: 1423229846872045498, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.98
+      value: 21.34
       objectReference: {fileID: 0}
     - target: {fileID: 1423229846872045498, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.5
+      value: -1.57
       objectReference: {fileID: 0}
     - target: {fileID: 1423229846872045498, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -59779,14 +59772,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1423229846872045498, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1815701165824046260, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
-      propertyPath: damage.baseValue
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 1815701165824046260, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
-      propertyPath: critChance.baseValue
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6000329345391993455, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
