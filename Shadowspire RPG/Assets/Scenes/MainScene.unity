@@ -25857,7 +25857,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1042826745}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2242366300770071909}
+        m_TargetAssemblyTypeName: SaveManager, Assembly-CSharp
+        m_MethodName: SaveAndExit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1042826745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59980,6 +59992,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 213a61e7b9cd7eb40b473b251e0850b0, type: 3}
+--- !u!114 &2242366300770071909 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4315817450339532729, guid: 213a61e7b9cd7eb40b473b251e0850b0, type: 3}
+  m_PrefabInstance: {fileID: 2242366300770071908}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e9e18289038a74e99df8cff1c76aa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2683116419200907660
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,22 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System;
 using System.IO;
+using UnityEngine;
 
 public class FileDataHandler
 {
     private string dataDirectionPath = "";
     private string dataFileName = "";
 
-    private bool encryptData = false;
-    private string codeWord = "test"; // Test code word
-
-    public FileDataHandler(string _dataDirectionPath, string _dataFileName, bool _encryptData)
+    public FileDataHandler(string _dataDirectionPath, string _dataFileName)
     {
         dataDirectionPath = _dataDirectionPath;
         dataFileName = _dataFileName;
-        encryptData = _encryptData;
     }
 
     public void Save(GameData _data)
@@ -29,59 +23,34 @@ public class FileDataHandler
 
             string dataToStore = JsonUtility.ToJson(_data, true);
 
-            if (encryptData)
-            {
-                dataToStore = EncryptDecrypt(dataToStore);
-            }
-
-            using (FileStream stream = new FileStream(fullPath, FileMode.Create))
-            {
-                using (StreamWriter writer = new StreamWriter(stream))
-                {
-                    writer.Write(dataToStore);
-                }
-            }
+            File.WriteAllText(fullPath, dataToStore);
         }
         catch (Exception e)
         {
-            Debug.LogError("Error on trying to save data to file: " + fullPath + "\n" + e);
+            Debug.LogError("Error trying to save data to file: " + fullPath + "\n" + e);
         }
     }
 
     public GameData Load()
     {
         string fullPath = Path.Combine(dataDirectionPath, dataFileName);
-
-        GameData loadData = null;
+        GameData loadedData = null;
 
         if (File.Exists(fullPath))
         {
             try
             {
-                string dataToLoad = "";
+                string dataToLoad = File.ReadAllText(fullPath);
 
-                using (FileStream stream = new FileStream(fullPath, FileMode.Open))
-                {
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        dataToLoad = reader.ReadToEnd();
-                    }
-                }
-
-                if (encryptData)
-                {
-                    dataToLoad = EncryptDecrypt(dataToLoad);
-                }
-
-                loadData = JsonUtility.FromJson<GameData>(dataToLoad);
+                loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
             }
             catch (Exception e)
             {
-                Debug.LogError("Error on trying to load data from file: " + fullPath + "\n" + e);
+                Debug.LogError("Error trying to load data from file: " + fullPath + "\n" + e);
             }
         }
 
-        return loadData;
+        return loadedData;
     }
 
     public void Delete()
@@ -92,17 +61,5 @@ public class FileDataHandler
         {
             File.Delete(fullPath);
         }
-    }
-
-    private string EncryptDecrypt(string _data)
-    {
-        string modifiedData = "";
-
-        for (int i = 0; i < _data.Length; i++)
-        {
-            modifiedData += (char)(_data[i] ^ codeWord[i % codeWord.Length]);
-        }
-
-        return modifiedData;
     }
 }
