@@ -33,7 +33,7 @@ RectTransform:
   m_Father: {fileID: 5299130424036191115}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -330,7 +330,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1423229846872045498
 Transform:
   m_ObjectHideFlags: 0
@@ -467,12 +467,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popUpTextPrefab: {fileID: 6016912627991092385, guid: 104725e9d80f5ff4797a01fe2a8f6572, type: 3}
-  shakeMultiplier: 0
-  shakeSwordImpact: {x: 0, y: 0, z: 0}
-  shakeHighDamage: {x: 0, y: 0, z: 0}
-  afterImagePrefab: {fileID: 1739048291404652709, guid: b9767b4761a02da419251d44cc304531, type: 3}
-  afterImageCooldown: 0
-  colorLooseRate: 0
   flashDuration: 0.2
   hitMaterial: {fileID: 2100000, guid: 0bfd43e89748733478789299c7066d21, type: 2}
   chillColor:
@@ -489,7 +483,6 @@ MonoBehaviour:
   shockFX: {fileID: 3445999201743646595}
   hitFX: {fileID: 3195192274092474573, guid: 8f94669f7ae58be449fed60f2ec52b35, type: 3}
   criticalHitFX: {fileID: 6812274687729969470, guid: 0f0539f088b8c274798c8ffeca40c6bf, type: 3}
-  dustFX: {fileID: 0}
 --- !u!114 &1815701165824046260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -692,7 +685,7 @@ GameObject:
   - component: {fileID: 2933695272364251049}
   - component: {fileID: 5049560438640671138}
   m_Layer: 7
-  m_Name: CounterImage
+  m_Name: CounterAttackImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
