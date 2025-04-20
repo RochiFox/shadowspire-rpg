@@ -36590,8 +36590,11 @@ MonoBehaviour:
   skillName: Explosion
   skillDescription: 'Crystal can explode.
 
+    You can no longer teleport to crystal.
 
-    [Only one upgrade can be choosen]'
+
+    [Only
+    one upgrade can be choosen]'
   lockedSkillColor: {r: 0.4716981, g: 0.42497328, b: 0.42497328, a: 1}
   unlocked: 0
   shouldBeUnlocked:
@@ -36882,7 +36885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a1a60cf7d133e342a23b72983d4e760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 3
+  cooldown: 0
   cooldownTimer: 0
   crystalDuration: 1.5
   crystalPrefab: {fileID: 3653627268367194988, guid: c8fb63d4ea8fc6b4a927c0de200a1d97, type: 3}
@@ -36890,6 +36893,7 @@ MonoBehaviour:
   cloneInsteadOfCrystal: 0
   unlockCrystalButton: {fileID: 1156082246}
   unlockExplosiveButton: {fileID: 1382264778}
+  explosiveCooldown: 3
   canExplode: 0
   unlockMovingCrystalButton: {fileID: 1551525074}
   canMoveToEnemy: 0
@@ -43945,10 +43949,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillCost: 0
   skillName: Controlled Destruction
-  skillDescription: 'Crystal moves towards the enemy.
-
-    You can no longer teleport
-    to crystal.'
+  skillDescription: Crystal moves towards the enemy.
   lockedSkillColor: {r: 0.4716981, g: 0.42497328, b: 0.42497328, a: 1}
   unlocked: 0
   shouldBeUnlocked:
