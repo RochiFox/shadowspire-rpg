@@ -35,13 +35,17 @@ public class PlayerCounterAttackState : PlayerState
 
         foreach (var hit in colliders)
         {
+            if (hit.GetComponent<ArrowController>() != null)
+            {
+                hit.GetComponent<ArrowController>().FlipArrow();
+                SuccesfullCounterAttack();
+            }
+
             if (hit.GetComponent<Enemy>() != null)
             {
                 if (hit.GetComponent<Enemy>().CanBeStunned())
                 {
-                    stateTimer = 10; // any value bigger than 1
-
-                    player.anim.SetBool("SuccessfulCounterAttack", true);
+                    SuccesfullCounterAttack();
 
                     player.skill.parry.UseSkill(); // going to use to restore health on parry
 
@@ -58,5 +62,11 @@ public class PlayerCounterAttackState : PlayerState
         {
             stateMachine.ChangeState(player.idleState);
         }
+    }
+
+    private void SuccesfullCounterAttack()
+    {
+        stateTimer = 10; // any value bigger than 1
+        player.anim.SetBool("SuccessfulCounterAttack", true);
     }
 }

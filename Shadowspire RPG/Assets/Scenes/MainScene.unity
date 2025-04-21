@@ -17217,7 +17217,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.277777, y: 4.04, z: -10}
+  m_LocalPosition: {x: -16.782223, y: 4.04, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19393,7 +19393,7 @@ Transform:
   m_GameObject: {fileID: 644362262}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.97, y: -0.42, z: 0}
+  m_LocalPosition: {x: -15.36, y: -1.46, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -47491,7 +47491,7 @@ Transform:
   m_GameObject: {fileID: 1772915525}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.277777, y: 4.04, z: -10}
+  m_LocalPosition: {x: -16.782223, y: 4.04, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -59758,11 +59758,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1423229846872045498, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.14
+      value: -28.68
       objectReference: {fileID: 0}
     - target: {fileID: 1423229846872045498, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.06
+      value: -1.88
       objectReference: {fileID: 0}
     - target: {fileID: 1423229846872045498, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -59794,14 +59794,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1423229846872045498, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6000329345391993455, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6000329345391993455, guid: 90636c67936dc2240b384ebcd70a817a, type: 3}
-      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -59929,14 +59921,6 @@ PrefabInstance:
     - target: {fileID: 389837801914656882, guid: 6641b024044e53441b35ee7b6434fe6e, type: 3}
       propertyPath: m_Name
       value: Enemy_Slime_Big
-      objectReference: {fileID: 0}
-    - target: {fileID: 2857970847949007571, guid: 6641b024044e53441b35ee7b6434fe6e, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2857970847949007571, guid: 6641b024044e53441b35ee7b6434fe6e, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9009750009673928356, guid: 6641b024044e53441b35ee7b6434fe6e, type: 3}
       propertyPath: m_LocalPosition.x
