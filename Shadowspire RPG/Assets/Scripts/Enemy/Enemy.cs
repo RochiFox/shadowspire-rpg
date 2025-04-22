@@ -13,23 +13,23 @@ public class Enemy : Entity
 
 
     [Header("Stunned info")]
-    public float stunDuration;
-    public Vector2 stunDirection;
+    public float stunDuration = 1f;
+    public Vector2 stunDirection = new Vector2(10, 12);
     protected bool canBeStunned;
     [SerializeField] protected GameObject counterImage;
 
     [Header("Move info")]
     public float moveSpeed = 1.5f;
     public float idleTime = 2f;
-    public float battleTime;
+    public float battleTime = 7f;
     private float defaultMoveSpeed;
 
     [Header("Attack info")]
-    public float agroDistance = 2;
-    public float attackDistance;
+    public float agroDistance = 2f;
+    public float attackDistance = 2f;
     public float attackCooldown;
-    public float minAttackCooldown;
-    public float maxAttackCooldown;
+    public float minAttackCooldown = 1f;
+    public float maxAttackCooldown = 2f;
     [HideInInspector] public float lastTimeAttacked;
 
     public EnemyStateMachine stateMachine { get; private set; }
@@ -127,6 +127,7 @@ public class Enemy : Entity
     }
 
     public virtual void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
+    public virtual void AnimationSpecialAttackTrigger() { }
 
     public virtual RaycastHit2D IsPlayerDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDirection, 50f, whatIsPlayer);
 
