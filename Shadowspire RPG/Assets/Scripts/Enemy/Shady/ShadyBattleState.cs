@@ -48,7 +48,8 @@ public class ShadyBattleState : EnemyState
 
             if (enemy.IsPlayerDetected().distance < enemy.attackDistance)
             {
-                enemy.stats.KillEntity(); // enters dead state which triggers explosion + drop item and souls
+                // enemy.stats.KillEntity(); // enters dead state which triggers explosion + drop item and souls
+                stateMachine.ChangeState(enemy.deadState);
             }
         }
         else

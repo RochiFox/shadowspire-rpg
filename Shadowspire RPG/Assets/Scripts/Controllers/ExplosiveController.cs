@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShadyExplosiveController : MonoBehaviour
+public class ExplosiveController : MonoBehaviour
 {
     private Animator anim;
     private CharacterStats myStats;
@@ -22,17 +22,6 @@ public class ShadyExplosiveController : MonoBehaviour
         if (maxSize - transform.localScale.x < 0.5f)
         {
             canGrow = false;
-
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            if (rb != null)
-            {
-                rb.velocity = Vector2.zero;
-                rb.gravityScale = 0f;
-            }
-
-            Collider2D col = GetComponent<Collider2D>();
-            if (col != null)
-                col.enabled = false;
 
             anim.SetTrigger("Explode");
         }

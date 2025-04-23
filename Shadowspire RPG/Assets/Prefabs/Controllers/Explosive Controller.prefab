@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1058211894683056222}
   - component: {fileID: 7304652213130645385}
   - component: {fileID: 108570858654015288}
-  - component: {fileID: 8681630646595633554}
+  - component: {fileID: 2011964024034997916}
   m_Layer: 0
   m_Name: Explosive Controller
   m_TagString: Untagged
@@ -107,7 +107,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8681630646595633554
+--- !u!114 &2011964024034997916
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

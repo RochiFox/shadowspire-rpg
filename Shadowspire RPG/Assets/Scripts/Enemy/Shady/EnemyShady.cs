@@ -11,7 +11,7 @@ public class EnemyShady : Enemy
     [SerializeField] private float growSpeed;
     [SerializeField] private float maxSize;
 
-    #region Stater
+    #region States
     public ShadyIdleState idleState { get; private set; }
     public ShadyMoveState moveState { get; private set; }
     public ShadyDeadState deadState { get; private set; }
@@ -66,7 +66,7 @@ public class EnemyShady : Enemy
     {
         GameObject newExplosive = Instantiate(explosivePrefab, attackCheck.position, Quaternion.identity);
 
-        newExplosive.GetComponent<ShadyExplosiveController>().SetupExplosive(stats, growSpeed, maxSize, attackCheckRadius);
+        newExplosive.GetComponent<ExplosiveController>().SetupExplosive(stats, growSpeed, maxSize, attackCheckRadius);
 
         cd.enabled = false;
         rb.gravityScale = 0;
