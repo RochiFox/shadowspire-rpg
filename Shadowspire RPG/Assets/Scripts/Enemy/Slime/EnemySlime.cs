@@ -6,7 +6,7 @@ public enum SlimeType { big, medium, small }
 
 public class EnemySlime : Enemy
 {
-    [Header("Slime specific")]
+    [Header("Slime spesific")]
     [SerializeField] private SlimeType slimeType;
     [SerializeField] private int slimesToCreate;
     [SerializeField] private GameObject slimePrefab;
@@ -26,11 +26,10 @@ public class EnemySlime : Enemy
     {
         base.Awake();
 
-        SetupDefaultFacingDirection(-1);
+        SetupDefaultFacingDir(-1);
 
         idleState = new SlimeIdleState(this, stateMachine, "Idle", this);
         moveState = new SlimeMoveState(this, stateMachine, "Move", this);
-
         battleState = new SlimeBattleState(this, stateMachine, "Move", this);
         attackState = new SlimeAttackState(this, stateMachine, "Attack", this);
 
@@ -42,6 +41,11 @@ public class EnemySlime : Enemy
     {
         base.Start();
         stateMachine.Initialize(idleState);
+    }
+
+    protected override void Update()
+    {
+        base.Update();
     }
 
     public override bool CanBeStunned()
@@ -62,9 +66,7 @@ public class EnemySlime : Enemy
         stateMachine.ChangeState(deadState);
 
         if (slimeType == SlimeType.small)
-        {
             return;
-        }
 
         CreateSlimes(slimesToCreate, slimePrefab);
     }
@@ -75,23 +77,22 @@ public class EnemySlime : Enemy
         {
             GameObject newSlime = Instantiate(_slimePrefab, transform.position, Quaternion.identity);
 
-            newSlime.GetComponent<EnemySlime>().SetupSlime(facingDirection);
+            newSlime.GetComponent<EnemySlime>().SetupSlime(facingDir);
         }
     }
 
-    public void SetupSlime(int _facingDirection)
+    public void SetupSlime(int _facingDir)
     {
-        if (_facingDirection != facingDirection)
-        {
+
+        if (_facingDir != facingDir)
             Flip();
-        }
 
         float xVelocity = Random.Range(minCreationVelocity.x, maxCreationVelocity.x);
         float yVelocity = Random.Range(minCreationVelocity.y, maxCreationVelocity.y);
 
         isKnocked = true;
 
-        GetComponent<Rigidbody2D>().velocity = new Vector2(xVelocity * -facingDirection, yVelocity);
+        GetComponent<Rigidbody2D>().velocity = new Vector2(xVelocity * -facingDir, yVelocity);
 
         Invoke("CancelKnockback", 1.5f);
     }

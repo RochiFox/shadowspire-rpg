@@ -7,7 +7,7 @@ public class EquipmentSlotUI : ItemSlotUI
 {
     public EquipmentType slotType;
 
-    void OnValidate()
+    private void OnValidate()
     {
         gameObject.name = "Equipment slot - " + slotType.ToString();
     }
@@ -15,14 +15,12 @@ public class EquipmentSlotUI : ItemSlotUI
     public override void OnPointerDown(PointerEventData eventData)
     {
         if (item == null || item.data == null)
-        {
             return;
-        }
 
         Inventory.instance.UnequipItem(item.data as ItemDataEquipment);
         Inventory.instance.AddItem(item.data as ItemDataEquipment);
 
-        ui.itemTooltip.HideTooltip();
+        ui.itemToolTip.HideToolTip();
 
         CleanUpSlot();
     }

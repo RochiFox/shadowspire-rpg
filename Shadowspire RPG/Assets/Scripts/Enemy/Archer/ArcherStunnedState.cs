@@ -1,6 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
+
 
 public class ArcherStunnedState : EnemyState
 {
@@ -15,11 +15,11 @@ public class ArcherStunnedState : EnemyState
     {
         base.Enter();
 
-        enemy.fx.InvokeRepeating("RedColorBlink", 0, 0.1f);
+        enemy.fx.InvokeRepeating("RedColorBlink", 0, .1f);
 
         stateTimer = enemy.stunDuration;
 
-        rb.velocity = new Vector2(-enemy.facingDirection * enemy.stunDirection.x, enemy.stunDirection.y);
+        rb.velocity = new Vector2(-enemy.facingDir * enemy.stunDirection.x, enemy.stunDirection.y);
     }
 
     public override void Exit()
@@ -34,8 +34,6 @@ public class ArcherStunnedState : EnemyState
         base.Update();
 
         if (stateTimer < 0)
-        {
             stateMachine.ChangeState(enemy.idleState);
-        }
     }
 }

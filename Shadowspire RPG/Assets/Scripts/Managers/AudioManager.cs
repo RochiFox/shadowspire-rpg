@@ -6,7 +6,7 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance;
 
-    [SerializeField] private float sfxMininumDistance;
+    [SerializeField] private float sfxMinimumDistance;
     [SerializeField] private AudioSource[] sfx;
     [SerializeField] private AudioSource[] bgm;
 
@@ -14,56 +14,39 @@ public class AudioManager : MonoBehaviour
     private int bgmIndex;
 
     private bool canPlaySFX;
-
-    void Awake()
+    private void Awake()
     {
         if (instance != null)
-        {
             Destroy(instance.gameObject);
-        }
         else
-        {
             instance = this;
-        }
 
         Invoke("AllowSFX", 1f);
     }
 
-    void Update()
+    private void Update()
     {
         if (!playBgm)
-        {
             StopAllBGM();
-        }
         else
         {
             if (!bgm[bgmIndex].isPlaying)
-            {
                 PlayBGM(bgmIndex);
-            }
         }
     }
 
     public void PlaySFX(int _sfxIndex, Transform _source)
     {
-        // if (sfx[_sfxIndex].isPlaying)
-        // {
-        //     return;
-        // }
-
         if (canPlaySFX == false)
-        {
             return;
-        }
 
-        if (_source != null && Vector2.Distance(PlayerManager.instance.player.transform.position, _source.position) > sfxMininumDistance)
-        {
+        if (_source != null && Vector2.Distance(PlayerManager.instance.player.transform.position, _source.position) > sfxMinimumDistance)
             return;
-        }
+
 
         if (_sfxIndex < sfx.Length)
         {
-            sfx[_sfxIndex].pitch = Random.Range(0.85f, 1.1f);
+            sfx[_sfxIndex].pitch = Random.Range(.85f, 1.1f);
             sfx[_sfxIndex].Play();
         }
     }
@@ -76,13 +59,12 @@ public class AudioManager : MonoBehaviour
     {
         float defaultVolume = _audio.volume;
 
-        while (_audio.volume > 0.1f)
+        while (_audio.volume > .1f)
         {
-            _audio.volume -= _audio.volume * 0.2f;
+            _audio.volume -= _audio.volume * .2f;
+            yield return new WaitForSeconds(.6f);
 
-            yield return new WaitForSeconds(0.4f);
-
-            if (_audio.volume <= 0.1f)
+            if (_audio.volume <= .1f)
             {
                 _audio.Stop();
                 _audio.volume = defaultVolume;

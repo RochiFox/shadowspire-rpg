@@ -25,8 +25,6 @@ public class SlimeIdleState : SlimeGroundedState
         base.Update();
 
         if (stateTimer < 0)
-        {
             stateMachine.ChangeState(enemy.moveState);
-        }
     }
 }

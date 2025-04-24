@@ -14,14 +14,12 @@ public class AfterImageFX : MonoBehaviour
         colorLooseRate = _loosingSpeed;
     }
 
-    void Update()
+    private void Update()
     {
         float alpha = sr.color.a - colorLooseRate * Time.deltaTime;
         sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
 
         if (sr.color.a <= 0)
-        {
             Destroy(gameObject);
-        }
     }
 }

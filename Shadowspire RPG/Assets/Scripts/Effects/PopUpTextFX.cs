@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PopUpTextFX : MonoBehaviour
+public class PopUpTextFx : MonoBehaviour
 {
     private TextMeshPro myText;
 
     [SerializeField] private float speed;
-    [SerializeField] private float disappearanceSpeed;
-    [SerializeField] private float colorDisappearanceSpeed;
+    [SerializeField] private float desapearanceSpeed;
+    [SerializeField] private float colorDesapearanceSpeed;
 
     [SerializeField] private float lifeTime;
 
@@ -18,7 +18,6 @@ public class PopUpTextFX : MonoBehaviour
     void Start()
     {
         myText = GetComponent<TextMeshPro>();
-
         textTimer = lifeTime;
     }
 
@@ -29,19 +28,15 @@ public class PopUpTextFX : MonoBehaviour
 
         if (textTimer < 0)
         {
-            float alpha = myText.color.a - colorDisappearanceSpeed * Time.deltaTime;
-
+            float alpha = myText.color.a - colorDesapearanceSpeed * Time.deltaTime;
             myText.color = new Color(myText.color.r, myText.color.g, myText.color.b, alpha);
 
+
             if (myText.color.a < 50)
-            {
-                speed = disappearanceSpeed;
-            }
+                speed = desapearanceSpeed;
 
             if (myText.color.a <= 0)
-            {
                 Destroy(gameObject);
-            }
         }
     }
 }

@@ -18,7 +18,6 @@ public class ItemDataEquipment : ItemData
     public float itemCooldown;
     public ItemEffect[] itemEffects;
 
-
     [Header("Major stats")]
     public int strength;
     public int agility;
@@ -111,8 +110,8 @@ public class ItemDataEquipment : ItemData
         AddItemDescription(vitality, "Vitality");
 
         AddItemDescription(damage, "Damage");
-        AddItemDescription(critChance, "Crit. Chance");
-        AddItemDescription(critPower, "Crit. Power");
+        AddItemDescription(critChance, "Crit.Chance");
+        AddItemDescription(critPower, "Crit.Power");
 
         AddItemDescription(health, "Health");
         AddItemDescription(evasion, "Evasion");
@@ -121,14 +120,14 @@ public class ItemDataEquipment : ItemData
 
         AddItemDescription(fireDamage, "Fire damage");
         AddItemDescription(iceDamage, "Ice damage");
-        AddItemDescription(lightingDamage, "Lighting dmg.");
+        AddItemDescription(lightingDamage, "Lighting dmg. ");
 
         for (int i = 0; i < itemEffects.Length; i++)
         {
-            if (itemEffects[i].itemEffectDescription.Length > 0)
+            if (itemEffects[i].effectDescription.Length > 0)
             {
                 sb.AppendLine();
-                sb.Append("Unique: " + itemEffects[i].itemEffectDescription);
+                sb.AppendLine("Unique: " + itemEffects[i].effectDescription);
                 descriptionLength++;
             }
         }
@@ -150,14 +149,10 @@ public class ItemDataEquipment : ItemData
         if (_value != 0)
         {
             if (sb.Length > 0)
-            {
                 sb.AppendLine();
-            }
 
             if (_value > 0)
-            {
                 sb.Append("+ " + _value + " " + _name);
-            }
 
             descriptionLength++;
         }

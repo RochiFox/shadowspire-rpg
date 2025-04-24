@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCounterAttackState : PlayerState
@@ -16,7 +14,6 @@ public class PlayerCounterAttackState : PlayerState
 
         canCreateClone = true;
         stateTimer = player.counterAttackDuration;
-
         player.anim.SetBool("SuccessfulCounterAttack", false);
     }
 
@@ -38,16 +35,16 @@ public class PlayerCounterAttackState : PlayerState
             if (hit.GetComponent<ArrowController>() != null)
             {
                 hit.GetComponent<ArrowController>().FlipArrow();
-                SuccesfullCounterAttack();
+                SuccesfulCounterAttack();
             }
 
             if (hit.GetComponent<Enemy>() != null)
             {
                 if (hit.GetComponent<Enemy>().CanBeStunned())
                 {
-                    SuccesfullCounterAttack();
+                    SuccesfulCounterAttack();
 
-                    player.skill.parry.UseSkill(); // going to use to restore health on parry
+                    player.skill.parry.UseSkill();
 
                     if (canCreateClone)
                     {
@@ -59,12 +56,10 @@ public class PlayerCounterAttackState : PlayerState
         }
 
         if (stateTimer < 0 || triggerCalled)
-        {
             stateMachine.ChangeState(player.idleState);
-        }
     }
 
-    private void SuccesfullCounterAttack()
+    private void SuccesfulCounterAttack()
     {
         stateTimer = 10; // any value bigger than 1
         player.anim.SetBool("SuccessfulCounterAttack", true);

@@ -13,7 +13,7 @@ public class Skill : MonoBehaviour
     {
         player = PlayerManager.instance.player;
 
-        Invoke("CheckUnlock", 0.1f);
+        CheckUnlock();
     }
 
     protected virtual void Update()
@@ -41,7 +41,7 @@ public class Skill : MonoBehaviour
 
     public virtual void UseSkill()
     {
-
+        // do some skill spesific things
     }
 
     protected virtual Transform FindClosestEnemy(Transform _checkTransform)
@@ -60,7 +60,6 @@ public class Skill : MonoBehaviour
                 if (distanceToEnemy < closestDistance)
                 {
                     closestDistance = distanceToEnemy;
-
                     closestEnemy = hit.transform;
                 }
             }

@@ -1,10 +1,12 @@
+using JetBrains.Annotations;
 using System.Collections;
-using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class EnemyShady : Enemy
 {
-    [Header("Shady specifics")]
+
+    [Header("Shady spesifics")]
     public float battleStateMoveSpeed;
 
     [SerializeField] private GameObject explosivePrefab;
@@ -18,7 +20,6 @@ public class EnemyShady : Enemy
     public ShadyStunnedState stunnedState { get; private set; }
     public ShadyBattleState battleState { get; private set; }
     #endregion
-
     protected override void Awake()
     {
         base.Awake();
@@ -28,7 +29,7 @@ public class EnemyShady : Enemy
 
         deadState = new ShadyDeadState(this, stateMachine, "Dead", this);
 
-        stunnedState = new ShadyStunnedState(this, stateMachine, "Stunned", this);
+        stunnedState = new ShadyStunnedState(this, stateMachine, "Stunned",this);
         battleState = new ShadyBattleState(this, stateMachine, "MoveFast", this);
     }
 
@@ -38,7 +39,7 @@ public class EnemyShady : Enemy
 
         stateMachine.Initialize(idleState);
     }
-
+    
     public override bool CanBeStunned()
     {
         if (base.CanBeStunned())
@@ -53,10 +54,8 @@ public class EnemyShady : Enemy
     public override void Die()
     {
         base.Die();
-
         stateMachine.ChangeState(deadState);
     }
-
     protected override void Update()
     {
         base.Update();
@@ -65,7 +64,6 @@ public class EnemyShady : Enemy
     public override void AnimationSpecialAttackTrigger()
     {
         GameObject newExplosive = Instantiate(explosivePrefab, attackCheck.position, Quaternion.identity);
-
         newExplosive.GetComponent<ExplosiveController>().SetupExplosive(stats, growSpeed, maxSize, attackCheckRadius);
 
         cd.enabled = false;

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EnemyArcher : Enemy
 {
-    [Header("Archer spicific info")]
+
+    [Header("Archer spisifc info")]
     [SerializeField] private GameObject arrowPrefab;
     [SerializeField] private float arrowSpeed;
     [SerializeField] private float arrowDamage;
@@ -62,19 +63,17 @@ public class EnemyArcher : Enemy
     public override void Die()
     {
         base.Die();
-
         stateMachine.ChangeState(deadState);
     }
 
     public override void AnimationSpecialAttackTrigger()
     {
         GameObject newArrow = Instantiate(arrowPrefab, attackCheck.position, Quaternion.identity);
-
-        newArrow.GetComponent<ArrowController>().SetupArrow(arrowSpeed * facingDirection, stats);
+        newArrow.GetComponent<ArrowController>().SetupArrow(arrowSpeed * facingDir, stats);
     }
 
     public bool GroundBehind() => Physics2D.BoxCast(groundBehindCheck.position, groundBehindCheckSize, 0, Vector2.zero, 0, whatIsGround);
-    public bool WallBehind() => Physics2D.Raycast(wallCheck.position, Vector2.right * -facingDirection, wallCheckDistance + 2, whatIsGround);
+    public bool WallBehind() => Physics2D.Raycast(wallCheck.position, Vector2.right * -facingDir, wallCheckDistance + 2, whatIsGround);
 
     protected override void OnDrawGizmos()
     {

@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
 public class ArcherJumpState : EnemyState
@@ -15,7 +14,7 @@ public class ArcherJumpState : EnemyState
     {
         base.Enter();
 
-        enemy.rb.velocity = new Vector2(enemy.jumpVelocity.x * -enemy.facingDirection, enemy.jumpVelocity.y);
+        rb.velocity = new Vector2(enemy.jumpVelocity.x * -enemy.facingDir, enemy.jumpVelocity.y);
     }
 
     public override void Exit()
@@ -30,8 +29,6 @@ public class ArcherJumpState : EnemyState
         enemy.anim.SetFloat("yVelocity", rb.velocity.y);
 
         if (rb.velocity.y < 0 && enemy.IsGroundDetected())
-        {
             stateMachine.ChangeState(enemy.battleState);
-        }
     }
 }

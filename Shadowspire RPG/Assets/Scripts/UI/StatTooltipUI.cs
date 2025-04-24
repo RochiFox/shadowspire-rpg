@@ -7,7 +7,7 @@ public class StatTooltipUI : TooltipUI
 {
     [SerializeField] private TextMeshProUGUI description;
 
-    public void ShowStatTooltip(string _text)
+    public void ShowStatToolTip(string _text)
     {
         description.text = _text;
         AdjustPosition();
@@ -15,7 +15,7 @@ public class StatTooltipUI : TooltipUI
         gameObject.SetActive(true);
     }
 
-    public void HideStatTooltip()
+    public void HideStatToolTip()
     {
         description.text = "";
         gameObject.SetActive(false);

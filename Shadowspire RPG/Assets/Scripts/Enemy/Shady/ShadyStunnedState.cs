@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ShadyStunnedState : EnemyState
 {
     private EnemyShady enemy;
-
     public ShadyStunnedState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyShady _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
@@ -15,11 +12,11 @@ public class ShadyStunnedState : EnemyState
     {
         base.Enter();
 
-        enemy.fx.InvokeRepeating("RedColorBlink", 0, 0.1f);
+        enemy.fx.InvokeRepeating("RedColorBlink", 0, .1f);
 
         stateTimer = enemy.stunDuration;
 
-        rb.velocity = new Vector2(-enemy.facingDirection * enemy.stunDirection.x, enemy.stunDirection.y);
+        rb.velocity = new Vector2(-enemy.facingDir * enemy.stunDirection.x, enemy.stunDirection.y);
     }
 
     public override void Exit()
@@ -34,8 +31,6 @@ public class ShadyStunnedState : EnemyState
         base.Update();
 
         if (stateTimer < 0)
-        {
             stateMachine.ChangeState(enemy.idleState);
-        }
     }
 }

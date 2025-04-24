@@ -30,8 +30,6 @@ public class SlimeAttackState : EnemyState
         enemy.SetZeroVelocity();
 
         if (triggerCalled)
-        {
             stateMachine.ChangeState(enemy.battleState);
-        }
     }
 }

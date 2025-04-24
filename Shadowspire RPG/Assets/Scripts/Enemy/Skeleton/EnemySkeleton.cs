@@ -19,19 +19,15 @@ public class EnemySkeleton : Enemy
 
         idleState = new SkeletonIdleState(this, stateMachine, "Idle", this);
         moveState = new SkeletonMoveState(this, stateMachine, "Move", this);
-
         battleState = new SkeletonBattleState(this, stateMachine, "Move", this);
         attackState = new SkeletonAttackState(this, stateMachine, "Attack", this);
-
         stunnedState = new SkeletonStunnedState(this, stateMachine, "Stunned", this);
-
         deadState = new SkeletonDeadState(this, stateMachine, "Idle", this);
     }
 
     protected override void Start()
     {
         base.Start();
-
         stateMachine.Initialize(idleState);
     }
 
@@ -46,10 +42,14 @@ public class EnemySkeleton : Enemy
         return false;
     }
 
+    protected override void Update()
+    {
+        base.Update();
+    }
+
     public override void Die()
     {
         base.Die();
-
         stateMachine.ChangeState(deadState);
     }
 }

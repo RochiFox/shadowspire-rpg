@@ -1,6 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
+
 
 public class ArcherDeadState : EnemyState
 {
@@ -19,7 +19,7 @@ public class ArcherDeadState : EnemyState
         enemy.anim.speed = 0;
         enemy.cd.enabled = false;
 
-        stateTimer = 0.15f;
+        stateTimer = .15f;
     }
 
     public override void Update()
@@ -27,9 +27,6 @@ public class ArcherDeadState : EnemyState
         base.Update();
 
         if (stateTimer > 0)
-        {
             rb.velocity = new Vector2(0, 10);
-        }
     }
-
 }

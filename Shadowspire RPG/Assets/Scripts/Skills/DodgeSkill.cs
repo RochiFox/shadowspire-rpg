@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +12,7 @@ public class DodgeSkill : Skill
     public bool dodgeUnlocked;
 
     [Header("Mirage dodge")]
-    [SerializeField] private SkillTreeSlotUI unlockMirageButton;
+    [SerializeField] private SkillTreeSlotUI unlockMirageDodge;
     public bool dodgeMirageUnlocked;
 
     protected override void Start()
@@ -19,7 +20,7 @@ public class DodgeSkill : Skill
         base.Start();
 
         unlockDodgeButton.GetComponent<Button>().onClick.AddListener(UnlockDodge);
-        unlockMirageButton.GetComponent<Button>().onClick.AddListener(UnlockMirageDodge);
+        unlockMirageDodge.GetComponent<Button>().onClick.AddListener(UnlockMirageDodge);
     }
 
     protected override void CheckUnlock()
@@ -28,7 +29,7 @@ public class DodgeSkill : Skill
         UnlockMirageDodge();
     }
 
-    public void UnlockDodge()
+    private void UnlockDodge()
     {
         if (unlockDodgeButton.unlocked && !dodgeUnlocked)
         {
@@ -38,19 +39,15 @@ public class DodgeSkill : Skill
         }
     }
 
-    public void UnlockMirageDodge()
+    private void UnlockMirageDodge()
     {
-        if (unlockMirageButton.unlocked)
-        {
+        if (unlockMirageDodge.unlocked)
             dodgeMirageUnlocked = true;
-        }
     }
 
     public void CreateMirageOnDodge()
     {
         if (dodgeMirageUnlocked)
-        {
-            SkillManager.instance.clone.CreateClone(player.transform, new Vector3(2 * player.facingDirection, 0));
-        }
+            SkillManager.instance.clone.CreateClone(player.transform, new Vector3(2 * player.facingDir,0));
     }
 }

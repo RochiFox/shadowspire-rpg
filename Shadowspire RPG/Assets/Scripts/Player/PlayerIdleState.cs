@@ -24,14 +24,10 @@ public class PlayerIdleState : PlayerGroundedState
     {
         base.Update();
 
-        if (xInput == player.facingDirection && player.IsWallDetected())
-        {
+        if (xInput == player.facingDir && player.IsWallDetected())
             return;
-        }
 
         if (xInput != 0 && !player.isBusy)
-        {
             stateMachine.ChangeState(player.moveState);
-        }
     }
 }

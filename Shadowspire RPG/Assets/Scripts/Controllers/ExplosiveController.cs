@@ -12,19 +12,17 @@ public class ExplosiveController : MonoBehaviour
 
     private bool canGrow = true;
 
-    void Update()
+    private void Update()
     {
         if (canGrow)
-        {
             transform.localScale = Vector2.Lerp(transform.localScale, new Vector2(maxSize, maxSize), growSpeed * Time.deltaTime);
-        }
 
-        if (maxSize - transform.localScale.x < 0.5f)
+        if (maxSize - transform.localScale.x < .5f)
         {
             canGrow = false;
-
             anim.SetTrigger("Explode");
         }
+
     }
 
     public void SetupExplosive(CharacterStats _myStats, float _growSpeed, float _maxSize, float _radius)
@@ -45,8 +43,11 @@ public class ExplosiveController : MonoBehaviour
         {
             if (hit.GetComponent<CharacterStats>() != null)
             {
-                hit.GetComponent<Entity>().SetupKnockbackDirection(transform);
+
+                hit.GetComponent<Entity>().SetupKnockbackDir(transform);
                 myStats.DoDamage(hit.GetComponent<CharacterStats>());
+
+                hit.GetComponent<Player>()?.fx.ScreenShake(new Vector3(2, 2));
             }
         }
     }

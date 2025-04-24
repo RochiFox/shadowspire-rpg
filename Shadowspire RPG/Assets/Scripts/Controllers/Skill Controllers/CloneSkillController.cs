@@ -7,25 +7,24 @@ public class CloneSkillController : MonoBehaviour
     private Player player;
     private SpriteRenderer sr;
     private Animator anim;
-
     [SerializeField] private float colorLoosingSpeed;
     private float cloneTimer;
     private float attackMultiplier;
     [SerializeField] private Transform attackCheck;
-    [SerializeField] private float attackCheckRadius = 0.8f;
+    [SerializeField] private float attackCheckRadius = .8f;
     private Transform closestEnemy;
-    private bool canDuplicateClone;
-    private int facingDirection = 1;
+    private int facingDir = 1;
 
+    private bool canDuplicateClone;
     private float chanceToDuplicate;
 
-    void Awake()
+    private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
     }
 
-    void Update()
+    private void Update()
     {
         cloneTimer -= Time.deltaTime;
 
@@ -33,39 +32,30 @@ public class CloneSkillController : MonoBehaviour
         {
             sr.color = new Color(1, 1, 1, sr.color.a - (Time.deltaTime * colorLoosingSpeed));
 
-            if (sr.color.a == 0)
-            {
+            if (sr.color.a <= 0)
                 Destroy(gameObject);
-            }
         }
     }
 
-    public void SetupClone(Transform newTransform, float cloneDuration, bool canAttack, Vector3 _offset, Transform _closestEnemy, bool _canDuplicateClone, float _chanceToDuplicate, Player _player, float _attackMultiplier)
+    public void SetupClone(Transform _newTransform, float _cloneDuration, bool _canAttack, Vector3 _offset, Transform _closestEnemy, bool _canDuplicate, float _chanceToDuplicate, Player _player, float _attackMultiplier)
     {
-        if (canAttack)
-        {
+        if (_canAttack)
             anim.SetInteger("AttackNumber", Random.Range(1, 3));
-        }
 
-        player = _player;
         attackMultiplier = _attackMultiplier;
-        transform.position = newTransform.position + _offset;
+        player = _player;
+        transform.position = _newTransform.position + _offset;
+        cloneTimer = _cloneDuration;
 
-        cloneTimer = cloneDuration;
-
-        closestEnemy = _closestEnemy;
-        canDuplicateClone = _canDuplicateClone;
+        canDuplicateClone = _canDuplicate;
         chanceToDuplicate = _chanceToDuplicate;
-
+        closestEnemy = _closestEnemy;
         FaceClosestTarget();
-
-        Destroy(gameObject, cloneDuration);
     }
-
 
     private void AnimationTrigger()
     {
-        cloneTimer = -0.1f;
+        cloneTimer = -.1f;
     }
 
     private void AttackTrigger()
@@ -76,9 +66,9 @@ public class CloneSkillController : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
-                // player.stats.DoDamage(hit.GetComponent<CharacterStats>());
+                //player.stats.DoDamage(hit.GetComponent<CharacterStats>()); // make a new function for clone damage to regulate damage;
 
-                hit.GetComponent<Entity>().SetupKnockbackDirection(transform);
+                hit.GetComponent<Entity>().SetupKnockbackDir(transform);
 
                 PlayerStats playerStats = player.GetComponent<PlayerStats>();
                 EnemyStats enemyStats = hit.GetComponent<EnemyStats>();
@@ -90,16 +80,14 @@ public class CloneSkillController : MonoBehaviour
                     ItemDataEquipment weaponData = Inventory.instance.GetEquipment(EquipmentType.Weapon);
 
                     if (weaponData != null)
-                    {
                         weaponData.Effect(hit.transform);
-                    }
                 }
 
                 if (canDuplicateClone)
                 {
                     if (Random.Range(0, 100) < chanceToDuplicate)
                     {
-                        SkillManager.instance.clone.CreateClone(hit.transform, new Vector3(0.5f * facingDirection, 0));
+                        SkillManager.instance.clone.CreateClone(hit.transform, new Vector3(.5f * facingDir, 0));
                     }
                 }
             }
@@ -112,7 +100,7 @@ public class CloneSkillController : MonoBehaviour
         {
             if (transform.position.x > closestEnemy.position.x)
             {
-                facingDirection = -1;
+                facingDir = -1;
                 transform.Rotate(0, 180, 0);
             }
         }

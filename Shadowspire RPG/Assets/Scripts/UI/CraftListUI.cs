@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -13,7 +14,6 @@ public class CraftListUI : MonoBehaviour, IPointerDownHandler
     void Start()
     {
         transform.parent.GetChild(0).GetComponent<CraftListUI>().SetupCraftList();
-
         SetupDefaultCraftWindow();
     }
 
@@ -27,7 +27,6 @@ public class CraftListUI : MonoBehaviour, IPointerDownHandler
         for (int i = 0; i < craftEquipment.Count; i++)
         {
             GameObject newSlot = Instantiate(craftSlotPrefab, craftSlotParent);
-
             newSlot.GetComponent<CraftSlotUI>().SetupCraftSlot(craftEquipment[i]);
         }
     }
@@ -40,8 +39,6 @@ public class CraftListUI : MonoBehaviour, IPointerDownHandler
     public void SetupDefaultCraftWindow()
     {
         if (craftEquipment[0] != null)
-        {
             GetComponentInParent<UI>().craftWindow.SetupCraftWindow(craftEquipment[0]);
-        }
     }
 }

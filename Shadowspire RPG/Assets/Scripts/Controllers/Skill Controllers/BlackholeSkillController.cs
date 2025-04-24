@@ -36,13 +36,11 @@ public class BlackholeSkillController : MonoBehaviour
         cloneAttackCooldown = _cloneAttackCooldown;
         blackholeTimer = _blackholeDuration;
 
-        if (SkillManager.instance.clone.crystlalInsteadOfClone)
-        {
+        if (SkillManager.instance.clone.crystalInseadOfClone)
             playerCanDisapear = false;
-        }
     }
 
-    void Update()
+    private void Update()
     {
         cloneAttackTimer -= Time.deltaTime;
         blackholeTimer -= Time.deltaTime;
@@ -52,13 +50,9 @@ public class BlackholeSkillController : MonoBehaviour
             blackholeTimer = Mathf.Infinity;
 
             if (targets.Count > 0)
-            {
                 ReleaseCloneAttack();
-            }
             else
-            {
                 FinishBlackHoleAbility();
-            }
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -78,18 +72,14 @@ public class BlackholeSkillController : MonoBehaviour
             transform.localScale = Vector2.Lerp(transform.localScale, new Vector2(-1, -1), shrinkSpeed * Time.deltaTime);
 
             if (transform.localScale.x < 0)
-            {
                 Destroy(gameObject);
-            }
         }
     }
 
     private void ReleaseCloneAttack()
     {
         if (targets.Count <= 0)
-        {
             return;
-        }
 
         DestroyHotKeys();
         cloneAttackReleased = true;
@@ -113,15 +103,11 @@ public class BlackholeSkillController : MonoBehaviour
             float xOffset;
 
             if (Random.Range(0, 100) > 50)
-            {
                 xOffset = 2;
-            }
             else
-            {
                 xOffset = -2;
-            }
 
-            if (SkillManager.instance.clone.crystlalInsteadOfClone)
+            if (SkillManager.instance.clone.crystalInseadOfClone)
             {
                 SkillManager.instance.crystal.CreateCrystal();
                 SkillManager.instance.crystal.CurrentCrystalChooseRandomTarget();
@@ -151,9 +137,7 @@ public class BlackholeSkillController : MonoBehaviour
     private void DestroyHotKeys()
     {
         if (createdHotKey.Count <= 0)
-        {
             return;
-        }
 
         for (int i = 0; i < createdHotKey.Count; i++)
         {
@@ -161,7 +145,7 @@ public class BlackholeSkillController : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.GetComponent<Enemy>() != null)
         {
@@ -171,7 +155,11 @@ public class BlackholeSkillController : MonoBehaviour
         }
     }
 
-    void OnTriggerExit2D(Collider2D collision) => collision.GetComponent<Enemy>()?.FreezeTime(false);
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.GetComponent<Enemy>() != null)
+            collision.GetComponent<Enemy>().FreezeTime(false);
+    }
 
     private void CreateHotKey(Collider2D collision)
     {
@@ -182,12 +170,9 @@ public class BlackholeSkillController : MonoBehaviour
         }
 
         if (!canCreateHotKeys)
-        {
             return;
-        }
 
         GameObject newHotKey = Instantiate(hotKeyPrefab, collision.transform.position + new Vector3(0, 2), Quaternion.identity);
-
         createdHotKey.Add(newHotKey);
 
         KeyCode choosenKey = keyCodeList[Random.Range(0, keyCodeList.Count)];

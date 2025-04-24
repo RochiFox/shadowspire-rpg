@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class ShadyIdleState : ShadyGroundedState
+﻿public class ShadyIdleState : ShadyGroundedState
 {
     public ShadyIdleState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyShady _enemy) : base(_enemyBase, _stateMachine, _animBoolName, _enemy)
     {
@@ -25,8 +21,6 @@ public class ShadyIdleState : ShadyGroundedState
         base.Update();
 
         if (stateTimer < 0)
-        {
             stateMachine.ChangeState(enemy.moveState);
-        }
     }
 }

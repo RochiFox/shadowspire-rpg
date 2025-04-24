@@ -6,7 +6,6 @@ using UnityEngine;
 public class BlackholeHotKeyController : MonoBehaviour
 {
     private SpriteRenderer sr;
-
     private KeyCode myHotKey;
     private TextMeshProUGUI myText;
     private Transform myEnemy;
@@ -21,7 +20,7 @@ public class BlackholeHotKeyController : MonoBehaviour
         blackHole = _myBlackHole;
 
         myHotKey = _myNewHotKey;
-        myText.text = myHotKey.ToString();
+        myText.text = _myNewHotKey.ToString();
     }
 
     private void Update()

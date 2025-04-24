@@ -33,7 +33,10 @@ public class PlayerStats : CharacterStats
     {
         base.DecreaseHealthBy(_damage);
 
-        if (_damage > GetMaxHealthValue() * 0.3f)
+        if (isDead)
+            return;
+
+        if (_damage > GetMaxHealthValue() * .3f)
         {
             player.SetupKnockbackPower(new Vector2(10, 6));
             player.fx.ScreenShake(player.fx.shakeHighDamage);
@@ -45,9 +48,7 @@ public class PlayerStats : CharacterStats
         ItemDataEquipment currentArmor = Inventory.instance.GetEquipment(EquipmentType.Armor);
 
         if (currentArmor != null)
-        {
             currentArmor.Effect(player.transform);
-        }
     }
 
     public override void OnEvasion()
@@ -58,16 +59,12 @@ public class PlayerStats : CharacterStats
     public void CloneDoDamage(CharacterStats _targetStats, float _multiplier)
     {
         if (TargetCanAvoidAttack(_targetStats))
-        {
             return;
-        }
 
         int totalDamage = damage.GetValue() + strength.GetValue();
 
         if (_multiplier > 0)
-        {
             totalDamage = Mathf.RoundToInt(totalDamage * _multiplier);
-        }
 
         if (CanCrit())
         {
@@ -75,9 +72,6 @@ public class PlayerStats : CharacterStats
         }
 
         totalDamage = CheckTargetArmor(_targetStats, totalDamage);
-
         _targetStats.TakeDamage(totalDamage);
-
-        DoMagicalDamage(_targetStats); // remove if you don't want to apply magic hit on primary attack
     }
 }

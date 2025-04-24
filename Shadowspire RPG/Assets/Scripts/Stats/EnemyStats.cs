@@ -12,12 +12,11 @@ public class EnemyStats : CharacterStats
     [SerializeField] private int level = 1;
 
     [Range(0f, 1f)]
-    [SerializeField] private float percantageModifier = 0.4f;
+    [SerializeField] private float percantageModifier = .4f;
 
     protected override void Start()
     {
         soulsDropAmount.SetDefaultValue(100);
-
         ApplyLevelModifiers();
 
         base.Start();
@@ -28,6 +27,11 @@ public class EnemyStats : CharacterStats
 
     private void ApplyLevelModifiers()
     {
+        Modify(strength);
+        Modify(agility);
+        Modify(intelligence);
+        Modify(vitality);
+
         Modify(damage);
         Modify(critChance);
         Modify(critPower);
@@ -62,11 +66,13 @@ public class EnemyStats : CharacterStats
     protected override void Die()
     {
         base.Die();
+
+        myDropSystem.GenerateDrop();
+
         enemy.Die();
 
         PlayerManager.instance.currency += soulsDropAmount.GetValue();
-        myDropSystem.GenerateDrop();
 
-        Destroy(gameObject, 4f);
+        Destroy(gameObject, 5f);
     }
 }

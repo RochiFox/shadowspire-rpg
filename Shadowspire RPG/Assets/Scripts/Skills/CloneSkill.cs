@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,11 +6,12 @@ using UnityEngine.UI;
 public class CloneSkill : Skill
 {
     [Header("Clone info")]
+    [SerializeField] private float attackMultiplier;
     [SerializeField] private GameObject clonePrefab;
     [SerializeField] private float cloneDuration;
+    [Space]
 
     [Header("Clone attack")]
-    [SerializeField] private float attackMultiplier;
     [SerializeField] private SkillTreeSlotUI cloneAttackUnlockButton;
     [SerializeField] private float cloneAttackMultiplier;
     [SerializeField] private bool canAttack;
@@ -26,8 +28,8 @@ public class CloneSkill : Skill
     [SerializeField] private float chanceToDuplicate;
 
     [Header("Crystal instead of clone")]
-    [SerializeField] private SkillTreeSlotUI crystalInsteadUnlockButton;
-    public bool crystlalInsteadOfClone;
+    [SerializeField] private SkillTreeSlotUI crystalInseadUnlockButton;
+    public bool crystalInseadOfClone;
 
     protected override void Start()
     {
@@ -36,7 +38,7 @@ public class CloneSkill : Skill
         cloneAttackUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCloneAttack);
         aggresiveCloneUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockAggresiveClone);
         multipleUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockMultiClone);
-        crystalInsteadUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCrystalInstead);
+        crystalInseadUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCrystalInstead);
     }
 
     #region Unlock region
@@ -77,16 +79,16 @@ public class CloneSkill : Skill
 
     private void UnlockCrystalInstead()
     {
-        if (crystalInsteadUnlockButton.unlocked)
+        if (crystalInseadUnlockButton.unlocked)
         {
-            crystlalInsteadOfClone = true;
+            crystalInseadOfClone = true;
         }
     }
     #endregion
 
     public void CreateClone(Transform _clonePosition, Vector3 _offset)
     {
-        if (crystlalInsteadOfClone)
+        if (crystalInseadOfClone)
         {
             SkillManager.instance.crystal.CreateCrystal();
             return;
@@ -94,18 +96,18 @@ public class CloneSkill : Skill
 
         GameObject newClone = Instantiate(clonePrefab);
 
-        newClone.GetComponent<CloneSkillController>().SetupClone(_clonePosition, cloneDuration, canAttack, _offset, FindClosestEnemy(newClone.transform), canDuplicateClone, chanceToDuplicate, player, attackMultiplier);
+        newClone.GetComponent<CloneSkillController>().
+            SetupClone(_clonePosition, cloneDuration, canAttack, _offset, FindClosestEnemy(newClone.transform), canDuplicateClone, chanceToDuplicate, player, attackMultiplier);
     }
 
     public void CreateCloneWithDelay(Transform _enemyTransform)
     {
-        StartCoroutine(CloneDelayCoroutine(_enemyTransform, new Vector3(2 * player.facingDirection, 0)));
+        StartCoroutine(CloneDelayCorotine(_enemyTransform, new Vector3(2 * player.facingDir, 0)));
     }
 
-    private IEnumerator CloneDelayCoroutine(Transform _transform, Vector3 _offset)
+    private IEnumerator CloneDelayCorotine(Transform _trasnform, Vector3 _offset)
     {
-        yield return new WaitForSeconds(0.4f);
-
-        CreateClone(_transform, _offset);
+        yield return new WaitForSeconds(.4f);
+        CreateClone(_trasnform, _offset);
     }
 }

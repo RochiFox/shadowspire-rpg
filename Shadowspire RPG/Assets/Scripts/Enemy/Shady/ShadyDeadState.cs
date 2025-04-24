@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ShadyDeadState : EnemyState
 {
@@ -14,12 +12,6 @@ public class ShadyDeadState : EnemyState
     public override void Enter()
     {
         base.Enter();
-
-        enemy.anim.SetBool(enemy.lastAnimBoolName, true);
-        enemy.anim.speed = 0;
-        enemy.cd.enabled = false;
-
-        stateTimer = 0.15f;
     }
 
     public override void Update()
@@ -27,8 +19,6 @@ public class ShadyDeadState : EnemyState
         base.Update();
 
         if (triggerCalled)
-        {
             enemy.SelfDestroy();
-        }
     }
 }

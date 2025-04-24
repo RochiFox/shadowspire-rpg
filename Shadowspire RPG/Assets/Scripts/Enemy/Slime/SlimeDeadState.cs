@@ -5,7 +5,6 @@ using UnityEngine;
 public class SlimeDeadState : EnemyState
 {
     private EnemySlime enemy;
-
     public SlimeDeadState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemySlime _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
@@ -27,8 +26,6 @@ public class SlimeDeadState : EnemyState
         base.Update();
 
         if (stateTimer > 0)
-        {
             rb.velocity = new Vector2(0, 10);
-        }
     }
 }

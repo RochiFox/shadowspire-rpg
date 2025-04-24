@@ -12,9 +12,7 @@ public class MainMenuUI : MonoBehaviour
     private void Start()
     {
         if (SaveManager.instance.HasSavedData() == false)
-        {
             continueButton.SetActive(false);
-        }
     }
 
     public void ContinueGame()
@@ -30,8 +28,7 @@ public class MainMenuUI : MonoBehaviour
 
     public void ExitGame()
     {
-        Debug.Log("Exit game");
-        // Application.Quit();
+        Application.Quit();
     }
 
     IEnumerator LoadSceneWithFadeEffect(float _delay)

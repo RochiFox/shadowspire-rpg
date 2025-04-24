@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
 
 public class DeathBringerDeadState : EnemyState
 {
     private EnemyDeathBringer enemy;
 
-    public DeathBringerDeadState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyDeathBringer _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public DeathBringerDeadState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyDeathBringer enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
-        this.enemy = _enemy;
+        this.enemy = enemy;
     }
 
     public override void Enter()
@@ -27,8 +26,6 @@ public class DeathBringerDeadState : EnemyState
         base.Update();
 
         if (stateTimer > 0)
-        {
             rb.velocity = new Vector2(0, 10);
-        }
     }
 }

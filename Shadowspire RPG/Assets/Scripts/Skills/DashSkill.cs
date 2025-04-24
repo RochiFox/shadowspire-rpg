@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,42 +40,32 @@ public class DashSkill : Skill
     }
 
     private void UnlockDash()
-    {
+    { 
         if (dashUnlockButton.unlocked)
-        {
             dashUnlocked = true;
-        }
     }
 
     private void UnlockCloneOnDash()
     {
         if (cloneOnDashUnlockButton.unlocked)
-        {
             cloneOnDashUnlocked = true;
-        }
     }
 
     private void UnlockCloneOnArrival()
     {
-        if (cloneOnArrivalUnlockButton.unlocked)
-        {
+        if(cloneOnArrivalUnlockButton.unlocked)
             cloneOnArrivalUnlocked = true;
-        }
     }
 
     public void CloneOnDash()
     {
-        if (cloneOnDashUnlocked)
-        {
+        if(cloneOnDashUnlocked)
             SkillManager.instance.clone.CreateClone(player.transform, Vector3.zero);
-        }
     }
 
     public void CloneOnArrival()
     {
-        if (cloneOnArrivalUnlocked)
-        {
+        if(cloneOnArrivalUnlocked)
             SkillManager.instance.clone.CreateClone(player.transform, Vector3.zero);
-        }
     }
 }

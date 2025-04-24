@@ -13,8 +13,8 @@ public class Entity : MonoBehaviour
 
     [Header("Knockback info")]
     [SerializeField] protected Vector2 knockbackPower = new Vector2(7, 12);
-    [SerializeField] protected Vector2 knockbackOffset = new Vector2(0.5f, 2);
-    [SerializeField] protected float knockbackDuration = 0.07f;
+    [SerializeField] protected Vector2 knockbackOffset = new Vector2(.5f, 2);
+    [SerializeField] protected float knockbackDuration = .07f;
     protected bool isKnocked;
 
     [Header("Collision info")]
@@ -23,12 +23,11 @@ public class Entity : MonoBehaviour
     [SerializeField] protected Transform groundCheck;
     [SerializeField] protected float groundCheckDistance = 1;
     [SerializeField] protected Transform wallCheck;
-    [SerializeField] protected float wallCheckDistance = 0.8f;
+    [SerializeField] protected float wallCheckDistance = .8f;
     [SerializeField] protected LayerMask whatIsGround;
 
-    public int knockbackDirection { get; private set; }
-
-    public int facingDirection { get; private set; } = 1;
+    public int knockbackDir { get; private set; }
+    public int facingDir { get; private set; } = 1;
     protected bool facingRight = true;
 
     public System.Action onFlipped;
@@ -41,8 +40,8 @@ public class Entity : MonoBehaviour
     protected virtual void Start()
     {
         sr = GetComponentInChildren<SpriteRenderer>();
-        rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
+        rb = GetComponent<Rigidbody2D>();
         stats = GetComponent<CharacterStats>();
         cd = GetComponent<CapsuleCollider2D>();
     }
@@ -64,20 +63,15 @@ public class Entity : MonoBehaviour
 
     public virtual void DamageImpact() => StartCoroutine("HitKnockback");
 
-    public virtual void SetupKnockbackDirection(Transform _damageDirection)
+    public virtual void SetupKnockbackDir(Transform _damageDirection)
     {
         if (_damageDirection.position.x > transform.position.x)
-        {
-            knockbackDirection = -1;
-        }
+            knockbackDir = -1;
         else if (_damageDirection.position.x < transform.position.x)
-        {
-            knockbackDirection = 1;
-        }
+            knockbackDir = 1;
     }
 
-    public void SetupKnockbackPower(Vector2 _knockbackPower) => knockbackPower = _knockbackPower;
-
+    public void SetupKnockbackPower(Vector2 _knockbackpower) => knockbackPower = _knockbackpower;
     protected virtual IEnumerator HitKnockback()
     {
         isKnocked = true;
@@ -85,9 +79,7 @@ public class Entity : MonoBehaviour
         float xOffset = Random.Range(knockbackOffset.x, knockbackOffset.y);
 
         if (knockbackPower.x > 0 || knockbackPower.y > 0)
-        {
-            rb.velocity = new Vector2((knockbackPower.x + xOffset) * -knockbackDirection, knockbackPower.y);
-        }
+            rb.velocity = new Vector2((knockbackPower.x + xOffset) * knockbackDir, knockbackPower.y);
 
         yield return new WaitForSeconds(knockbackDuration);
         isKnocked = false;
@@ -99,64 +91,11 @@ public class Entity : MonoBehaviour
 
     }
 
-    #region Collision
-    public virtual bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
-    public virtual bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDirection, wallCheckDistance, whatIsGround);
-
-    protected virtual void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
-
-        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance * facingDirection, wallCheck.position.y));
-
-        Gizmos.DrawWireSphere(attackCheck.position, attackCheckRadius);
-    }
-    #endregion
-
-    #region Flip
-    public virtual void Flip()
-    {
-        facingDirection *= -1;
-        facingRight = !facingRight;
-
-        transform.Rotate(0, 180, 0);
-
-        if (onFlipped != null)
-        {
-            onFlipped();
-        }
-    }
-
-    public virtual void FlipController(float _x)
-    {
-        if (_x > 0 && !facingRight)
-        {
-            Flip();
-        }
-        else if (_x < 0 && facingRight)
-        {
-            Flip();
-        }
-    }
-
-    public virtual void SetupDefaultFacingDirection(int _direction)
-    {
-        facingDirection = _direction;
-
-        if (facingDirection == -1)
-        {
-            facingRight = false;
-        }
-    }
-    #endregion
-
     #region Velocity
     public void SetZeroVelocity()
     {
         if (isKnocked)
-        {
             return;
-        }
 
         rb.velocity = new Vector2(0, 0);
     }
@@ -164,13 +103,50 @@ public class Entity : MonoBehaviour
     public void SetVelocity(float _xVelocity, float _yVelocity)
     {
         if (isKnocked)
-        {
             return;
-        }
 
         rb.velocity = new Vector2(_xVelocity, _yVelocity);
-
         FlipController(_xVelocity);
+    }
+    #endregion
+
+    #region Collision
+    public virtual bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
+    public virtual bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, wallCheckDistance, whatIsGround);
+
+    protected virtual void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
+        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance * facingDir, wallCheck.position.y));
+        Gizmos.DrawWireSphere(attackCheck.position, attackCheckRadius);
+    }
+    #endregion
+
+    #region Flip
+    public virtual void Flip()
+    {
+        facingDir = facingDir * -1;
+        facingRight = !facingRight;
+        transform.Rotate(0, 180, 0);
+
+        if (onFlipped != null)
+            onFlipped();
+    }
+
+    public virtual void FlipController(float _x)
+    {
+        if (_x > 0 && !facingRight)
+            Flip();
+        else if (_x < 0 && facingRight)
+            Flip();
+    }
+
+    public virtual void SetupDefaultFacingDir(int _direction)
+    {
+        facingDir = _direction;
+
+        if (facingDir == -1)
+            facingRight = false;
     }
     #endregion
 

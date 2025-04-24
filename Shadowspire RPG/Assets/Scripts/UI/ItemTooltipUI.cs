@@ -11,12 +11,10 @@ public class ItemTooltipUI : TooltipUI
 
     [SerializeField] private int defaultFontSize = 32;
 
-    public void ShowTooltip(ItemDataEquipment item)
+    public void ShowToolTip(ItemDataEquipment item)
     {
         if (item == null)
-        {
             return;
-        }
 
         itemNameText.text = item.itemName;
         itemTypeText.text = item.equipmentType.ToString();
@@ -28,7 +26,7 @@ public class ItemTooltipUI : TooltipUI
         gameObject.SetActive(true);
     }
 
-    public void HideTooltip()
+    public void HideToolTip()
     {
         itemNameText.fontSize = defaultFontSize;
         gameObject.SetActive(false);

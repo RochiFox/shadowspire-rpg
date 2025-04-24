@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class UI : MonoBehaviour, ISaveManager
 {
-    [Header("End Screen")]
-    [SerializeField] private GameObject endText;
+    [Header("End screen")]
     [SerializeField] private FadeScreenUI fadeScreen;
+    [SerializeField] private GameObject endText;
     [SerializeField] private GameObject restartButton;
     [Space]
 
@@ -16,16 +16,16 @@ public class UI : MonoBehaviour, ISaveManager
     [SerializeField] private GameObject optionsUI;
     [SerializeField] private GameObject inGameUI;
 
-    public ItemTooltipUI itemTooltip;
-    public StatTooltipUI statTooltip;
+    public SkillTooltipUI skillToolTip;
+    public ItemTooltipUI itemToolTip;
+    public StatTooltipUI statToolTip;
     public CraftWindowUI craftWindow;
-    public SkillTooltipUI skillTooltip;
 
     [SerializeField] private VolumeSliderUI[] volumeSettings;
 
-    void Awake()
+    private void Awake()
     {
-        SwitchTo(skillTreeUI); // we need this to assign events on skill tree slots
+        SwitchTo(skillTreeUI);
         fadeScreen.gameObject.SetActive(true);
     }
 
@@ -33,31 +33,23 @@ public class UI : MonoBehaviour, ISaveManager
     {
         SwitchTo(inGameUI);
 
-        itemTooltip.gameObject.SetActive(false);
-        statTooltip.gameObject.SetActive(false);
+        itemToolTip.gameObject.SetActive(false);
+        statToolTip.gameObject.SetActive(false);
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
-        {
             SwitchWithKeyTo(characterUI);
-        }
 
         if (Input.GetKeyDown(KeyCode.E))
-        {
             SwitchWithKeyTo(craftUI);
-        }
 
         if (Input.GetKeyDown(KeyCode.K))
-        {
             SwitchWithKeyTo(skillTreeUI);
-        }
 
         if (Input.GetKeyDown(KeyCode.Escape))
-        {
             SwitchWithKeyTo(optionsUI);
-        }
     }
 
     public void SwitchTo(GameObject _menu)
@@ -65,30 +57,24 @@ public class UI : MonoBehaviour, ISaveManager
 
         for (int i = 0; i < transform.childCount; i++)
         {
-            bool fadeScreen = transform.GetChild(i).GetComponent<FadeScreenUI>() != null; // keep fade screen game object active
+            bool fadeScreen = transform.GetChild(i).GetComponent<FadeScreenUI>() != null;
 
-            if (!fadeScreen)
-            {
+            if (fadeScreen == false)
                 transform.GetChild(i).gameObject.SetActive(false);
-            }
         }
 
         if (_menu != null)
         {
-            AudioManager.instance.PlaySFX(7, null);
+            AudioManager.instance.PlaySFX(5, null);
             _menu.SetActive(true);
         }
 
         if (GameManager.instance != null)
         {
             if (_menu == inGameUI)
-            {
                 GameManager.instance.PauseGame(false);
-            }
             else
-            {
                 GameManager.instance.PauseGame(true);
-            }
         }
     }
 
@@ -109,9 +95,7 @@ public class UI : MonoBehaviour, ISaveManager
         for (int i = 0; i < transform.childCount; i++)
         {
             if (transform.GetChild(i).gameObject.activeSelf && transform.GetChild(i).GetComponent<FadeScreenUI>() == null)
-            {
                 return;
-            }
         }
 
         SwitchTo(inGameUI);
@@ -120,12 +104,12 @@ public class UI : MonoBehaviour, ISaveManager
     public void SwitchOnEndScreen()
     {
         fadeScreen.FadeOut();
-        StartCoroutine(EndScreenCoroutine());
+        StartCoroutine(EndScreenCorutione());
     }
 
-    IEnumerator EndScreenCoroutine()
+    IEnumerator EndScreenCorutione()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1);
         endText.SetActive(true);
         yield return new WaitForSeconds(1.5f);
         restartButton.SetActive(true);
@@ -139,10 +123,8 @@ public class UI : MonoBehaviour, ISaveManager
         {
             foreach (VolumeSliderUI item in volumeSettings)
             {
-                if (item.parameter == pair.Key)
-                {
+                if (item.parametr == pair.Key)
                     item.LoadSlider(pair.Value);
-                }
             }
         }
     }
@@ -153,7 +135,7 @@ public class UI : MonoBehaviour, ISaveManager
 
         foreach (VolumeSliderUI item in volumeSettings)
         {
-            _data.volumeSettings.Add(item.parameter, item.slider.value);
+            _data.volumeSettings.Add(item.parametr, item.slider.value);
         }
     }
 }

@@ -12,6 +12,5 @@ public class FadeScreenUI : MonoBehaviour
     }
 
     public void FadeOut() => anim.SetTrigger("fadeOut");
-
     public void FadeIn() => anim.SetTrigger("fadeIn");
 }

@@ -25,28 +25,23 @@ public class ShockStrikeController : MonoBehaviour
     void Update()
     {
         if (!targetStats)
-        {
             return;
-        }
 
         if (triggered)
-        {
             return;
-        }
 
         transform.position = Vector2.MoveTowards(transform.position, targetStats.transform.position, speed * Time.deltaTime);
         transform.right = transform.position - targetStats.transform.position;
 
-        if (Vector2.Distance(transform.position, targetStats.transform.position) < 0.1f)
+        if (Vector2.Distance(transform.position, targetStats.transform.position) < .1f)
         {
-            anim.transform.localPosition = new Vector3(0, 0.5f);
+            anim.transform.localPosition = new Vector3(0, .5f);
             anim.transform.localRotation = Quaternion.identity;
 
             transform.localRotation = Quaternion.identity;
             transform.localScale = new Vector3(3, 3);
 
-            Invoke("DamageAndSelfDestroy", 0.2f);
-
+            Invoke("DamageAndSelfDestroy", .2f);
             triggered = true;
             anim.SetTrigger("Hit");
         }
@@ -55,9 +50,7 @@ public class ShockStrikeController : MonoBehaviour
     private void DamageAndSelfDestroy()
     {
         targetStats.ApplyShock(true);
-
-        targetStats.TakeDamage(damage);
-
-        Destroy(gameObject, 0.4f);
+        targetStats.TakeDamage(1);
+        Destroy(gameObject, .4f);
     }
 }

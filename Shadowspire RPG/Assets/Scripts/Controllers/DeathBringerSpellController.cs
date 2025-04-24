@@ -20,13 +20,13 @@ public class DeathBringerSpellController : MonoBehaviour
         {
             if (hit.GetComponent<Player>() != null)
             {
-                hit.GetComponent<Entity>().SetupKnockbackDirection(transform);
-                myStats.DoDamage(hit.GetComponent<CharacterStats>());
+                hit.GetComponent<Entity>().SetupKnockbackDir(transform);
+                myStats.DoDamage(hit.GetComponent<PlayerStats>());
             }
         }
     }
 
-    void OnDrawGizmos() => Gizmos.DrawWireCube(check.position, boxSize);
+    private void OnDrawGizmos() => Gizmos.DrawWireCube(check.position, boxSize);
 
     private void SelfDestroy() => Destroy(gameObject);
 }

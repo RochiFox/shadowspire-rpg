@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -6,36 +7,31 @@ public class SaveManager : MonoBehaviour
 {
     public static SaveManager instance;
 
-    [SerializeField] private string fileName; 
-
+    [SerializeField] private string fileName;
+    [SerializeField] private bool encryptData;
     private GameData gameData;
-    private List<ISaveManager> saveManagers;
+    [SerializeField] private List<ISaveManager> saveManagers;
     private FileDataHandler dataHandler;
 
     [ContextMenu("Delete save file")]
     public void DeleteSavedData()
     {
-        dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
-
+        dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, encryptData);
         dataHandler.Delete();
     }
 
-    void Awake()
+    private void Awake()
     {
         if (instance != null)
-        {
             Destroy(instance.gameObject);
-        }
         else
-        {
             instance = this;
-        }
-
-        dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
     }
 
-    void Start()
+
+    private void Start()
     {
+        dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, encryptData);
         saveManagers = FindAllSaveManagers();
 
         LoadGame();
@@ -72,7 +68,7 @@ public class SaveManager : MonoBehaviour
         dataHandler.Save(gameData);
     }
 
-    void OnApplicationQuit()
+    private void OnApplicationQuit()
     {
         SaveGame();
     }
@@ -86,22 +82,11 @@ public class SaveManager : MonoBehaviour
 
     public bool HasSavedData()
     {
-        if (dataHandler == null)
-        {
-            return false;
-        }
-
         if (dataHandler.Load() != null)
         {
             return true;
         }
 
         return false;
-    }
-
-    public void SaveAndExit()
-    {
-        SaveGame();
-        Application.Quit();
     }
 }

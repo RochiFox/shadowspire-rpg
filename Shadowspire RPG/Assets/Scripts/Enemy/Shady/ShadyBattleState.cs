@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
 
 public class ShadyBattleState : EnemyState
 {
@@ -26,16 +25,7 @@ public class ShadyBattleState : EnemyState
         player = PlayerManager.instance.player.transform;
 
         if (player.GetComponent<PlayerStats>().isDead)
-        {
             stateMachine.ChangeState(enemy.moveState);
-        }
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-
-        enemy.moveSpeed = defaultSpeed;
     }
 
     public override void Update()
@@ -47,29 +37,27 @@ public class ShadyBattleState : EnemyState
             stateTimer = enemy.battleTime;
 
             if (enemy.IsPlayerDetected().distance < enemy.attackDistance)
-            {
-                // enemy.stats.KillEntity(); // enters dead state which triggers explosion + drop item and souls
-                stateMachine.ChangeState(enemy.deadState);
-            }
+                enemy.stats.KillEntity();       
         }
         else
         {
-            if (stateTimer < 0 || Vector2.Distance(player.transform.position, enemy.transform.position) > 10f)
-            {
+            if (stateTimer < 0 || Vector2.Distance(player.transform.position, enemy.transform.position) > 7)
                 stateMachine.ChangeState(enemy.idleState);
-            }
         }
 
         if (player.position.x > enemy.transform.position.x)
-        {
             moveDir = 1;
-        }
         else if (player.position.x < enemy.transform.position.x)
-        {
             moveDir = -1;
-        }
 
         enemy.SetVelocity(enemy.moveSpeed * moveDir, rb.velocity.y);
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+
+        enemy.moveSpeed = defaultSpeed;
     }
 
     private bool CanAttack()

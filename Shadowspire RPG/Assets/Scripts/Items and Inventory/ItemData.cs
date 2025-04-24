@@ -24,7 +24,7 @@ public class ItemData : ScriptableObject
 
     protected StringBuilder sb = new StringBuilder();
 
-    void OnValidate()
+    private void OnValidate()
     {
 #if UNITY_EDITOR
         string path = AssetDatabase.GetAssetPath(this);

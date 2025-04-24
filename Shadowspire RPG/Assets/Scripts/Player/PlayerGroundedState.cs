@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class PlayerGroundedState : PlayerState
@@ -27,37 +26,27 @@ public class PlayerGroundedState : PlayerState
         {
             if (player.skill.blackhole.cooldownTimer > 0)
             {
-                player.fx.CreatePopUpText("Cooldown");
+                player.fx.CreatePopUpText("Cooldown!");
                 return;
             }
 
-            stateMachine.ChangeState(player.blackholeState);
+            stateMachine.ChangeState(player.blackHole);
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword() && player.skill.sword.swordUnlocked)
-        {
-            stateMachine.ChangeState(player.aimSwordState);
-        }
+            stateMachine.ChangeState(player.aimSowrd);
 
         if (Input.GetKeyDown(KeyCode.Q) && player.skill.parry.parryUnlocked)
-        {
-            stateMachine.ChangeState(player.counterAttackState);
-        }
+            stateMachine.ChangeState(player.counterAttack);
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            stateMachine.ChangeState(player.primaryAttackState);
-        }
+            stateMachine.ChangeState(player.primaryAttack);
 
         if (!player.IsGroundDetected())
-        {
             stateMachine.ChangeState(player.airState);
-        }
 
         if (Input.GetKeyDown(KeyCode.Space) && player.IsGroundDetected())
-        {
             stateMachine.ChangeState(player.jumpState);
-        }
     }
 
     private bool HasNoSword()
@@ -68,7 +57,6 @@ public class PlayerGroundedState : PlayerState
         }
 
         player.sword.GetComponent<SwordSkillController>().ReturnSword();
-
         return false;
     }
 }

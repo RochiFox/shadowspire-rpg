@@ -14,16 +14,12 @@ public class SkillManager : MonoBehaviour
     public ParrySkill parry { get; private set; }
     public DodgeSkill dodge { get; private set; }
 
-    void Awake()
+    private void Awake()
     {
         if (instance != null)
-        {
             Destroy(instance.gameObject);
-        }
         else
-        {
             instance = this;
-        }
     }
 
     private void Start()

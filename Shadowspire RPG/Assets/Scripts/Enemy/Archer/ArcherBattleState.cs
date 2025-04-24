@@ -1,6 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
+
 
 public class ArcherBattleState : EnemyState
 {
@@ -20,14 +20,7 @@ public class ArcherBattleState : EnemyState
         player = PlayerManager.instance.player.transform;
 
         if (player.GetComponent<PlayerStats>().isDead)
-        {
             stateMachine.ChangeState(enemy.moveState);
-        }
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
     }
 
     public override void Update()
@@ -36,30 +29,24 @@ public class ArcherBattleState : EnemyState
 
         if (enemy.IsPlayerDetected())
         {
+            stateTimer = enemy.battleTime;
+
             if (enemy.IsPlayerDetected().distance < enemy.safeDistance)
             {
                 if (CanJump())
-                {
                     stateMachine.ChangeState(enemy.jumpState);
-                }
             }
-
-            stateTimer = enemy.battleTime;
 
             if (enemy.IsPlayerDetected().distance < enemy.attackDistance)
             {
                 if (CanAttack())
-                {
                     stateMachine.ChangeState(enemy.attackState);
-                }
             }
         }
         else
         {
-            if (stateTimer < 0 || Vector2.Distance(player.transform.position, enemy.transform.position) > 7f)
-            {
+            if (stateTimer < 0 || Vector2.Distance(player.transform.position, enemy.transform.position) > 7)
                 stateMachine.ChangeState(enemy.idleState);
-            }
         }
 
         BattleStateFlipControll();
@@ -67,14 +54,15 @@ public class ArcherBattleState : EnemyState
 
     private void BattleStateFlipControll()
     {
-        if (player.position.x > enemy.transform.position.x && enemy.facingDirection == -1)
-        {
+        if (player.position.x > enemy.transform.position.x && enemy.facingDir == -1)
             enemy.Flip();
-        }
-        else if (player.position.x < enemy.transform.position.x && enemy.facingDirection == 1)
-        {
+        else if (player.position.x < enemy.transform.position.x && enemy.facingDir == 1)
             enemy.Flip();
-        }
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
     }
 
     private bool CanAttack()
@@ -92,14 +80,11 @@ public class ArcherBattleState : EnemyState
     private bool CanJump()
     {
         if (enemy.GroundBehind() == false || enemy.WallBehind() == true)
-        {
             return false;
-        }
 
         if (Time.time >= enemy.lastTimeJumped + enemy.jumpCooldown)
         {
             enemy.lastTimeJumped = Time.time;
-
             return true;
         }
 

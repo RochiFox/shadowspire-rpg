@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,9 +12,9 @@ public class ParrySkill : Skill
 
     [Header("Parry restore")]
     [SerializeField] private SkillTreeSlotUI restoreUnlockButton;
-    public bool restoreUnlocked { get; private set; }
     [Range(0f, 1f)]
-    [SerializeField] private float restoreHealthPercentage;
+    [SerializeField] private float restoreHealthPerentage;
+    public bool restoreUnlocked { get; private set; }
 
     [Header("Parry with mirage")]
     [SerializeField] private SkillTreeSlotUI parryWithMirageUnlockButton;
@@ -25,7 +26,7 @@ public class ParrySkill : Skill
 
         if (restoreUnlocked)
         {
-            int restoreAmount = Mathf.RoundToInt(player.stats.GetMaxHealthValue() * restoreHealthPercentage);
+            int restoreAmount = Mathf.RoundToInt(player.stats.GetMaxHealthValue() * restoreHealthPerentage);
             player.stats.IncreaseHealthBy(restoreAmount);
         }
     }
@@ -45,37 +46,27 @@ public class ParrySkill : Skill
         UnlockParryRestore();
         UnlockParryWithMirage();
     }
-
     private void UnlockParry()
     {
         if (parryUnlockButton.unlocked)
-        {
             parryUnlocked = true;
-        }
     }
 
     private void UnlockParryRestore()
     {
         if (restoreUnlockButton.unlocked)
-        {
             restoreUnlocked = true;
-        }
     }
 
     private void UnlockParryWithMirage()
     {
         if (parryWithMirageUnlockButton.unlocked)
-        {
             parryWithMirageUnlocked = true;
-        }
-
     }
 
     public void MakeMirageOnParry(Transform _respawnTransform)
     {
         if (parryWithMirageUnlocked)
-        {
             SkillManager.instance.clone.CreateCloneWithDelay(_respawnTransform);
-        }
     }
 }

@@ -1,15 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using Cinemachine;
+﻿using System.Collections;
 using UnityEngine;
 
 public class DeathBringerTeleportState : EnemyState
 {
+
     private EnemyDeathBringer enemy;
 
     public DeathBringerTeleportState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyDeathBringer _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
-        this.enemy = _enemy;
+        enemy = _enemy;
     }
 
     public override void Enter()
@@ -26,13 +25,9 @@ public class DeathBringerTeleportState : EnemyState
         if (triggerCalled)
         {
             if (enemy.CanDoSpellCast())
-            {
                 stateMachine.ChangeState(enemy.spellCastState);
-            }
             else
-            {
                 stateMachine.ChangeState(enemy.battleState);
-            }
         }
     }
 

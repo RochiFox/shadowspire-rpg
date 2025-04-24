@@ -5,46 +5,35 @@ using UnityEngine;
 
 public class TooltipUI : MonoBehaviour
 {
-
     [SerializeField] private float xLimit = 960;
     [SerializeField] private float yLimit = 540;
 
-    [SerializeField] private float xOffset = 200;
+    [SerializeField] private float xOffset = 150;
     [SerializeField] private float yOffset = 150;
-
+   
     public virtual void AdjustPosition()
     {
         Vector2 mousePosition = Input.mousePosition;
 
-        float newXOffset = 0;
-        float newYOffset = 0;
+        float newXoffset = 0;
+        float newYoffset = 0;
 
         if (mousePosition.x > xLimit)
-        {
-            newXOffset = -xOffset;
-        }
+            newXoffset = -xOffset;
         else
-        {
-            newXOffset = xOffset;
-        }
+            newXoffset = xOffset;
 
         if (mousePosition.y > yLimit)
-        {
-            newYOffset = -yOffset;
-        }
+            newYoffset = -yOffset;
         else
-        {
-            newYOffset = yOffset;
-        }
+            newYoffset = yOffset;
 
-        transform.position = new Vector2(mousePosition.x + newXOffset, mousePosition.y + newYOffset);
+        transform.position = new Vector2(mousePosition.x + newXoffset, mousePosition.y + newYoffset);
     }
 
     public void AdjustFontSize(TextMeshProUGUI _text)
     {
         if (_text.text.Length > 12)
-        {
-            _text.fontSize *= 0.8f;
-        }
+            _text.fontSize = _text.fontSize * .8f;
     }
 }

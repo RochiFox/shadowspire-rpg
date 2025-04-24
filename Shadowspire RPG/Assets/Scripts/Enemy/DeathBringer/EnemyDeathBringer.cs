@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyDeathBringer : Enemy
@@ -11,15 +12,9 @@ public class EnemyDeathBringer : Enemy
     public DeathBringerDeadState deadState { get; private set; }
     public DeathBringerSpellCastState spellCastState { get; private set; }
     public DeathBringerTeleportState teleportState { get; private set; }
+
     #endregion
-
     public bool bossFightBegun;
-
-    [Header("Teleport details")]
-    [SerializeField] private BoxCollider2D arena;
-    [SerializeField] private Vector2 surroundingCheckSize;
-    public float chanceToTeleport;
-    public float defaultChanceToTeleport = 25;
 
     [Header("Spell cast details")]
     [SerializeField] private GameObject spellPrefab;
@@ -29,11 +24,17 @@ public class EnemyDeathBringer : Enemy
     [SerializeField] private float spellStateCooldown;
     [SerializeField] private Vector2 spellOffset;
 
+    [Header("Teleport details")]
+    [SerializeField] private BoxCollider2D arena;
+    [SerializeField] private Vector2 surroundingCheckSize;
+    public float chanceToTeleport;
+    public float defaultChanceToTeleport = 25;
+
     protected override void Awake()
     {
         base.Awake();
 
-        SetupDefaultFacingDirection(-1);
+        SetupDefaultFacingDir(-1);
 
         idleState = new DeathBringerIdleState(this, stateMachine, "Idle", this);
 
@@ -52,10 +53,14 @@ public class EnemyDeathBringer : Enemy
         stateMachine.Initialize(idleState);
     }
 
+    protected override void Update()
+    {
+        base.Update();
+    }
+
     public override void Die()
     {
         base.Die();
-
         stateMachine.ChangeState(deadState);
     }
 
@@ -66,9 +71,7 @@ public class EnemyDeathBringer : Enemy
         float xOffset = 0;
 
         if (player.rb.velocity.x != 0)
-        {
-            xOffset = player.facingDirection * spellOffset.x;
-        }
+            xOffset = player.facingDir * spellOffset.x;
 
         Vector3 spellPosition = new Vector3(player.transform.position.x + xOffset, player.transform.position.y + spellOffset.y);
 
@@ -86,7 +89,6 @@ public class EnemyDeathBringer : Enemy
 
         if (!GroundBelow() || SomethingIsAround())
         {
-            Debug.Log("Looking for new position...");
             FindPosition();
         }
     }

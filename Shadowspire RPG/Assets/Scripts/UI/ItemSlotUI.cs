@@ -1,6 +1,6 @@
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine.UI;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ItemSlotUI : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
@@ -49,9 +49,9 @@ public class ItemSlotUI : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     public virtual void OnPointerDown(PointerEventData eventData)
     {
         if (item == null)
-        {
             return;
-        }
+
+        ui.itemToolTip.HideToolTip();
 
         if (Input.GetKey(KeyCode.LeftControl))
         {
@@ -60,30 +60,23 @@ public class ItemSlotUI : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         }
 
         if (item.data.itemType == ItemType.Equipment)
-        {
             Inventory.instance.EquipItem(item.data);
-        }
 
-        ui.itemTooltip.HideTooltip();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (item == null)
-        {
             return;
-        }
 
-        ui.itemTooltip.ShowTooltip(item.data as ItemDataEquipment);
+        ui.itemToolTip.ShowToolTip(item.data as ItemDataEquipment);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         if (item == null)
-        {
             return;
-        }
 
-        ui.itemTooltip.HideTooltip();
+        ui.itemToolTip.HideToolTip();
     }
 }

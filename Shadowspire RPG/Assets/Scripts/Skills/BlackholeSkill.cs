@@ -1,29 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BlackholeSkill : Skill
 {
-    [SerializeField] private SkillTreeSlotUI blackholeUnlockButton;
-    public bool blackholeUnlocked { get; private set; }
+    [SerializeField] private SkillTreeSlotUI blackHoleUnlockButton;
+    public bool blackholeUnlocked;
+    [SerializeField] private int amountOfAttacks;
+    [SerializeField] private float cloneCooldown;
+    [SerializeField] private float blackholeDuration;
+    [Space]
     [SerializeField] private GameObject blackHolePrefab;
     [SerializeField] private float maxSize;
     [SerializeField] private float growSpeed;
     [SerializeField] private float shrinkSpeed;
-    [SerializeField] private int amountOfAttacks;
-    [SerializeField] private float cloneCooldown;
-    [SerializeField] private float blackholeDuration;
 
-    BlackholeSkillController currentBlackHole;
+    BlackholeSkillController currentBlackhole;
 
     private void UnlockBlackhole()
     {
-        if (blackholeUnlockButton.unlocked)
-        {
+        if (blackHoleUnlockButton.unlocked)
             blackholeUnlocked = true;
-        }
     }
 
     public override bool CanUseSkill()
@@ -37,19 +35,19 @@ public class BlackholeSkill : Skill
 
         GameObject newBlackHole = Instantiate(blackHolePrefab, player.transform.position, Quaternion.identity);
 
-        currentBlackHole = newBlackHole.GetComponent<BlackholeSkillController>();
+        currentBlackhole = newBlackHole.GetComponent<BlackholeSkillController>();
 
-        currentBlackHole.SetupBlackhole(maxSize, growSpeed, shrinkSpeed, amountOfAttacks, cloneCooldown, blackholeDuration);
+        currentBlackhole.SetupBlackhole(maxSize, growSpeed, shrinkSpeed, amountOfAttacks, cloneCooldown, blackholeDuration);
 
-        AudioManager.instance.PlaySFX(6, player.transform);
-        AudioManager.instance.PlaySFX(3, player.transform);
+        AudioManager.instance.PlaySFX(18, player.transform);
+        AudioManager.instance.PlaySFX(19, player.transform);
     }
 
     protected override void Start()
     {
         base.Start();
 
-        blackholeUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockBlackhole);
+        blackHoleUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockBlackhole);
     }
 
     protected override void Update()
@@ -59,24 +57,27 @@ public class BlackholeSkill : Skill
 
     public bool SkillCompleted()
     {
-        if (!currentBlackHole)
-        {
+        if (!currentBlackhole)
             return false;
-        }
 
-        if (currentBlackHole.playerCanExitState)
+        if (currentBlackhole.playerCanExitState)
         {
-            currentBlackHole = null;
+            currentBlackhole = null;
             return true;
         }
 
         return false;
     }
 
-    public float GetBlackHoleRadius() => maxSize / 2;
+    public float GetBlackholeRadius()
+    {
+        return maxSize / 2;
+    }
 
     protected override void CheckUnlock()
     {
+        base.CheckUnlock();
+
         UnlockBlackhole();
     }
 }

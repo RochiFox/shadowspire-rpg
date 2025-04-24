@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
 public class ArcherIdleState : ArcherGroundedState
@@ -7,7 +6,6 @@ public class ArcherIdleState : ArcherGroundedState
     public ArcherIdleState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyArcher _enemy) : base(_enemyBase, _stateMachine, _animBoolName, _enemy)
     {
     }
-
     public override void Enter()
     {
         base.Enter();
@@ -19,7 +17,7 @@ public class ArcherIdleState : ArcherGroundedState
     {
         base.Exit();
 
-        AudioManager.instance.PlaySFX(24, enemy.transform);
+        AudioManager.instance.PlaySFX(14, enemy.transform);
     }
 
     public override void Update()
@@ -27,9 +25,6 @@ public class ArcherIdleState : ArcherGroundedState
         base.Update();
 
         if (stateTimer < 0)
-        {
             stateMachine.ChangeState(enemy.moveState);
-        }
     }
-
 }

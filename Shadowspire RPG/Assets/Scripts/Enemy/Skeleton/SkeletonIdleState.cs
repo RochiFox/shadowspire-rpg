@@ -19,7 +19,7 @@ public class SkeletonIdleState : SkeletonGroundedState
     {
         base.Exit();
 
-        AudioManager.instance.PlaySFX(24, enemy.transform);
+        AudioManager.instance.PlaySFX(14, enemy.transform);
     }
 
     public override void Update()
@@ -27,8 +27,6 @@ public class SkeletonIdleState : SkeletonGroundedState
         base.Update();
 
         if (stateTimer < 0)
-        {
             stateMachine.ChangeState(enemy.moveState);
-        }
     }
 }

@@ -5,22 +5,22 @@ public class Player : Entity
 {
     [Header("Attack details")]
     public Vector2[] attackMovement;
-    public float counterAttackDuration = 0.2f;
+    public float counterAttackDuration = .2f;
 
     public bool isBusy { get; private set; }
 
     [Header("Move info")]
-    public float moveSpeed = 10f;
-    public float jumpForce = 12f;
-    public float swordReturnImpact = 7f;
+    public float moveSpeed = 12f;
+    public float jumpForce;
+    public float swordReturnImpact;
     private float defaultMoveSpeed;
     private float defaultJumpForce;
 
     [Header("Dash info")]
-    public float dashSpeed = 25f;
-    public float dashDuration = 0.2f;
-    public float dashDirection { get; private set; }
+    public float dashSpeed;
+    public float dashDuration;
     private float defaultDashSpeed;
+    public float dashDir { get; private set; }
 
     public SkillManager skill { get; private set; }
     public GameObject sword { get; private set; }
@@ -32,46 +32,38 @@ public class Player : Entity
     public PlayerMoveState moveState { get; private set; }
     public PlayerJumpState jumpState { get; private set; }
     public PlayerAirState airState { get; private set; }
+    public PlayerWallSlideState wallSlide { get; private set; }
+    public PlayerWallJumpState wallJump { get; private set; }
     public PlayerDashState dashState { get; private set; }
-    public PlayerWallSlideState wallSlideState { get; private set; }
-    public PlayerWallJumpState wallJumpState { get; private set; }
-
-    public PlayerPrimaryAttackState primaryAttackState { get; private set; }
-    public PlayerCounterAttackState counterAttackState { get; private set; }
-
-    public PlayerAimSwordState aimSwordState { get; private set; }
-    public PlayerCatchSwordState catchSwordState { get; private set; }
-
-    public PlayerBlackholeState blackholeState { get; private set; }
-
-    public PlayerDeadState deathState { get; private set; }
+    public PlayerPrimaryAttackState primaryAttack { get; private set; }
+    public PlayerCounterAttackState counterAttack { get; private set; }
+    public PlayerAimSwordState aimSowrd { get; private set; }
+    public PlayerCatchSwordState catchSword { get; private set; }
+    public PlayerBlackholeState blackHole { get; private set; }
+    public PlayerDeadState deadState { get; private set; }
     #endregion
 
     protected override void Awake()
     {
         base.Awake();
-
         stateMachine = new PlayerStateMachine();
 
         idleState = new PlayerIdleState(this, stateMachine, "Idle");
         moveState = new PlayerMoveState(this, stateMachine, "Move");
-
         jumpState = new PlayerJumpState(this, stateMachine, "Jump");
         airState = new PlayerAirState(this, stateMachine, "Jump");
-
         dashState = new PlayerDashState(this, stateMachine, "Dash");
-        wallSlideState = new PlayerWallSlideState(this, stateMachine, "WallSlide");
-        wallJumpState = new PlayerWallJumpState(this, stateMachine, "Jump");
+        wallSlide = new PlayerWallSlideState(this, stateMachine, "WallSlide");
+        wallJump = new PlayerWallJumpState(this, stateMachine, "Jump");
 
-        primaryAttackState = new PlayerPrimaryAttackState(this, stateMachine, "Attack");
-        counterAttackState = new PlayerCounterAttackState(this, stateMachine, "CounterAttack");
+        primaryAttack = new PlayerPrimaryAttackState(this, stateMachine, "Attack");
+        counterAttack = new PlayerCounterAttackState(this, stateMachine, "CounterAttack");
 
-        aimSwordState = new PlayerAimSwordState(this, stateMachine, "AimSword");
-        catchSwordState = new PlayerCatchSwordState(this, stateMachine, "CatchSword");
+        aimSowrd = new PlayerAimSwordState(this, stateMachine, "AimSword");
+        catchSword = new PlayerCatchSwordState(this, stateMachine, "CatchSword");
+        blackHole = new PlayerBlackholeState(this, stateMachine, "Jump");
 
-        blackholeState = new PlayerBlackholeState(this, stateMachine, "Jump");
-
-        deathState = new PlayerDeadState(this, stateMachine, "Die");
+        deadState = new PlayerDeadState(this, stateMachine, "Die");
     }
 
     protected override void Start()
@@ -79,6 +71,7 @@ public class Player : Entity
         base.Start();
 
         fx = GetComponent<PlayerFX>();
+
         skill = SkillManager.instance;
 
         stateMachine.Initialize(idleState);
@@ -91,9 +84,7 @@ public class Player : Entity
     protected override void Update()
     {
         if (Time.timeScale == 0)
-        {
             return;
-        }
 
         base.Update();
 
@@ -102,22 +93,18 @@ public class Player : Entity
         CheckForDashInput();
 
         if (Input.GetKeyDown(KeyCode.F) && skill.crystal.crystalUnlocked)
-        {
             skill.crystal.CanUseSkill();
-        }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
             Inventory.instance.UseFlask();
-        }
     }
 
     public override void SlowEntityBy(float _slowPercentage, float _slowDuration)
     {
-        moveSpeed *= (1 - _slowPercentage);
-        jumpForce *= (1 - _slowPercentage);
-        dashSpeed *= (1 - _slowPercentage);
-        anim.speed *= (1 - _slowPercentage);
+        moveSpeed = moveSpeed * (1 - _slowPercentage);
+        jumpForce = jumpForce * (1 - _slowPercentage);
+        dashSpeed = dashSpeed * (1 - _slowPercentage);
+        anim.speed = anim.speed * (1 - _slowPercentage);
 
         Invoke("ReturnDefaultSpeed", _slowDuration);
     }
@@ -131,15 +118,14 @@ public class Player : Entity
         dashSpeed = defaultDashSpeed;
     }
 
-    public void AssignNewSword(GameObject newSword)
+    public void AssignNewSword(GameObject _newSword)
     {
-        sword = newSword;
+        sword = _newSword;
     }
 
     public void CatchTheSword()
     {
-        stateMachine.ChangeState(catchSwordState);
-
+        stateMachine.ChangeState(catchSword);
         Destroy(sword);
     }
 
@@ -148,7 +134,6 @@ public class Player : Entity
         isBusy = true;
 
         yield return new WaitForSeconds(_seconds);
-
         isBusy = false;
     }
 
@@ -157,24 +142,17 @@ public class Player : Entity
     private void CheckForDashInput()
     {
         if (IsWallDetected())
-        {
             return;
-        }
 
         if (skill.dash.dashUnlocked == false)
-        {
             return;
-        }
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && SkillManager.instance.dash.CanUseSkill())
         {
+            dashDir = Input.GetAxisRaw("Horizontal");
 
-            dashDirection = Input.GetAxisRaw("Horizontal");
-
-            if (dashDirection == 0)
-            {
-                dashDirection = facingDirection;
-            }
+            if (dashDir == 0)
+                dashDir = facingDir;
 
             stateMachine.ChangeState(dashState);
         }
@@ -184,7 +162,7 @@ public class Player : Entity
     {
         base.Die();
 
-        stateMachine.ChangeState(deathState);
+        stateMachine.ChangeState(deadState);
     }
 
     protected override void SetupZeroKnockbackPower()

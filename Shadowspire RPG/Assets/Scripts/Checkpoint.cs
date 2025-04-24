@@ -8,18 +8,18 @@ public class Checkpoint : MonoBehaviour
     public string id;
     public bool activationStatus;
 
-    private void Awake()
+    private void Start()
     {
         anim = GetComponent<Animator>();
     }
 
-    [ContextMenu("Generate Checkpoint ID")]
+    [ContextMenu("Generate checkpoint id")]
     private void GenerateId()
     {
         id = System.Guid.NewGuid().ToString();
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.GetComponent<Player>() != null)
         {
@@ -30,9 +30,7 @@ public class Checkpoint : MonoBehaviour
     public void ActivateCheckpoint()
     {
         if (activationStatus == false)
-        {
-            AudioManager.instance.PlaySFX(5, transform);
-        }
+            AudioManager.instance.PlaySFX(4, transform);
 
         activationStatus = true;
         anim.SetBool("active", true);

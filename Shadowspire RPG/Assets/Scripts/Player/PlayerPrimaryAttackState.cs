@@ -7,7 +7,7 @@ public class PlayerPrimaryAttackState : PlayerState
     public int comboCounter { get; private set; }
 
     private float lastTimeAttacked;
-    private float comboWindow = 2f;
+    private float comboWindow = 2;
 
     public PlayerPrimaryAttackState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
     {
@@ -17,31 +17,30 @@ public class PlayerPrimaryAttackState : PlayerState
     {
         base.Enter();
 
+        // AudioManager.instance.PlaySFX(2); // attack sound effect
+
         xInput = 0;
 
         if (comboCounter > 2 || Time.time >= lastTimeAttacked + comboWindow)
-        {
             comboCounter = 0;
-        }
 
         player.anim.SetInteger("ComboCounter", comboCounter);
 
-        float attackDirection = player.facingDirection;
+        float attackDir = player.facingDir;
+
         if (xInput != 0)
-        {
-            attackDirection = xInput;
-        }
+            attackDir = xInput;
 
-        player.SetVelocity(player.attackMovement[comboCounter].x * attackDirection, player.attackMovement[comboCounter].y);
+        player.SetVelocity(player.attackMovement[comboCounter].x * attackDir, player.attackMovement[comboCounter].y);
 
-        stateTimer = 0.1f;
+        stateTimer = .1f;
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        player.StartCoroutine("BusyFor", 0.15f);
+        player.StartCoroutine("BusyFor", .15f);
 
         comboCounter++;
         lastTimeAttacked = Time.time;
@@ -52,13 +51,9 @@ public class PlayerPrimaryAttackState : PlayerState
         base.Update();
 
         if (stateTimer < 0)
-        {
             player.SetZeroVelocity();
-        }
 
         if (triggerCalled)
-        {
             stateMachine.ChangeState(player.idleState);
-        }
     }
 }

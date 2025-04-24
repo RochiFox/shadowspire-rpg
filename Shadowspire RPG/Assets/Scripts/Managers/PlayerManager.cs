@@ -8,28 +8,22 @@ public class PlayerManager : MonoBehaviour, ISaveManager
     public Player player;
 
     public int currency;
-
-    void Awake()
+    private void Awake()
     {
         if (instance != null)
-        {
             Destroy(instance.gameObject);
-        }
         else
-        {
             instance = this;
-        }
     }
 
     public bool HaveEnoughMoney(int _price)
     {
         if (_price > currency)
         {
-            Debug.Log("Not enough money");
             return false;
         }
 
-        currency -= _price;
+        currency = currency - _price;
         return true;
     }
 
