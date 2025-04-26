@@ -3,34 +3,38 @@ using UnityEngine;
 
 public class ItemDrop : MonoBehaviour
 {
-    [SerializeField] private int possibleItemDrop;
-    [SerializeField] private ItemData[] possibleDrop;
-    private List<ItemData> dropList = new List<ItemData>();
+    [SerializeField] private int maxItemsToDrop;
+    [SerializeField] private ItemData[] itemPool;
+    private List<ItemData> possibleDrop = new List<ItemData>();
 
     [SerializeField] private GameObject dropPrefab;
 
     public virtual void GenerateDrop()
     {
-        if (possibleDrop.Length <= 0)
-            return;
-
-        for (int i = 0; i < possibleDrop.Length; i++)
+        if (itemPool.Length == 0)
         {
-            if (Random.Range(0, 100) <= possibleDrop[i].dropChance)
+            Debug.Log("Item Pool is empty. Enemy cannot drop items.");
+            return;
+        }
+
+        foreach (ItemData item in itemPool)
+        {
+            if (item != null && Random.Range(0, 100) < item.dropChance)
             {
-                dropList.Add(possibleDrop[i]);
+                possibleDrop.Add(item);
             }
         }
 
-        for (int i = 0; i < possibleItemDrop; i++)
+        for (int i = 0; i < maxItemsToDrop; i++)
         {
-            if (dropList.Count <= 0)
-                return;
+            if (possibleDrop.Count > 0)
+            {
+                int randomIndex = Random.Range(0, possibleDrop.Count);
+                ItemData itemToDrop = possibleDrop[randomIndex];
 
-            ItemData randomItem = dropList[Random.Range(0, dropList.Count)];
-
-            dropList.Remove(randomItem);
-            DropItem(randomItem);
+                DropItem(itemToDrop);
+                possibleDrop.Remove(itemToDrop);
+            }
         }
     }
 

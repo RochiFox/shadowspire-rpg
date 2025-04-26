@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Inventory : MonoBehaviour, ISaveManager
 {
@@ -250,33 +251,33 @@ public class Inventory : MonoBehaviour, ISaveManager
 
     public bool CanCraft(ItemDataEquipment _itemToCraft, List<InventoryItem> _requiredMaterials)
     {
-        List<InventoryItem> materialsToRemove = new List<InventoryItem>();
-
-        for (int i = 0; i < _requiredMaterials.Count; i++)
+        foreach (var requiredItem in _requiredMaterials)
         {
-            if (stashDictianory.TryGetValue(_requiredMaterials[i].data, out InventoryItem stashValue))
+            if (stashDictianory.TryGetValue(requiredItem.data, out InventoryItem stashItem))
             {
-                if (stashValue.stackSize < _requiredMaterials[i].stackSize)
+                if (stashItem.stackSize < requiredItem.stackSize)
                 {
+                    Debug.Log("Not enough materials: " + requiredItem.data.name);
                     return false;
                 }
                 else
                 {
-                    materialsToRemove.Add(stashValue);
+                    Debug.Log("Materials not found in stash: " + requiredItem.data.name);
+                    return false;
                 }
-            }
-            else
-            {
-                return false;
             }
         }
 
-        for (int i = 0; i < materialsToRemove.Count; i++)
+        foreach (var requiredMaterial in _requiredMaterials)
         {
-            RemoveItem(materialsToRemove[i].data);
+            for (int i = 0; i < requiredMaterial.stackSize; i++)
+            {
+                RemoveItem(requiredMaterial.data);
+            }
         }
 
         AddItem(_itemToCraft);
+        Debug.Log("Craft is succesfull: " + _itemToCraft.name);
 
         return true;
     }
