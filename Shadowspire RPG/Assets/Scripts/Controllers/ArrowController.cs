@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class ArrowController : MonoBehaviour
 {
+    private SpriteRenderer sr;
+
     [SerializeField] private int damage;
     [SerializeField] private string targetLayerName = "Player";
 
@@ -15,15 +16,23 @@ public class ArrowController : MonoBehaviour
     [SerializeField] private bool flipped;
 
     private CharacterStats stats;
+    private int arrowFacingDir = 1;
 
     private void Update()
     {
         if (canMove)
             rb.velocity = new Vector2(xVelocity, rb.velocity.y);
+
+        if (arrowFacingDir == 1 && rb.velocity.x < 0)
+        {
+            arrowFacingDir = -1;
+            sr.flipX = true;
+        }
     }
 
     public void SetupArrow(float _speed, CharacterStats _stats)
     {
+        sr = GetComponent<SpriteRenderer>();
         xVelocity = _speed;
         stats = _stats;
     }
