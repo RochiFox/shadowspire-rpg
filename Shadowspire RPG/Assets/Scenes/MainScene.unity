@@ -35885,7 +35885,7 @@ MonoBehaviour:
   - {fileID: 195938302}
   - {fileID: 1977431622}
   - {fileID: 447265738}
-  playBgm: 0
+  playBgm: 1
 --- !u!4 &1224825925
 Transform:
   m_ObjectHideFlags: 0
@@ -44749,6 +44749,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1fc54958788ad4b49acce7f1d0989161, type: 2}
   loadedItems: []
   loadedEquipment: []
+  player: {fileID: 1195560129}
 --- !u!4 &1447729553
 Transform:
   m_ObjectHideFlags: 0

@@ -1,10 +1,13 @@
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class Inventory : MonoBehaviour, ISaveManager
 {
+    [SerializeField] private Player player;
+
     public static Inventory instance;
 
     public List<ItemData> startingItems;
@@ -40,6 +43,7 @@ public class Inventory : MonoBehaviour, ISaveManager
     public List<ItemData> itemDataBase;
     public List<InventoryItem> loadedItems;
     public List<ItemDataEquipment> loadedEquipment;
+
     private void Awake()
     {
         if (instance == null)
@@ -303,8 +307,17 @@ public class Inventory : MonoBehaviour, ISaveManager
     {
         ItemDataEquipment currentFlask = GetEquipment(EquipmentType.Flask);
 
-        if (currentFlask == null)
+        if (player.stats.currentHealth >= player.stats.maxHealth.GetValue())
+        {
+            player.fx.CreatePopUpText("You are already at full health");
             return;
+        }
+
+        if (currentFlask == null)
+        {
+            player.fx.CreatePopUpText("You don't have flask");
+            return;
+        }
 
         bool canUseFlask = Time.time > lastTimeUsedFlask + flaskCooldown;
 
@@ -313,6 +326,18 @@ public class Inventory : MonoBehaviour, ISaveManager
             flaskCooldown = currentFlask.itemCooldown;
             currentFlask.Effect(null);
             lastTimeUsedFlask = Time.time;
+
+            UnequipItem(currentFlask);
+
+            foreach (var slot in equipmentSlot)
+            {
+                if (slot.slotType == EquipmentType.Flask)
+                {
+                    slot.CleanUpSlot();
+                }
+            }
+
+            UpdateSlotUI();
         }
         else
             Debug.Log("Flask on cooldown;");
