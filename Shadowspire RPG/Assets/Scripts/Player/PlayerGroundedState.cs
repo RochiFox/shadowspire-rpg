@@ -37,7 +37,15 @@ public class PlayerGroundedState : PlayerState
             stateMachine.ChangeState(player.aimSowrd);
 
         if (Input.GetKeyDown(KeyCode.Q) && player.skill.parry.parryUnlocked)
+        {
+            if (player.skill.parry.cooldownTimer > 0)
+            {
+                player.fx.CreatePopUpText("Cooldown!");
+                return;
+            }
+
             stateMachine.ChangeState(player.counterAttack);
+        }
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
             stateMachine.ChangeState(player.primaryAttack);

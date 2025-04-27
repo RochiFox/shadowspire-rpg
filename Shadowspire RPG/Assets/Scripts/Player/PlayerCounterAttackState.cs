@@ -40,17 +40,19 @@ public class PlayerCounterAttackState : PlayerState
 
             if (hit.GetComponent<Enemy>() != null)
             {
-                if (hit.GetComponent<Enemy>().CanBeStunned())
+                Enemy enemy = hit.GetComponent<Enemy>();
+
+                if (enemy.CanBeStunned())
                 {
                     SuccesfulCounterAttack();
-
-                    player.skill.parry.UseSkill();
 
                     if (canCreateClone)
                     {
                         canCreateClone = false;
                         player.skill.parry.MakeMirageOnParry(hit.transform);
                     }
+
+                    player.stats.DoDamage(enemy.GetComponent<CharacterStats>());
                 }
             }
         }

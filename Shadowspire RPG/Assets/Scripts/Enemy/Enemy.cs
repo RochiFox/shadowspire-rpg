@@ -33,6 +33,7 @@ public class Enemy : Entity
     public EnemyStateMachine stateMachine { get; private set; }
     public EntityFX fx { get; private set; }
     public string lastAnimBoolName { get; private set; }
+
     protected override void Awake()
     {
         base.Awake();
@@ -123,6 +124,7 @@ public class Enemy : Entity
     }
 
     public virtual void AnimationFinishTrigger() => stateMachine.currentState.AnimationFinishTrigger();
+
     public virtual void AnimationSpecialAttackTrigger()
     {
     }
