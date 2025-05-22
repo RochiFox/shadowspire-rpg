@@ -2,8 +2,10 @@
 
 public class ShadyStunnedState : EnemyState
 {
-    private EnemyShady enemy;
-    public ShadyStunnedState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyShady _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    private readonly EnemyShady enemy;
+
+    public ShadyStunnedState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyShady _enemy)
+        : base(_enemyBase, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
     }
@@ -14,9 +16,9 @@ public class ShadyStunnedState : EnemyState
 
         enemy.fx.InvokeRepeating("RedColorBlink", 0, .1f);
 
-        stateTimer = enemy.stunDuration;
+        StateTimer = enemy.stunDuration;
 
-        rb.velocity = new Vector2(-enemy.facingDir * enemy.stunDirection.x, enemy.stunDirection.y);
+        Rb.velocity = new Vector2(-enemy.facingDir * enemy.stunDirection.x, enemy.stunDirection.y);
     }
 
     public override void Exit()
@@ -30,7 +32,7 @@ public class ShadyStunnedState : EnemyState
     {
         base.Update();
 
-        if (stateTimer < 0)
-            stateMachine.ChangeState(enemy.idleState);
+        if (StateTimer < 0)
+            StateMachine.ChangeState(enemy.idleState);
     }
 }

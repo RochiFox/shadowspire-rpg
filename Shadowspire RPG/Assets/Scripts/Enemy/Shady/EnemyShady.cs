@@ -1,25 +1,23 @@
-using JetBrains.Annotations;
-using System.Collections;
-using UnityEditor;
 using UnityEngine;
 
 public class EnemyShady : Enemy
 {
-
-    [Header("Shady spesifics")]
-    public float battleStateMoveSpeed;
+    [Header("Shady specifics")] public float battleStateMoveSpeed;
 
     [SerializeField] private GameObject explosivePrefab;
     [SerializeField] private float growSpeed;
     [SerializeField] private float maxSize;
 
     #region States
+
     public ShadyIdleState idleState { get; private set; }
     public ShadyMoveState moveState { get; private set; }
-    public ShadyDeadState deadState { get; private set; }
-    public ShadyStunnedState stunnedState { get; private set; }
+    private ShadyDeadState deadState { get; set; }
+    private ShadyStunnedState stunnedState { get; set; }
     public ShadyBattleState battleState { get; private set; }
+
     #endregion
+
     protected override void Awake()
     {
         base.Awake();
@@ -29,7 +27,7 @@ public class EnemyShady : Enemy
 
         deadState = new ShadyDeadState(this, stateMachine, "Dead", this);
 
-        stunnedState = new ShadyStunnedState(this, stateMachine, "Stunned",this);
+        stunnedState = new ShadyStunnedState(this, stateMachine, "Stunned", this);
         battleState = new ShadyBattleState(this, stateMachine, "MoveFast", this);
     }
 
@@ -39,7 +37,7 @@ public class EnemyShady : Enemy
 
         stateMachine.Initialize(idleState);
     }
-    
+
     public override bool CanBeStunned()
     {
         if (base.CanBeStunned())
@@ -55,10 +53,6 @@ public class EnemyShady : Enemy
     {
         base.Die();
         stateMachine.ChangeState(deadState);
-    }
-    protected override void Update()
-    {
-        base.Update();
     }
 
     public override void AnimationSpecialAttackTrigger()

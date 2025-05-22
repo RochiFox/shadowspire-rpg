@@ -1,11 +1,13 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ArcherJumpState : EnemyState
 {
-    private EnemyArcher enemy;
+    private static readonly int YVelocity = Animator.StringToHash("yVelocity");
 
-    public ArcherJumpState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyArcher _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    private readonly EnemyArcher enemy;
+
+    public ArcherJumpState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyArcher _enemy)
+        : base(_enemyBase, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
     }
@@ -14,21 +16,16 @@ public class ArcherJumpState : EnemyState
     {
         base.Enter();
 
-        rb.velocity = new Vector2(enemy.jumpVelocity.x * -enemy.facingDir, enemy.jumpVelocity.y);
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
+        Rb.velocity = new Vector2(enemy.jumpVelocity.x * -enemy.facingDir, enemy.jumpVelocity.y);
     }
 
     public override void Update()
     {
         base.Update();
 
-        enemy.anim.SetFloat("yVelocity", rb.velocity.y);
+        enemy.anim.SetFloat(YVelocity, Rb.velocity.y);
 
-        if (rb.velocity.y < 0 && enemy.IsGroundDetected())
-            stateMachine.ChangeState(enemy.battleState);
+        if (Rb.velocity.y < 0 && enemy.IsGroundDetected())
+            StateMachine.ChangeState(enemy.battleState);
     }
 }

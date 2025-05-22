@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAimSwordState : PlayerState
 {
-    public PlayerAimSwordState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public PlayerAimSwordState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player,
+        _stateMachine, _animBoolName)
     {
     }
 
@@ -12,30 +11,29 @@ public class PlayerAimSwordState : PlayerState
     {
         base.Enter();
 
-        player.skill.sword.DotsActive(true);
+        Player.skill.sword.DotsActive(true);
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        player.StartCoroutine("BusyFor", .2f);
+        Player.StartCoroutine(nameof(global::Player.BusyFor), .2f);
     }
 
     public override void Update()
     {
         base.Update();
 
-        player.SetZeroVelocity();
+        Player.SetZeroVelocity();
 
         if (Input.GetKeyUp(KeyCode.Mouse1))
-            stateMachine.ChangeState(player.idleState);
+            StateMachine.ChangeState(Player.idleState);
 
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (player.transform.position.x > mousePosition.x && player.facingDir == 1)
-            player.Flip();
-        else if(player.transform.position.x < mousePosition.x && player.facingDir == -1)
-            player.Flip();
+        if (Player.transform.position.x > mousePosition.x && Player.facingDir == 1 ||
+            Player.transform.position.x < mousePosition.x && Player.facingDir == -1)
+            Player.Flip();
     }
 }

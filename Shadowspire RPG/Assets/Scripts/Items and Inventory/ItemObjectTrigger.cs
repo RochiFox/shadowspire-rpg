@@ -1,16 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemObject_Trigger : MonoBehaviour
+public class ItemObjectTrigger : MonoBehaviour
 {
     private ItemObject myItemObject => GetComponentInParent<ItemObject>();
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D _collision)
     {
-        if (collision.GetComponent<Player>() != null)
+        if (_collision.GetComponent<Player>())
         {
-            if (collision.GetComponent<CharacterStats>().isDead)
+            if (_collision.GetComponent<CharacterStats>().isDead)
                 return;
 
             myItemObject.PickupItem();

@@ -1,51 +1,55 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CloneSkill : Skill
 {
-    [Header("Clone info")]
-    [SerializeField] private float attackMultiplier;
+    [Header("Clone info")] [SerializeField]
+    private float attackMultiplier;
+
     [SerializeField] private GameObject clonePrefab;
     [SerializeField] private float cloneDuration;
-    [Space]
 
-    [Header("Clone attack")]
-    [SerializeField] private SkillTreeSlotUI cloneAttackUnlockButton;
+    [Space] [Header("Clone attack")] [SerializeField]
+    private SkillTreeSlotUI cloneAttackUnlockButton;
+
     [SerializeField] private float cloneAttackMultiplier;
     [SerializeField] private bool canAttack;
 
-    [Header("Aggresive clone")]
-    [SerializeField] private SkillTreeSlotUI aggresiveCloneUnlockButton;
-    [SerializeField] private float aggresiveCloneAttackMultiplier;
+    [Header("Aggressive clone")] [SerializeField]
+    private SkillTreeSlotUI aggressiveCloneUnlockButton;
+
+    [SerializeField] private float aggressiveCloneAttackMultiplier;
     public bool canApplyOnHitEffect { get; private set; }
 
-    [Header("Multiple clone")]
-    [SerializeField] private SkillTreeSlotUI multipleUnlockButton;
+    [Header("Multiple clone")] [SerializeField]
+    private SkillTreeSlotUI multipleUnlockButton;
+
     [SerializeField] private float multiCloneAttackMultiplier;
     [SerializeField] private bool canDuplicateClone;
     [SerializeField] private float chanceToDuplicate;
 
-    [Header("Crystal instead of clone")]
-    [SerializeField] private SkillTreeSlotUI crystalInseadUnlockButton;
-    public bool crystalInseadOfClone;
+    [Header("Crystal instead of clone")] [SerializeField]
+    private SkillTreeSlotUI crystalInsteadUnlockButton;
+
+    public bool crystalInsteadOfClone;
 
     protected override void Start()
     {
         base.Start();
 
         cloneAttackUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCloneAttack);
-        aggresiveCloneUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockAggresiveClone);
+        aggressiveCloneUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockAggressiveClone);
         multipleUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockMultiClone);
-        crystalInseadUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCrystalInstead);
+        crystalInsteadUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockCrystalInstead);
     }
 
     #region Unlock region
+
     protected override void CheckUnlock()
     {
         UnlockCloneAttack();
-        UnlockAggresiveClone();
+        UnlockAggressiveClone();
         UnlockMultiClone();
         UnlockCrystalInstead();
     }
@@ -59,12 +63,12 @@ public class CloneSkill : Skill
         }
     }
 
-    private void UnlockAggresiveClone()
+    private void UnlockAggressiveClone()
     {
-        if (aggresiveCloneUnlockButton.unlocked)
+        if (aggressiveCloneUnlockButton.unlocked)
         {
             canApplyOnHitEffect = true;
-            attackMultiplier = aggresiveCloneAttackMultiplier;
+            attackMultiplier = aggressiveCloneAttackMultiplier;
         }
     }
 
@@ -79,16 +83,17 @@ public class CloneSkill : Skill
 
     private void UnlockCrystalInstead()
     {
-        if (crystalInseadUnlockButton.unlocked)
+        if (crystalInsteadUnlockButton.unlocked)
         {
-            crystalInseadOfClone = true;
+            crystalInsteadOfClone = true;
         }
     }
+
     #endregion
 
     public void CreateClone(Transform _clonePosition, Vector3 _offset)
     {
-        if (crystalInseadOfClone)
+        if (crystalInsteadOfClone)
         {
             SkillManager.instance.crystal.CreateCrystal();
             return;
@@ -96,18 +101,18 @@ public class CloneSkill : Skill
 
         GameObject newClone = Instantiate(clonePrefab);
 
-        newClone.GetComponent<CloneSkillController>().
-            SetupClone(_clonePosition, cloneDuration, canAttack, _offset, canDuplicateClone, chanceToDuplicate, player, attackMultiplier);
+        newClone.GetComponent<CloneSkillController>().SetupClone(_clonePosition, cloneDuration, canAttack, _offset,
+            canDuplicateClone, chanceToDuplicate, Player, attackMultiplier);
     }
 
     public void CreateCloneWithDelay(Transform _enemyTransform)
     {
-        StartCoroutine(CloneDelayCorotine(_enemyTransform, new Vector3(2 * player.facingDir, 0)));
+        StartCoroutine(CloneDelayCoroutine(_enemyTransform, new Vector3(2 * Player.facingDir, 0)));
     }
 
-    private IEnumerator CloneDelayCorotine(Transform _trasnform, Vector3 _offset)
+    private IEnumerator CloneDelayCoroutine(Transform _transform, Vector3 _offset)
     {
         yield return new WaitForSeconds(.4f);
-        CreateClone(_trasnform, _offset);
+        CreateClone(_transform, _offset);
     }
 }

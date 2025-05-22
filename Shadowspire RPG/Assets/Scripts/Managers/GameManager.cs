@@ -12,8 +12,9 @@ public class GameManager : MonoBehaviour, ISaveManager
     [SerializeField] private Checkpoint[] checkpoints;
     [SerializeField] private string closestCheckpointId;
 
-    [Header("Lost currency")]
-    [SerializeField] private GameObject lostCurrencyPrefab;
+    [Header("Lost currency")] [SerializeField]
+    private GameObject lostCurrencyPrefab;
+
     public int lostCurrencyAmount;
     [SerializeField] private float lostCurrencyX;
     [SerializeField] private float lostCurrencyY;
@@ -21,7 +22,7 @@ public class GameManager : MonoBehaviour, ISaveManager
 
     private void Awake()
     {
-        if (instance != null)
+        if (instance)
             Destroy(instance.gameObject);
         else
             instance = this;
@@ -34,7 +35,7 @@ public class GameManager : MonoBehaviour, ISaveManager
         player = PlayerManager.instance.player.transform;
     }
 
-    public void RestartScene()
+    public static void RestartScene()
     {
         SaveManager.instance.SaveGame();
         Scene scene = SceneManager.GetActiveScene();
@@ -49,7 +50,7 @@ public class GameManager : MonoBehaviour, ISaveManager
         {
             foreach (Checkpoint checkpoint in checkpoints)
             {
-                if (checkpoint.id == pair.Key && pair.Value == true)
+                if (checkpoint.id == pair.Key && pair.Value)
                     checkpoint.ActivateCheckpoint();
             }
         }
@@ -63,7 +64,8 @@ public class GameManager : MonoBehaviour, ISaveManager
 
         if (lostCurrencyAmount > 0)
         {
-            GameObject newLostCurrency = Instantiate(lostCurrencyPrefab, new Vector3(lostCurrencyX, lostCurrencyY), Quaternion.identity);
+            GameObject newLostCurrency = Instantiate(lostCurrencyPrefab, new Vector3(lostCurrencyX, lostCurrencyY),
+                Quaternion.identity);
             newLostCurrency.GetComponent<LostCurrencyController>().currency = lostCurrencyAmount;
         }
 
@@ -85,7 +87,7 @@ public class GameManager : MonoBehaviour, ISaveManager
         _data.lostCurrencyX = player.position.x;
         _data.lostCurrencyY = player.position.y;
 
-        if (FindClosestCheckpoint() != null)
+        if (FindClosestCheckpoint())
             _data.closestCheckpointId = FindClosestCheckpoint().id;
 
         _data.checkpoints.Clear();
@@ -95,6 +97,7 @@ public class GameManager : MonoBehaviour, ISaveManager
             _data.checkpoints.Add(checkpoint.id, checkpoint.activationStatus);
         }
     }
+
     private void LoadClosestCheckpoint(GameData _data)
     {
         if (_data.closestCheckpointId == null)
@@ -114,11 +117,11 @@ public class GameManager : MonoBehaviour, ISaveManager
         float closestDistance = Mathf.Infinity;
         Checkpoint closestCheckpoint = null;
 
-        foreach (var checkpoint in checkpoints)
+        foreach (Checkpoint checkpoint in checkpoints)
         {
             float distanceToCheckpoint = Vector2.Distance(player.position, checkpoint.transform.position);
 
-            if (distanceToCheckpoint < closestDistance && checkpoint.activationStatus == true)
+            if (distanceToCheckpoint < closestDistance && checkpoint.activationStatus)
             {
                 closestDistance = distanceToCheckpoint;
                 closestCheckpoint = checkpoint;
@@ -128,11 +131,8 @@ public class GameManager : MonoBehaviour, ISaveManager
         return closestCheckpoint;
     }
 
-    public void PauseGame(bool _pause)
+    public static void PauseGame(bool _pause)
     {
-        if (_pause)
-            Time.timeScale = 0;
-        else
-            Time.timeScale = 1;
+        Time.timeScale = _pause ? 0 : 1;
     }
 }

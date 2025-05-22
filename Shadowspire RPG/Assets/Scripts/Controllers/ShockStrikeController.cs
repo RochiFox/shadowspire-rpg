@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ShockStrikeController : MonoBehaviour
 {
+    private static readonly int Hit = Animator.StringToHash("Hit");
+
     [SerializeField] private CharacterStats targetStats;
     [SerializeField] private float speed;
     private int damage;
@@ -11,7 +11,7 @@ public class ShockStrikeController : MonoBehaviour
     private Animator anim;
     private bool triggered;
 
-    void Start()
+    private void Start()
     {
         anim = GetComponentInChildren<Animator>();
     }
@@ -30,7 +30,8 @@ public class ShockStrikeController : MonoBehaviour
         if (triggered)
             return;
 
-        transform.position = Vector2.MoveTowards(transform.position, targetStats.transform.position, speed * Time.deltaTime);
+        transform.position =
+            Vector2.MoveTowards(transform.position, targetStats.transform.position, speed * Time.deltaTime);
         transform.right = transform.position - targetStats.transform.position;
 
         if (Vector2.Distance(transform.position, targetStats.transform.position) < .1f)
@@ -41,9 +42,9 @@ public class ShockStrikeController : MonoBehaviour
             transform.localRotation = Quaternion.identity;
             transform.localScale = new Vector3(3, 3);
 
-            Invoke("DamageAndSelfDestroy", .2f);
+            Invoke(nameof(DamageAndSelfDestroy), .2f);
             triggered = true;
-            anim.SetTrigger("Hit");
+            anim.SetTrigger(Hit);
         }
     }
 

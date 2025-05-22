@@ -2,7 +2,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class InGameUI : MonoBehaviour
 {
     [SerializeField] private PlayerStats playerStats;
@@ -17,20 +16,21 @@ public class InGameUI : MonoBehaviour
 
     private SkillManager skills;
 
-    [Header("Souls info")]
-    [SerializeField] private TextMeshProUGUI currentSouls;
+    [Header("Souls info")] [SerializeField]
+    private TextMeshProUGUI currentSouls;
+
     [SerializeField] private float soulsAmount;
     [SerializeField] private float increaseRate = 100;
 
-    void Start()
+    private void Start()
     {
-        if (playerStats != null)
-            playerStats.onHealthChanged += UpdateHealthUI;
+        if (playerStats)
+            playerStats.OnHealthChanged += UpdateHealthUI;
 
         skills = SkillManager.instance;
     }
 
-    void Update()
+    private void Update()
     {
         UpdateSoulsUI();
 
@@ -50,7 +50,7 @@ public class InGameUI : MonoBehaviour
             SetCooldownOf(blackholeImage);
 
 
-        if (Input.GetKeyDown(KeyCode.Alpha1) && Inventory.instance.GetEquipment(EquipmentType.Flask) != null)
+        if (Input.GetKeyDown(KeyCode.Alpha1) && Inventory.instance.GetEquipment(EquipmentType.Flask))
             SetCooldownOf(flaskImage);
 
         CheckCooldownOf(dashImage, skills.dash.cooldown);
@@ -77,13 +77,13 @@ public class InGameUI : MonoBehaviour
         slider.value = playerStats.currentHealth;
     }
 
-    private void SetCooldownOf(Image _image)
+    private static void SetCooldownOf(Image _image)
     {
         if (_image.fillAmount <= 0)
             _image.fillAmount = 1;
     }
 
-    private void CheckCooldownOf(Image _image, float _cooldown)
+    private static void CheckCooldownOf(Image _image, float _cooldown)
     {
         if (_image.fillAmount > 0)
             _image.fillAmount -= 1 / _cooldown * Time.deltaTime;

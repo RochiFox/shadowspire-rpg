@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemObject : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private ItemData itemData;
+
     private void SetupVisuals()
     {
-        if (itemData == null)
+        if (!itemData)
             return;
 
         GetComponent<SpriteRenderer>().sprite = itemData.itemIcon;
@@ -32,7 +31,7 @@ public class ItemObject : MonoBehaviour
             return;
         }
 
-        AudioManager.instance.PlaySFX(9, transform);
+        AudioManager.instance.PlaySfx(9, transform);
         Inventory.instance.AddItem(itemData);
         Destroy(gameObject);
     }

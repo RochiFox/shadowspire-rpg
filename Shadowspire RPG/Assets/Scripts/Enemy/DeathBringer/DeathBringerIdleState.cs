@@ -1,28 +1,22 @@
-﻿using System.Collections;
-using UnityEngine;
-
+﻿using UnityEngine;
 
 public class DeathBringerIdleState : EnemyState
 {
-    private EnemyDeathBringer enemy;
+    private readonly EnemyDeathBringer enemy;
     private Transform player;
 
-    public DeathBringerIdleState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyDeathBringer enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public DeathBringerIdleState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName,
+        EnemyDeathBringer _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
-        this.enemy = enemy;
+        this.enemy = _enemy;
     }
 
     public override void Enter()
     {
         base.Enter();
 
-        stateTimer = enemy.idleTime;
+        StateTimer = enemy.idleTime;
         player = PlayerManager.instance.player.transform;
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
     }
 
     public override void Update()
@@ -33,9 +27,9 @@ public class DeathBringerIdleState : EnemyState
             enemy.bossFightBegun = true;
 
         if (Input.GetKeyDown(KeyCode.V))
-            stateMachine.ChangeState(enemy.teleportState);
+            StateMachine.ChangeState(enemy.teleportState);
 
-        if (stateTimer < 0 && enemy.bossFightBegun)
-            stateMachine.ChangeState(enemy.battleState);
+        if (StateTimer < 0 && enemy.bossFightBegun)
+            StateMachine.ChangeState(enemy.battleState);
     }
 }

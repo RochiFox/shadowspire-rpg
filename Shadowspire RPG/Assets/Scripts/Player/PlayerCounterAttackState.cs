@@ -2,9 +2,14 @@ using UnityEngine;
 
 public class PlayerCounterAttackState : PlayerState
 {
+    private static readonly int SuccessfulCounterAttack = Animator.StringToHash("SuccessfulCounterAttack");
+
     private bool canCreateClone;
 
-    public PlayerCounterAttackState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    private readonly Collider2D[] arrowResult = new Collider2D[5];
+
+    public PlayerCounterAttackState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(
+        _player, _stateMachine, _animBoolName)
     {
     }
 
@@ -13,57 +18,54 @@ public class PlayerCounterAttackState : PlayerState
         base.Enter();
 
         canCreateClone = true;
-        stateTimer = player.counterAttackDuration;
-        player.anim.SetBool("SuccessfulCounterAttack", false);
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
+        StateTimer = Player.counterAttackDuration;
+        Player.anim.SetBool(SuccessfulCounterAttack, false);
     }
 
     public override void Update()
     {
         base.Update();
 
-        player.SetZeroVelocity();
+        Player.SetZeroVelocity();
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(player.attackCheck.position, player.attackCheckRadius);
+        int size = Physics2D.OverlapCircleNonAlloc(Player.attackCheck.position, Player.attackCheckRadius, arrowResult);
 
-        foreach (var hit in colliders)
+        for (int i = 0; i < size; i++)
         {
-            if (hit.GetComponent<ArrowController>() != null)
+            Collider2D hit = arrowResult[i];
+
+            if (hit.GetComponent<ArrowController>())
             {
                 hit.GetComponent<ArrowController>().FlipArrow();
-                SuccesfulCounterAttack();
+                CounterAttack();
             }
 
-            if (hit.GetComponent<Enemy>() != null)
+            if (hit.GetComponent<Enemy>())
             {
                 Enemy enemy = hit.GetComponent<Enemy>();
 
                 if (enemy.CanBeStunned())
                 {
-                    SuccesfulCounterAttack();
+                    CounterAttack();
 
                     if (canCreateClone)
                     {
                         canCreateClone = false;
-                        player.skill.parry.MakeMirageOnParry(hit.transform);
+                        Player.skill.parry.MakeMirageOnParry(hit.transform);
                     }
 
-                    player.stats.DoDamage(enemy.GetComponent<CharacterStats>());
+                    Player.stats.DoDamage(enemy.GetComponent<CharacterStats>());
                 }
             }
         }
 
-        if (stateTimer < 0 || triggerCalled)
-            stateMachine.ChangeState(player.idleState);
+        if (StateTimer < 0 || TriggerCalled)
+            StateMachine.ChangeState(Player.idleState);
     }
 
-    private void SuccesfulCounterAttack()
+    private void CounterAttack()
     {
-        stateTimer = 10; // any value bigger than 1
-        player.anim.SetBool("SuccessfulCounterAttack", true);
+        StateTimer = 10; // any value bigger than 1
+        Player.anim.SetBool(SuccessfulCounterAttack, true);
     }
 }

@@ -1,16 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class EnemySkeleton : Enemy
 {
     #region States
+
     public SkeletonIdleState idleState { get; private set; }
     public SkeletonMoveState moveState { get; private set; }
     public SkeletonBattleState battleState { get; private set; }
     public SkeletonAttackState attackState { get; private set; }
-    public SkeletonStunnedState stunnedState { get; private set; }
-    public SkeletonDeadState deadState { get; private set; }
+    private SkeletonStunnedState stunnedState { get; set; }
+    private SkeletonDeadState deadState { get; set; }
+
     #endregion
 
     protected override void Awake()
@@ -40,11 +38,6 @@ public class EnemySkeleton : Enemy
         }
 
         return false;
-    }
-
-    protected override void Update()
-    {
-        base.Update();
     }
 
     public override void Die()

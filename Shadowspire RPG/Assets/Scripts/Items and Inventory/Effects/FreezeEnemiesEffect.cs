@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-
-[CreateAssetMenu(fileName = "Freeze enemeis effect", menuName = "Data/Item effect/Freeze enemies")]
+[CreateAssetMenu(fileName = "Freeze enemies effect", menuName = "Data/Item effect/Freeze enemies")]
 public class FreezeEnemiesEffect : ItemEffect
 {
     [SerializeField] private float duration;
 
+    private readonly Collider2D[] effectsResult = new Collider2D[10];
 
     public override void ExecuteEffect(Transform _transform)
     {
@@ -19,10 +17,12 @@ public class FreezeEnemiesEffect : ItemEffect
         if (!Inventory.instance.CanUseArmor())
             return;
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(_transform.position, 2);
+        int size = Physics2D.OverlapCircleNonAlloc(_transform.position, 2, effectsResult);
 
-        foreach (var hit in colliders)
+        for (int i = 0; i < size; i++)
         {
+            Collider2D hit = effectsResult[i];
+
             hit.GetComponent<Enemy>()?.FreezeTimeFor(duration);
         }
     }

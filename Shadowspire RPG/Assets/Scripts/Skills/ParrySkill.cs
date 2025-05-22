@@ -1,33 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ParrySkill : Skill
 {
-    [Header("Parry")]
-    [SerializeField] private SkillTreeSlotUI parryUnlockButton;
+    [Header("Parry")] [SerializeField] private SkillTreeSlotUI parryUnlockButton;
     public bool parryUnlocked { get; private set; }
 
-    [Header("Parry restore")]
-    [SerializeField] private SkillTreeSlotUI restoreUnlockButton;
-    [Range(0f, 1f)]
-    [SerializeField] private float restoreHealthPerentage;
-    public bool restoreUnlocked { get; private set; }
+    [Header("Parry restore")] [SerializeField]
+    private SkillTreeSlotUI restoreUnlockButton;
 
-    [Header("Parry with mirage")]
-    [SerializeField] private SkillTreeSlotUI parryWithMirageUnlockButton;
-    public bool parryWithMirageUnlocked { get; private set; }
+    [Range(0f, 1f)] [SerializeField] private float restoreHealthPercentage;
+    private bool restoreUnlocked { get; set; }
 
-    public override void UseSkill()
+    [Header("Parry with mirage")] [SerializeField]
+    private SkillTreeSlotUI parryWithMirageUnlockButton;
+
+    private bool parryWithMirageUnlocked { get; set; }
+
+    protected override void UseSkill()
     {
         base.UseSkill();
 
         if (restoreUnlocked)
         {
-            int restoreAmount = Mathf.RoundToInt(player.stats.GetMaxHealthValue() * restoreHealthPerentage);
-            player.stats.IncreaseHealthBy(restoreAmount);
+            int restoreAmount = Mathf.RoundToInt(Player.stats.GetMaxHealthValue() * restoreHealthPercentage);
+            Player.stats.IncreaseHealthBy(restoreAmount);
         }
     }
 
@@ -46,6 +43,7 @@ public class ParrySkill : Skill
         UnlockParryRestore();
         UnlockParryWithMirage();
     }
+
     private void UnlockParry()
     {
         if (parryUnlockButton.unlocked)

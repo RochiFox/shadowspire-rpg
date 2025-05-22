@@ -19,10 +19,9 @@ public class ItemData : ScriptableObject
     public Sprite itemIcon;
     public string itemId;
 
-    [Range(0, 100)]
-    public float dropChance;
+    [Range(0, 100)] public float dropChance;
 
-    protected StringBuilder sb = new StringBuilder();
+    protected readonly StringBuilder Sb = new StringBuilder();
 
     private void OnValidate()
     {

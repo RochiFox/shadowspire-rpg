@@ -5,7 +5,7 @@ public class ItemDrop : MonoBehaviour
 {
     [SerializeField] private int maxItemsToDrop;
     [SerializeField] private ItemData[] itemPool;
-    private List<ItemData> possibleDrop = new List<ItemData>();
+    private readonly List<ItemData> possibleDrop = new List<ItemData>();
 
     [SerializeField] private GameObject dropPrefab;
 
@@ -19,7 +19,7 @@ public class ItemDrop : MonoBehaviour
 
         foreach (ItemData item in itemPool)
         {
-            if (item != null && Random.Range(0, 100) < item.dropChance)
+            if (item && Random.Range(0, 100) < item.dropChance)
             {
                 possibleDrop.Add(item);
             }

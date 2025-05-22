@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class PlayerDashState : PlayerState
 {
-    public PlayerDashState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public PlayerDashState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player,
+        _stateMachine, _animBoolName)
     {
     }
 
@@ -12,34 +9,34 @@ public class PlayerDashState : PlayerState
     {
         base.Enter();
 
-        player.skill.dash.CloneOnDash();
-        stateTimer = player.dashDuration;
+        Player.skill.dash.CloneOnDash();
+        StateTimer = Player.dashDuration;
 
-        player.stats.MakeInvincible(true);
+        Player.stats.MakeInvincible(true);
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        player.skill.dash.CloneOnArrival();
-        player.SetVelocity(0, rb.velocity.y);
+        Player.skill.dash.CloneOnArrival();
+        Player.SetVelocity(0, Rb.velocity.y);
 
-        player.stats.MakeInvincible(false);
+        Player.stats.MakeInvincible(false);
     }
 
     public override void Update()
     {
         base.Update();
 
-        if (!player.IsGroundDetected() && player.IsWallDetected())
-            stateMachine.ChangeState(player.wallSlide);
+        if (!Player.IsGroundDetected() && Player.IsWallDetected())
+            StateMachine.ChangeState(Player.wallSlide);
 
-        player.SetVelocity(player.dashSpeed * player.dashDir, 0);
+        Player.SetVelocity(Player.dashSpeed * Player.dashDir, 0);
 
-        if (stateTimer < 0)
-            stateMachine.ChangeState(player.idleState);
+        if (StateTimer < 0)
+            StateMachine.ChangeState(Player.idleState);
 
-        player.fx.CreateAfterImage();
+        Player.fx.CreateAfterImage();
     }
 }

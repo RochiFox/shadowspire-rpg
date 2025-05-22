@@ -1,44 +1,42 @@
-using Cinemachine;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class EntityFX : MonoBehaviour
 {
-    protected Player player;
-    protected SpriteRenderer sr;
+    protected Player Player;
+    protected SpriteRenderer Sr;
 
-    [Header("Pop Up Text")]
-    [SerializeField] private GameObject popUpTextPrefab;
+    [Header("Pop Up Text")] [SerializeField]
+    private GameObject popUpTextPrefab;
 
-    [Header("Flash FX")]
-    [SerializeField] private float flashDuration;
+    [Header("Flash FX")] [SerializeField] private float flashDuration;
     [SerializeField] private Material hitMat;
     private Material originalMat;
 
-    [Header("Ailment colors")]
-    [SerializeField] private Color[] igniteColor;
+    [Header("Ailment colors")] [SerializeField]
+    private Color[] igniteColor;
+
     [SerializeField] private Color[] chillColor;
     [SerializeField] private Color[] shockColor;
 
-    [Header("Ailment particles")]
-    [SerializeField] private ParticleSystem igniteFx;
+    [Header("Ailment particles")] [SerializeField]
+    private ParticleSystem igniteFx;
+
     [SerializeField] private ParticleSystem chillFx;
     [SerializeField] private ParticleSystem shockFx;
 
-    [Header("Hit FX")]
-    [SerializeField] private GameObject hitFx;
+    [Header("Hit FX")] [SerializeField] private GameObject hitFx;
     [SerializeField] private GameObject criticalHitFx;
 
     private GameObject myHealthBar;
 
     protected virtual void Start()
     {
-        sr = GetComponentInChildren<SpriteRenderer>();
-        player = PlayerManager.instance.player;
+        Sr = GetComponentInChildren<SpriteRenderer>();
+        Player = PlayerManager.instance.player;
 
-        originalMat = sr.material;
+        originalMat = Sr.material;
 
         myHealthBar = GetComponentInChildren<HealthBarUI>(true).gameObject;
     }
@@ -55,44 +53,41 @@ public class EntityFX : MonoBehaviour
         newText.GetComponent<TextMeshPro>().text = _text;
     }
 
-    public void MakeTransparent(bool _transprent)
+    public void MakeTransparent(bool _transparent)
     {
-        if (_transprent)
+        if (_transparent)
         {
             myHealthBar.SetActive(false);
-            sr.color = Color.clear;
+            Sr.color = Color.clear;
         }
         else
         {
             myHealthBar.SetActive(true);
-            sr.color = Color.white;
+            Sr.color = Color.white;
         }
     }
 
-    private IEnumerator FlashFX()
+    protected IEnumerator FlashFX()
     {
-        sr.material = hitMat;
-        Color currentColor = sr.color;
-        sr.color = Color.white;
+        Sr.material = hitMat;
+        Color currentColor = Sr.color;
+        Sr.color = Color.white;
 
         yield return new WaitForSeconds(flashDuration);
 
-        sr.color = currentColor;
-        sr.material = originalMat;
+        Sr.color = currentColor;
+        Sr.material = originalMat;
     }
 
-    private void RedColorBlink()
+    protected void RedColorBlink()
     {
-        if (sr.color != Color.white)
-            sr.color = Color.white;
-        else
-            sr.color = Color.red;
+        Sr.color = Sr.color != Color.white ? Color.white : Color.red;
     }
 
     private void CancelColorChange()
     {
         CancelInvoke();
-        sr.color = Color.white;
+        Sr.color = Color.white;
 
         igniteFx.Stop();
         chillFx.Stop();
@@ -103,45 +98,37 @@ public class EntityFX : MonoBehaviour
     {
         igniteFx.Play();
 
-        InvokeRepeating("IgniteColorFx", 0, .3f);
-        Invoke("CancelColorChange", _seconds);
+        InvokeRepeating(nameof(IgniteColorFx), 0, .3f);
+        Invoke(nameof(CancelColorChange), _seconds);
     }
 
     public void ChillFxFor(float _seconds)
     {
         chillFx.Play();
-        InvokeRepeating("ChillColorFx", 0, .3f);
-        Invoke("CancelColorChange", _seconds);
+        InvokeRepeating(nameof(ChillColorFx), 0, .3f);
+        Invoke(nameof(CancelColorChange), _seconds);
     }
 
     public void ShockFxFor(float _seconds)
     {
         shockFx.Play();
-        InvokeRepeating("ShockColorFx", 0, .3f);
-        Invoke("CancelColorChange", _seconds);
+        InvokeRepeating(nameof(ShockColorFx), 0, .3f);
+        Invoke(nameof(CancelColorChange), _seconds);
     }
 
     private void IgniteColorFx()
     {
-        if (sr.color != igniteColor[0])
-            sr.color = igniteColor[0];
-        else
-            sr.color = igniteColor[1];
+        Sr.color = Sr.color != igniteColor[0] ? igniteColor[0] : igniteColor[1];
     }
+
     private void ChillColorFx()
     {
-        if (sr.color != chillColor[0])
-            sr.color = chillColor[0];
-        else
-            sr.color = chillColor[1];
+        Sr.color = Sr.color != chillColor[0] ? chillColor[0] : chillColor[1];
     }
 
     private void ShockColorFx()
     {
-        if (sr.color != shockColor[0])
-            sr.color = shockColor[0];
-        else
-            sr.color = shockColor[1];
+        Sr.color = Sr.color != shockColor[0] ? shockColor[0] : shockColor[1];
     }
 
     public void CreateHitFx(Transform _target, bool _critical)
@@ -150,7 +137,7 @@ public class EntityFX : MonoBehaviour
         float xPosition = Random.Range(-.5f, .5f);
         float yPosition = Random.Range(-.5f, .5f);
 
-        Vector3 hitFxRotaion = new Vector3(0, 0, zRotation);
+        Vector3 hitFxRotation = new Vector3(0, 0, zRotation);
 
         GameObject hitPrefab = hitFx;
 
@@ -164,12 +151,12 @@ public class EntityFX : MonoBehaviour
             if (GetComponent<Entity>().facingDir == -1)
                 yRotation = 180;
 
-            hitFxRotaion = new Vector3(0, yRotation, zRotation);
-
+            hitFxRotation = new Vector3(0, yRotation, zRotation);
         }
 
-        GameObject newHitFx = Instantiate(hitPrefab, _target.position + new Vector3(xPosition, yPosition), Quaternion.identity); // uncomment this if you want particle to follow target ,_target);
-        newHitFx.transform.Rotate(hitFxRotaion);
+        GameObject newHitFx = Instantiate(hitPrefab, _target.position + new Vector3(xPosition, yPosition),
+            Quaternion.identity);
+        newHitFx.transform.Rotate(hitFxRotation);
         Destroy(newHitFx, .5f);
     }
 }

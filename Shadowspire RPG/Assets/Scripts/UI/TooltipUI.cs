@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -10,30 +8,30 @@ public class TooltipUI : MonoBehaviour
 
     [SerializeField] private float xOffset = 150;
     [SerializeField] private float yOffset = 150;
-   
-    public virtual void AdjustPosition()
+
+    protected virtual void AdjustPosition()
     {
         Vector2 mousePosition = Input.mousePosition;
 
-        float newXoffset = 0;
-        float newYoffset = 0;
+        float newXOffset;
+        float newYOffset;
 
         if (mousePosition.x > xLimit)
-            newXoffset = -xOffset;
+            newXOffset = -xOffset;
         else
-            newXoffset = xOffset;
+            newXOffset = xOffset;
 
         if (mousePosition.y > yLimit)
-            newYoffset = -yOffset;
+            newYOffset = -yOffset;
         else
-            newYoffset = yOffset;
+            newYOffset = yOffset;
 
-        transform.position = new Vector2(mousePosition.x + newXoffset, mousePosition.y + newYoffset);
+        transform.position = new Vector2(mousePosition.x + newXOffset, mousePosition.y + newYOffset);
     }
 
-    public void AdjustFontSize(TextMeshProUGUI _text)
+    protected static void AdjustFontSize(TextMeshProUGUI _text)
     {
         if (_text.text.Length > 12)
-            _text.fontSize = _text.fontSize * .8f;
+            _text.fontSize *= .8f;
     }
 }

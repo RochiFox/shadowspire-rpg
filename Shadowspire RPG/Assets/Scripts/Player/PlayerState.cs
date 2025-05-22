@@ -1,51 +1,51 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerState
 {
-    protected PlayerStateMachine stateMachine;
-    protected Player player;
+    private static readonly int YVelocity = Animator.StringToHash("yVelocity");
 
-    protected Rigidbody2D rb;
+    protected readonly PlayerStateMachine StateMachine;
+    protected readonly Player Player;
 
-    protected float xInput;
-    protected float yInput;
-    private string animBoolName;
+    protected Rigidbody2D Rb;
 
-    protected float stateTimer;
-    protected bool triggerCalled;
+    protected float XInput;
+    protected float YInput;
+    private readonly string animBoolName;
 
-    public PlayerState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName)
+    protected float StateTimer;
+    protected bool TriggerCalled;
+
+    protected PlayerState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName)
     {
-        this.player = _player;
-        this.stateMachine = _stateMachine;
+        this.Player = _player;
+        this.StateMachine = _stateMachine;
         this.animBoolName = _animBoolName;
     }
 
     public virtual void Enter()
     {
-        player.anim.SetBool(animBoolName, true);
-        rb = player.rb;
-        triggerCalled = false;
+        Player.anim.SetBool(animBoolName, true);
+        Rb = Player.rb;
+        TriggerCalled = false;
     }
 
     public virtual void Update()
     {
-        stateTimer -= Time.deltaTime;
+        StateTimer -= Time.deltaTime;
 
-        xInput = Input.GetAxisRaw("Horizontal");
-        yInput = Input.GetAxisRaw("Vertical");
-        player.anim.SetFloat("yVelocity", rb.velocity.y);
+        XInput = Input.GetAxisRaw("Horizontal");
+        YInput = Input.GetAxisRaw("Vertical");
+        Player.anim.SetFloat(YVelocity, Rb.velocity.y);
     }
 
     public virtual void Exit()
     {
-        player.anim.SetBool(animBoolName, false);
+        Player.anim.SetBool(animBoolName, false);
     }
 
     public virtual void AnimationFinishTrigger()
     {
-        triggerCalled = true;
+        TriggerCalled = true;
     }
 }

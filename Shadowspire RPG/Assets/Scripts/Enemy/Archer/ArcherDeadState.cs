@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using UnityEngine;
-
+﻿using UnityEngine;
 
 public class ArcherDeadState : EnemyState
 {
-    private EnemyArcher enemy;
+    private readonly EnemyArcher enemy;
 
-    public ArcherDeadState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyArcher _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public ArcherDeadState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyArcher _enemy)
+        : base(_enemyBase, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
     }
@@ -19,14 +18,14 @@ public class ArcherDeadState : EnemyState
         enemy.anim.speed = 0;
         enemy.cd.enabled = false;
 
-        stateTimer = .15f;
+        StateTimer = .15f;
     }
 
     public override void Update()
     {
         base.Update();
 
-        if (stateTimer > 0)
-            rb.velocity = new Vector2(0, 10);
+        if (StateTimer > 0)
+            Rb.velocity = new Vector2(0, 10);
     }
 }

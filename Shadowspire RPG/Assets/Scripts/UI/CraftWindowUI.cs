@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,10 +15,10 @@ public class CraftWindowUI : MonoBehaviour
     {
         craftButton.onClick.RemoveAllListeners();
 
-        for (int i = 0; i < materialImage.Length; i++)
+        foreach (Image material in materialImage)
         {
-            materialImage[i].color = Color.clear;
-            materialImage[i].GetComponentInChildren<TextMeshProUGUI>().color = Color.clear;
+            material.color = Color.clear;
+            material.GetComponentInChildren<TextMeshProUGUI>().color = Color.clear;
         }
 
         for (int i = 0; i < _data.craftingMaterials.Count; i++)

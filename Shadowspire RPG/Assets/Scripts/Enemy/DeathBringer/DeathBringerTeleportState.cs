@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using UnityEngine;
-
-public class DeathBringerTeleportState : EnemyState
+﻿public class DeathBringerTeleportState : EnemyState
 {
+    private readonly EnemyDeathBringer enemy;
 
-    private EnemyDeathBringer enemy;
-
-    public DeathBringerTeleportState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyDeathBringer _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public DeathBringerTeleportState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName,
+        EnemyDeathBringer _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
         enemy = _enemy;
     }
@@ -22,12 +19,12 @@ public class DeathBringerTeleportState : EnemyState
     {
         base.Update();
 
-        if (triggerCalled)
+        if (TriggerCalled)
         {
             if (enemy.CanDoSpellCast())
-                stateMachine.ChangeState(enemy.spellCastState);
+                StateMachine.ChangeState(enemy.spellCastState);
             else
-                stateMachine.ChangeState(enemy.battleState);
+                StateMachine.ChangeState(enemy.battleState);
         }
     }
 

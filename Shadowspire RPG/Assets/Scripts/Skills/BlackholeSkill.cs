@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,13 +8,12 @@ public class BlackholeSkill : Skill
     [SerializeField] private int amountOfAttacks;
     [SerializeField] private float cloneCooldown;
     [SerializeField] private float blackholeDuration;
-    [Space]
-    [SerializeField] private GameObject blackHolePrefab;
+    [Space] [SerializeField] private GameObject blackHolePrefab;
     [SerializeField] private float maxSize;
     [SerializeField] private float growSpeed;
     [SerializeField] private float shrinkSpeed;
 
-    BlackholeSkillController currentBlackhole;
+    private BlackholeSkillController currentBlackhole;
 
     private void UnlockBlackhole()
     {
@@ -24,23 +21,19 @@ public class BlackholeSkill : Skill
             blackholeUnlocked = true;
     }
 
-    public override bool CanUseSkill()
-    {
-        return base.CanUseSkill();
-    }
-
-    public override void UseSkill()
+    protected override void UseSkill()
     {
         base.UseSkill();
 
-        GameObject newBlackHole = Instantiate(blackHolePrefab, player.transform.position, Quaternion.identity);
+        GameObject newBlackHole = Instantiate(blackHolePrefab, Player.transform.position, Quaternion.identity);
 
         currentBlackhole = newBlackHole.GetComponent<BlackholeSkillController>();
 
-        currentBlackhole.SetupBlackhole(maxSize, growSpeed, shrinkSpeed, amountOfAttacks, cloneCooldown, blackholeDuration);
+        currentBlackhole.SetupBlackhole(maxSize, growSpeed, shrinkSpeed, amountOfAttacks, cloneCooldown,
+            blackholeDuration);
 
-        AudioManager.instance.PlaySFX(18, player.transform);
-        AudioManager.instance.PlaySFX(19, player.transform);
+        AudioManager.instance.PlaySfx(18, Player.transform);
+        AudioManager.instance.PlaySfx(19, Player.transform);
     }
 
     protected override void Start()
@@ -48,11 +41,6 @@ public class BlackholeSkill : Skill
         base.Start();
 
         blackHoleUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockBlackhole);
-    }
-
-    protected override void Update()
-    {
-        base.Update();
     }
 
     public bool SkillCompleted()

@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyArcher : Enemy
 {
+    [Header("Archer specific info")] [SerializeField]
+    private GameObject arrowPrefab;
 
-    [Header("Archer spisifc info")]
-    [SerializeField] private GameObject arrowPrefab;
     [SerializeField] private float arrowSpeed;
     [SerializeField] private float arrowDamage;
 
@@ -15,18 +13,21 @@ public class EnemyArcher : Enemy
     public float safeDistance;
     [HideInInspector] public float lastTimeJumped;
 
-    [Header("Additional collision check")]
-    [SerializeField] private Transform groundBehindCheck;
+    [Header("Additional collision check")] [SerializeField]
+    private Transform groundBehindCheck;
+
     [SerializeField] private Vector2 groundBehindCheckSize;
 
     #region States
+
     public ArcherIdleState idleState { get; private set; }
     public ArcherMoveState moveState { get; private set; }
     public ArcherBattleState battleState { get; private set; }
     public ArcherAttackState attackState { get; private set; }
-    public ArcherDeadState deadState { get; private set; }
-    public ArcherStunnedState stunnedState { get; private set; }
+    private ArcherDeadState deadState { get; set; }
+    private ArcherStunnedState stunnedState { get; set; }
     public ArcherJumpState jumpState { get; private set; }
+
     #endregion
 
     protected override void Awake()
@@ -72,8 +73,11 @@ public class EnemyArcher : Enemy
         newArrow.GetComponent<ArrowController>().SetupArrow(arrowSpeed * facingDir, stats);
     }
 
-    public bool GroundBehind() => Physics2D.BoxCast(groundBehindCheck.position, groundBehindCheckSize, 0, Vector2.zero, 0, whatIsGround);
-    public bool WallBehind() => Physics2D.Raycast(wallCheck.position, Vector2.right * -facingDir, wallCheckDistance + 2, whatIsGround);
+    public bool GroundBehind() => Physics2D.BoxCast(groundBehindCheck.position, groundBehindCheckSize, 0, Vector2.zero,
+        0, whatIsGround);
+
+    public bool WallBehind() =>
+        Physics2D.Raycast(wallCheck.position, Vector2.right * -facingDir, wallCheckDistance + 2, whatIsGround);
 
     protected override void OnDrawGizmos()
     {

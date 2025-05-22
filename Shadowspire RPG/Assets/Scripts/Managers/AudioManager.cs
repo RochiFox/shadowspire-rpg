@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -13,15 +12,16 @@ public class AudioManager : MonoBehaviour
     public bool playBgm;
     private int bgmIndex;
 
-    private bool canPlaySFX;
+    private bool canPlaySfx;
+
     private void Awake()
     {
-        if (instance != null)
+        if (instance)
             Destroy(instance.gameObject);
         else
             instance = this;
 
-        Invoke("AllowSFX", 1f);
+        Invoke(nameof(AllowSfx), 1f);
     }
 
     private void Update()
@@ -35,12 +35,13 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlaySFX(int _sfxIndex, Transform _source)
+    public void PlaySfx(int _sfxIndex, Transform _source)
     {
-        if (canPlaySFX == false)
+        if (canPlaySfx == false)
             return;
 
-        if (_source != null && Vector2.Distance(PlayerManager.instance.player.transform.position, _source.position) > sfxMinimumDistance)
+        if (_source && Vector2.Distance(PlayerManager.instance.player.transform.position, _source.position) >
+            sfxMinimumDistance)
             return;
 
 
@@ -51,11 +52,11 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void StopSFX(int _index) => sfx[_index].Stop();
+    public void StopSfx(int _index) => sfx[_index].Stop();
 
-    public void StopSFXWithTime(int _index) => StartCoroutine(DecreaseVolume(sfx[_index]));
+    public void StopSfxWithTime(int _index) => StartCoroutine(DecreaseVolume(sfx[_index]));
 
-    private IEnumerator DecreaseVolume(AudioSource _audio)
+    private static IEnumerator DecreaseVolume(AudioSource _audio)
     {
         float defaultVolume = _audio.volume;
 
@@ -79,7 +80,7 @@ public class AudioManager : MonoBehaviour
         PlayBGM(bgmIndex);
     }
 
-    public void PlayBGM(int _bgmIndex)
+    private void PlayBGM(int _bgmIndex)
     {
         bgmIndex = _bgmIndex;
 
@@ -87,13 +88,13 @@ public class AudioManager : MonoBehaviour
         bgm[bgmIndex].Play();
     }
 
-    public void StopAllBGM()
+    private void StopAllBGM()
     {
-        for (int i = 0; i < bgm.Length; i++)
+        foreach (AudioSource sound in bgm)
         {
-            bgm[i].Stop();
+            sound.Stop();
         }
     }
 
-    private void AllowSFX() => canPlaySFX = true;
+    private void AllowSfx() => canPlaySfx = true;
 }

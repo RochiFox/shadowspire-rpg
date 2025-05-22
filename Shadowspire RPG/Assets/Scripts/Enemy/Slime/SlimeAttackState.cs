@@ -1,19 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SlimeAttackState : EnemyState
 {
-    protected EnemySlime enemy;
+    private readonly EnemySlime enemy;
 
-    public SlimeAttackState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemySlime _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public SlimeAttackState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemySlime _enemy)
+        : base(_enemyBase, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
-    }
-
-    public override void Enter()
-    {
-        base.Enter();
     }
 
     public override void Exit()
@@ -29,7 +23,7 @@ public class SlimeAttackState : EnemyState
 
         enemy.SetZeroVelocity();
 
-        if (triggerCalled)
-            stateMachine.ChangeState(enemy.battleState);
+        if (TriggerCalled)
+            StateMachine.ChangeState(enemy.battleState);
     }
 }

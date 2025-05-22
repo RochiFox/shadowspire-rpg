@@ -2,11 +2,13 @@
 
 public class ShadyGroundedState : EnemyState
 {
-    protected Transform player;
-    protected EnemyShady enemy;
-    public ShadyGroundedState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyShady _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    private Transform player;
+    protected readonly EnemyShady Enemy;
+
+    protected ShadyGroundedState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName,
+        EnemyShady _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
-        enemy = _enemy;
+        Enemy = _enemy;
     }
 
     public override void Enter()
@@ -16,18 +18,14 @@ public class ShadyGroundedState : EnemyState
         player = PlayerManager.instance.player.transform;
     }
 
-    public override void Exit()
-    {
-        base.Exit();
-    }
-
     public override void Update()
     {
         base.Update();
 
-        if (enemy.IsPlayerDetected() || Vector2.Distance(enemy.transform.position, player.transform.position) < enemy.agroDistance)
+        if (Enemy.IsPlayerDetected() ||
+            Vector2.Distance(Enemy.transform.position, player.transform.position) < Enemy.agroDistance)
         {
-            stateMachine.ChangeState(enemy.battleState);
+            StateMachine.ChangeState(Enemy.battleState);
         }
     }
 }

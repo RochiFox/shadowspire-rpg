@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,8 +10,7 @@ public class SkillTreeSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     [SerializeField] private int skillCost;
     [SerializeField] private string skillName;
-    [TextArea]
-    [SerializeField] private string skillDescription;
+    [TextArea] [SerializeField] private string skillDescription;
     [SerializeField] private Color lockedSkillColor;
 
     public bool unlocked;
@@ -27,7 +25,7 @@ public class SkillTreeSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     private void Awake()
     {
-        GetComponent<Button>().onClick.AddListener(() => UnlockSkillSlot());
+        GetComponent<Button>().onClick.AddListener(UnlockSkillSlot);
     }
 
     private void Start()
@@ -46,31 +44,26 @@ public class SkillTreeSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if (PlayerManager.instance.HaveEnoughMoney(skillCost) == false)
             return;
 
-        for (int i = 0; i < shouldBeUnlocked.Length; i++)
+        if (shouldBeUnlocked.Any(_skill => _skill.unlocked == false))
         {
-            if (shouldBeUnlocked[i].unlocked == false)
-            {
-                return;
-            }
+            return;
         }
 
-        for (int i = 0; i < shouldBeLocked.Length; i++)
+        if (shouldBeLocked.Any(_skill => _skill.unlocked))
         {
-            if (shouldBeLocked[i].unlocked == true)
-            {
-                return;
-            }
+            return;
         }
 
         unlocked = true;
         skillImage.color = Color.white;
     }
-    public void OnPointerEnter(PointerEventData eventData)
+
+    public void OnPointerEnter(PointerEventData _eventData)
     {
         ui.skillToolTip.ShowToolTip(skillDescription, skillName, skillCost);
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public void OnPointerExit(PointerEventData _eventData)
     {
         ui.skillToolTip.HideToolTip();
     }
@@ -85,9 +78,8 @@ public class SkillTreeSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void SaveData(ref GameData _data)
     {
-        if (_data.skillTree.TryGetValue(skillName, out bool value))
+        if (_data.skillTree.Remove(skillName, out bool _))
         {
-            _data.skillTree.Remove(skillName);
             _data.skillTree.Add(skillName, unlocked);
         }
         else

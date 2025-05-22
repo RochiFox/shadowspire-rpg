@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SkeletonStunnedState : EnemyState
 {
-    private EnemySkeleton enemy;
+    private readonly EnemySkeleton enemy;
 
-    public SkeletonStunnedState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemySkeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public SkeletonStunnedState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName,
+        EnemySkeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
     }
@@ -17,9 +16,9 @@ public class SkeletonStunnedState : EnemyState
 
         enemy.fx.InvokeRepeating("RedColorBlink", 0, .1f);
 
-        stateTimer = enemy.stunDuration;
+        StateTimer = enemy.stunDuration;
 
-        rb.velocity = new Vector2(-enemy.facingDir * enemy.stunDirection.x, enemy.stunDirection.y);
+        Rb.velocity = new Vector2(-enemy.facingDir * enemy.stunDirection.x, enemy.stunDirection.y);
     }
 
     public override void Exit()
@@ -33,7 +32,7 @@ public class SkeletonStunnedState : EnemyState
     {
         base.Update();
 
-        if (stateTimer < 0)
-            stateMachine.ChangeState(enemy.idleState);
+        if (StateTimer < 0)
+            StateMachine.ChangeState(enemy.idleState);
     }
 }

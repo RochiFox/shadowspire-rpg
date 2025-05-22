@@ -1,17 +1,13 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ArcherAttackState : EnemyState
 {
-    private EnemyArcher enemy;
-    public ArcherAttackState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyArcher _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    private readonly EnemyArcher enemy;
+
+    public ArcherAttackState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName,
+        EnemyArcher _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
-    }
-
-    public override void Enter()
-    {
-        base.Enter();
     }
 
     public override void Exit()
@@ -27,7 +23,7 @@ public class ArcherAttackState : EnemyState
 
         enemy.SetZeroVelocity();
 
-        if (triggerCalled)
-            stateMachine.ChangeState(enemy.battleState);
+        if (TriggerCalled)
+            StateMachine.ChangeState(enemy.battleState);
     }
 }

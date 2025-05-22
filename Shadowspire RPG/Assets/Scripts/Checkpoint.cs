@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
+    private static readonly int Active = Animator.StringToHash("active");
+
     private Animator anim;
     public string id;
     public bool activationStatus;
@@ -19,9 +19,9 @@ public class Checkpoint : MonoBehaviour
         id = System.Guid.NewGuid().ToString();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D _collision)
     {
-        if (collision.GetComponent<Player>() != null)
+        if (_collision.GetComponent<Player>())
         {
             ActivateCheckpoint();
         }
@@ -30,9 +30,9 @@ public class Checkpoint : MonoBehaviour
     public void ActivateCheckpoint()
     {
         if (activationStatus == false)
-            AudioManager.instance.PlaySFX(4, transform);
+            AudioManager.instance.PlaySfx(4, transform);
 
         activationStatus = true;
-        anim.SetBool("active", true);
+        anim.SetBool(Active, true);
     }
 }

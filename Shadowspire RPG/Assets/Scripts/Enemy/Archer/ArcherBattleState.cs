@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using UnityEngine;
-
+﻿using UnityEngine;
 
 public class ArcherBattleState : EnemyState
 {
     private Transform player;
-    private EnemyArcher enemy;
+    private readonly EnemyArcher enemy;
     private int moveDir;
 
-    public ArcherBattleState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyArcher _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public ArcherBattleState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName,
+        EnemyArcher _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
     }
@@ -20,7 +19,7 @@ public class ArcherBattleState : EnemyState
         player = PlayerManager.instance.player.transform;
 
         if (player.GetComponent<PlayerStats>().isDead)
-            stateMachine.ChangeState(enemy.moveState);
+            StateMachine.ChangeState(enemy.moveState);
     }
 
     public override void Update()
@@ -29,40 +28,34 @@ public class ArcherBattleState : EnemyState
 
         if (enemy.IsPlayerDetected())
         {
-            stateTimer = enemy.battleTime;
+            StateTimer = enemy.battleTime;
 
             if (enemy.IsPlayerDetected().distance < enemy.safeDistance)
             {
                 if (CanJump())
-                    stateMachine.ChangeState(enemy.jumpState);
+                    StateMachine.ChangeState(enemy.jumpState);
             }
 
             if (enemy.IsPlayerDetected().distance < enemy.attackDistance)
             {
                 if (CanAttack())
-                    stateMachine.ChangeState(enemy.attackState);
+                    StateMachine.ChangeState(enemy.attackState);
             }
         }
         else
         {
-            if (stateTimer < 0 || Vector2.Distance(player.transform.position, enemy.transform.position) > 7)
-                stateMachine.ChangeState(enemy.idleState);
+            if (StateTimer < 0 || Vector2.Distance(player.transform.position, enemy.transform.position) > 7)
+                StateMachine.ChangeState(enemy.idleState);
         }
 
-        BattleStateFlipControll();
+        BattleStateFlipControl();
     }
 
-    private void BattleStateFlipControll()
+    private void BattleStateFlipControl()
     {
-        if (player.position.x > enemy.transform.position.x && enemy.facingDir == -1)
+        if (player.position.x > enemy.transform.position.x && enemy.facingDir == -1 ||
+            player.position.x < enemy.transform.position.x && enemy.facingDir == 1)
             enemy.Flip();
-        else if (player.position.x < enemy.transform.position.x && enemy.facingDir == 1)
-            enemy.Flip();
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
     }
 
     private bool CanAttack()
@@ -79,7 +72,7 @@ public class ArcherBattleState : EnemyState
 
     private bool CanJump()
     {
-        if (enemy.GroundBehind() == false || enemy.WallBehind() == true)
+        if (enemy.GroundBehind() == false || enemy.WallBehind())
             return false;
 
         if (Time.time >= enemy.lastTimeJumped + enemy.jumpCooldown)

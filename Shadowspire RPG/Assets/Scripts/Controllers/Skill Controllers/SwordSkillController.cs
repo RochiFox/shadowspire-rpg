@@ -1,9 +1,10 @@
 using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class SwordSkillController : MonoBehaviour
 {
+    private static readonly int Rotation = Animator.StringToHash("Rotation");
+
     private Animator anim;
     private Rigidbody2D rb;
     private CircleCollider2D cd;
@@ -12,22 +13,18 @@ public class SwordSkillController : MonoBehaviour
     private bool canRotate = true;
     private bool isReturning;
 
-
     private float freezeTimeDuration;
     private float returnSpeed = 12;
 
-    [Header("Pierce info")]
-    private float pierceAmount;
+    [Header("Pierce info")] private float pierceAmount;
 
-    [Header("Bounce info")]
-    private float bounceSpeed;
+    [Header("Bounce info")] private float bounceSpeed;
     private bool isBouncing;
     private int bounceAmount;
     private List<Transform> enemyTarget;
     private int targetIndex;
 
-    [Header("Spin info")]
-    private float maxTravelDistance;
+    [Header("Spin info")] private float maxTravelDistance;
     private float spinDuration;
     private float spinTimer;
     private bool wasStopped;
@@ -37,6 +34,9 @@ public class SwordSkillController : MonoBehaviour
     private float hitCooldown;
 
     private float spinDirection;
+
+    private readonly Collider2D[] spinResult = new Collider2D[10];
+    private readonly Collider2D[] targetResult = new Collider2D[10];
 
     private void Awake()
     {
@@ -50,7 +50,8 @@ public class SwordSkillController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void SetupSword(Vector2 _dir, float _gravityScale, Player _player, float _freezeTimeDuration, float _returnSpeed)
+    public void SetupSword(Vector2 _dir, float _gravityScale, Player _player, float _freezeTimeDuration,
+        float _returnSpeed)
     {
         player = _player;
         freezeTimeDuration = _freezeTimeDuration;
@@ -60,12 +61,12 @@ public class SwordSkillController : MonoBehaviour
         rb.gravityScale = _gravityScale;
 
         if (pierceAmount <= 0)
-            anim.SetBool("Rotation", true);
+            anim.SetBool(Rotation, true);
 
 
         spinDirection = Mathf.Clamp(rb.velocity.x, -1, 1);
 
-        Invoke("DestroyMe", 7);
+        Invoke(nameof(DestroyMe), 7);
     }
 
     public void SetupBounce(bool _isBouncing, int _amountOfBounces, float _bounceSpeed)
@@ -96,9 +97,6 @@ public class SwordSkillController : MonoBehaviour
         //rb.isKinematic = false;
         transform.parent = null;
         isReturning = true;
-
-
-        // sword.skill.setcooldown;
     }
 
     private void Update()
@@ -109,7 +107,8 @@ public class SwordSkillController : MonoBehaviour
 
         if (isReturning)
         {
-            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, returnSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, player.transform.position,
+                returnSpeed * Time.deltaTime);
 
             if (Vector2.Distance(transform.position, player.transform.position) < 1)
                 player.CatchTheSword();
@@ -132,7 +131,8 @@ public class SwordSkillController : MonoBehaviour
             {
                 spinTimer -= Time.deltaTime;
 
-                transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x + spinDirection, transform.position.y), 1.5f * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position,
+                    new Vector2(transform.position.x + spinDirection, transform.position.y), 1.5f * Time.deltaTime);
 
                 if (spinTimer < 0)
                 {
@@ -146,11 +146,13 @@ public class SwordSkillController : MonoBehaviour
                 {
                     hitTimer = hitCooldown;
 
-                    Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 1);
+                    int size = Physics2D.OverlapCircleNonAlloc(transform.position, 1, spinResult);
 
-                    foreach (var hit in colliders)
+                    for (int i = 0; i < size; i++)
                     {
-                        if (hit.GetComponent<Enemy>() != null)
+                        Collider2D hit = spinResult[i];
+
+                        if (hit.GetComponent<Enemy>())
                             SwordSkillDamage(hit.GetComponent<Enemy>());
                     }
                 }
@@ -169,7 +171,8 @@ public class SwordSkillController : MonoBehaviour
     {
         if (isBouncing && enemyTarget.Count > 0)
         {
-            transform.position = Vector2.MoveTowards(transform.position, enemyTarget[targetIndex].position, bounceSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, enemyTarget[targetIndex].position,
+                bounceSpeed * Time.deltaTime);
 
             if (Vector2.Distance(transform.position, enemyTarget[targetIndex].position) < .1f)
             {
@@ -189,54 +192,55 @@ public class SwordSkillController : MonoBehaviour
                         targetIndex = 0;
                 }
             }
-
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D _collision)
     {
         if (isReturning)
             return;
 
-        if (collision.GetComponent<Enemy>() != null)
+        if (_collision.GetComponent<Enemy>())
         {
-            Enemy enemy = collision.GetComponent<Enemy>();
+            Enemy enemy = _collision.GetComponent<Enemy>();
             SwordSkillDamage(enemy);
         }
 
-        SetupTargetsForBounce(collision);
-        StuckInto(collision);
+        SetupTargetsForBounce(_collision);
+        StuckInto(_collision);
     }
 
-    private void SwordSkillDamage(Enemy enemy)
+    private void SwordSkillDamage(Enemy _enemy)
     {
-        EnemyStats enemyStats = enemy.GetComponent<EnemyStats>();
+        EnemyStats enemyStats = _enemy.GetComponent<EnemyStats>();
 
         player.stats.DoDamage(enemyStats);
 
         if (player.skill.sword.timeStopUnlocked)
-            enemy.FreezeTimeFor(freezeTimeDuration);
+            _enemy.FreezeTimeFor(freezeTimeDuration);
 
         if (player.skill.sword.vulnerableUnlocked)
             enemyStats.MakeVulnerableFor(freezeTimeDuration);
 
-        ItemDataEquipment equipedAmulet = Inventory.instance.GetEquipment(EquipmentType.Amulet);
+        ItemDataEquipment equippedAmulet = Inventory.instance.GetEquipment(EquipmentType.Amulet);
 
-        if (equipedAmulet != null)
-            equipedAmulet.Effect(enemy.transform);
+        if (equippedAmulet)
+            equippedAmulet.Effect(_enemy.transform);
     }
 
-    private void SetupTargetsForBounce(Collider2D collision)
+    private void SetupTargetsForBounce(Collider2D _collision)
     {
-        if (collision.GetComponent<Enemy>() != null)
+        if (_collision.GetComponent<Enemy>())
         {
             if (isBouncing && enemyTarget.Count <= 0)
             {
-                Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 10);
+                int size = Physics2D.OverlapCircleNonAlloc(transform.position, 10, targetResult);
 
-                foreach (var hit in colliders)
+                for (int i = 0; i < size; i++)
                 {
-                    if (hit.GetComponent<Enemy>() != null)
+                    Collider2D hit = targetResult[i];
+
+                    if (hit.GetComponent<Enemy>())
                         enemyTarget.Add(hit.transform);
                 }
             }
@@ -245,12 +249,12 @@ public class SwordSkillController : MonoBehaviour
 
     private bool spinWasTriggered;
 
-    private void StuckInto(Collider2D collision)
+    private void StuckInto(Collider2D _collision)
     {
-        if (collision.GetComponent<CharacterStats>()?.isInvincible == true)
+        if (_collision.GetComponent<CharacterStats>()?.isInvincible == true)
             return;
 
-        if (pierceAmount > 0 && collision.GetComponent<Enemy>() != null)
+        if (pierceAmount > 0 && _collision.GetComponent<Enemy>())
         {
             pierceAmount--;
             return;
@@ -273,7 +277,7 @@ public class SwordSkillController : MonoBehaviour
         if (isBouncing && enemyTarget.Count > 0)
             return;
 
-        anim.SetBool("Rotation", false);
-        transform.parent = collision.transform;
+        anim.SetBool(Rotation, false);
+        transform.parent = _collision.transform;
     }
 }

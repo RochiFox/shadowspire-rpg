@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -10,7 +9,7 @@ public class SaveManager : MonoBehaviour
     [SerializeField] private string fileName;
     [SerializeField] private bool encryptData;
     private GameData gameData;
-    [SerializeField] private List<ISaveManager> saveManagers;
+    private List<ISaveManager> saveManagers;
     private FileDataHandler dataHandler;
 
     [ContextMenu("Delete save file")]
@@ -22,7 +21,7 @@ public class SaveManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null)
+        if (instance)
             Destroy(instance.gameObject);
         else
             instance = this;
@@ -37,12 +36,12 @@ public class SaveManager : MonoBehaviour
         LoadGame();
     }
 
-    public void NewGame()
+    private void NewGame()
     {
         gameData = new GameData();
     }
 
-    public void LoadGame()
+    private void LoadGame()
     {
         gameData = dataHandler.Load();
 
@@ -73,7 +72,7 @@ public class SaveManager : MonoBehaviour
         SaveGame();
     }
 
-    private List<ISaveManager> FindAllSaveManagers()
+    private static List<ISaveManager> FindAllSaveManagers()
     {
         IEnumerable<ISaveManager> saveManagers = FindObjectsOfType<MonoBehaviour>().OfType<ISaveManager>();
 
@@ -82,11 +81,6 @@ public class SaveManager : MonoBehaviour
 
     public bool HasSavedData()
     {
-        if (dataHandler.Load() != null)
-        {
-            return true;
-        }
-
-        return false;
+        return dataHandler.Load() != null;
     }
 }

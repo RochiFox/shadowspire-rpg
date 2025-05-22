@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 
-
 public class DeathBringerSpellCastState : EnemyState
 {
-    private EnemyDeathBringer enemy;
+    private readonly EnemyDeathBringer enemy;
 
     private int amountOfSpells;
     private float spellTimer;
 
-    public DeathBringerSpellCastState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyDeathBringer _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public DeathBringerSpellCastState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName,
+        EnemyDeathBringer _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
     }
@@ -32,7 +32,7 @@ public class DeathBringerSpellCastState : EnemyState
 
 
         if (amountOfSpells <= 0)
-            stateMachine.ChangeState(enemy.teleportState);
+            StateMachine.ChangeState(enemy.teleportState);
     }
 
     public override void Exit()

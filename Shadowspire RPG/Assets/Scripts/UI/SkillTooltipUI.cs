@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -10,13 +8,13 @@ public class SkillTooltipUI : TooltipUI
     [SerializeField] private TextMeshProUGUI skillCost;
     [SerializeField] private float defaultNameFontSize;
 
-    public void ShowToolTip(string _skillDescprtion, string _skillName, int _price)
+    public void ShowToolTip(string _skillDescription, string _skillName, int _price)
     {
         if (Input.GetKey(KeyCode.LeftControl))
             return; // this hides tooltip if you hide left control
 
         skillName.text = _skillName;
-        skillText.text = _skillDescprtion;
+        skillText.text = _skillDescription;
         skillCost.text = "Cost: " + _price;
 
         AdjustPosition();

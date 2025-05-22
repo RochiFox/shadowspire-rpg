@@ -1,16 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SkeletonBattleState : EnemyState
 {
+    private static readonly int XVelocity = Animator.StringToHash("xVelocity");
+
     private Transform player;
-    private EnemySkeleton enemy;
+    private readonly EnemySkeleton enemy;
     private int moveDir;
 
     private bool flippedOnce;
 
-    public SkeletonBattleState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemySkeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public SkeletonBattleState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName,
+        EnemySkeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
     }
@@ -22,9 +23,9 @@ public class SkeletonBattleState : EnemyState
         player = PlayerManager.instance.player.transform;
 
         if (player.GetComponent<PlayerStats>().isDead)
-            stateMachine.ChangeState(enemy.moveState);
+            StateMachine.ChangeState(enemy.moveState);
 
-        stateTimer = enemy.battleTime;
+        StateTimer = enemy.battleTime;
         flippedOnce = false;
     }
 
@@ -32,16 +33,16 @@ public class SkeletonBattleState : EnemyState
     {
         base.Update();
 
-        enemy.anim.SetFloat("xVelocity", enemy.rb.velocity.x);
+        enemy.anim.SetFloat(XVelocity, enemy.rb.velocity.x);
 
         if (enemy.IsPlayerDetected())
         {
-            stateTimer = enemy.battleTime;
+            StateTimer = enemy.battleTime;
 
             if (enemy.IsPlayerDetected().distance < enemy.attackDistance)
             {
                 if (CanAttack())
-                    stateMachine.ChangeState(enemy.attackState);
+                    StateMachine.ChangeState(enemy.attackState);
             }
         }
         else
@@ -52,8 +53,8 @@ public class SkeletonBattleState : EnemyState
                 enemy.Flip();
             }
 
-            if (stateTimer < 0 || Vector2.Distance(player.transform.position, enemy.transform.position) > 7)
-                stateMachine.ChangeState(enemy.idleState);
+            if (StateTimer < 0 || Vector2.Distance(player.transform.position, enemy.transform.position) > 7)
+                StateMachine.ChangeState(enemy.idleState);
         }
 
         float distanceToPlayerX = Mathf.Abs(player.position.x - enemy.transform.position.x);
@@ -68,12 +69,7 @@ public class SkeletonBattleState : EnemyState
         else if (player.position.x < enemy.transform.position.x)
             moveDir = -1;
 
-        enemy.SetVelocity(enemy.moveSpeed * moveDir, rb.velocity.y);
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
+        enemy.SetVelocity(enemy.moveSpeed * moveDir, Rb.velocity.y);
     }
 
     private bool CanAttack()

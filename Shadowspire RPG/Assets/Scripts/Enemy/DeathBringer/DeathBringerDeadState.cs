@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-
 public class DeathBringerDeadState : EnemyState
 {
-    private EnemyDeathBringer enemy;
+    private readonly EnemyDeathBringer enemy;
 
-    public DeathBringerDeadState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyDeathBringer enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public DeathBringerDeadState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName,
+        EnemyDeathBringer _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
-        this.enemy = enemy;
+        this.enemy = _enemy;
     }
 
     public override void Enter()
@@ -18,14 +18,14 @@ public class DeathBringerDeadState : EnemyState
         enemy.anim.speed = 0;
         enemy.cd.enabled = false;
 
-        stateTimer = 0.15f;
+        StateTimer = 0.15f;
     }
 
     public override void Update()
     {
         base.Update();
 
-        if (stateTimer > 0)
-            rb.velocity = new Vector2(0, 10);
+        if (StateTimer > 0)
+            Rb.velocity = new Vector2(0, 10);
     }
 }

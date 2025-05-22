@@ -3,21 +3,18 @@ using UnityEngine;
 
 public class Player : Entity
 {
-    [Header("Attack details")]
-    public Vector2[] attackMovement;
+    [Header("Attack details")] public Vector2[] attackMovement;
     public float counterAttackDuration = .2f;
 
     public bool isBusy { get; private set; }
 
-    [Header("Move info")]
-    public float moveSpeed = 12f;
+    [Header("Move info")] public float moveSpeed = 12f;
     public float jumpForce;
     public float swordReturnImpact;
     private float defaultMoveSpeed;
     private float defaultJumpForce;
 
-    [Header("Dash info")]
-    public float dashSpeed;
+    [Header("Dash info")] public float dashSpeed;
     public float dashDuration;
     private float defaultDashSpeed;
     public float dashDir { get; private set; }
@@ -27,20 +24,22 @@ public class Player : Entity
     public PlayerFX fx { get; private set; }
 
     #region States
-    public PlayerStateMachine stateMachine { get; private set; }
+
+    private PlayerStateMachine stateMachine { get; set; }
     public PlayerIdleState idleState { get; private set; }
     public PlayerMoveState moveState { get; private set; }
     public PlayerJumpState jumpState { get; private set; }
     public PlayerAirState airState { get; private set; }
     public PlayerWallSlideState wallSlide { get; private set; }
     public PlayerWallJumpState wallJump { get; private set; }
-    public PlayerDashState dashState { get; private set; }
+    private PlayerDashState dashState { get; set; }
     public PlayerPrimaryAttackState primaryAttack { get; private set; }
     public PlayerCounterAttackState counterAttack { get; private set; }
-    public PlayerAimSwordState aimSowrd { get; private set; }
-    public PlayerCatchSwordState catchSword { get; private set; }
+    public PlayerAimSwordState aimSword { get; private set; }
+    private PlayerCatchSwordState catchSword { get; set; }
     public PlayerBlackholeState blackHole { get; private set; }
-    public PlayerDeadState deadState { get; private set; }
+    private PlayerDeadState deadState { get; set; }
+
     #endregion
 
     protected override void Awake()
@@ -59,7 +58,7 @@ public class Player : Entity
         primaryAttack = new PlayerPrimaryAttackState(this, stateMachine, "Attack");
         counterAttack = new PlayerCounterAttackState(this, stateMachine, "CounterAttack");
 
-        aimSowrd = new PlayerAimSwordState(this, stateMachine, "AimSword");
+        aimSword = new PlayerAimSwordState(this, stateMachine, "AimSword");
         catchSword = new PlayerCatchSwordState(this, stateMachine, "CatchSword");
         blackHole = new PlayerBlackholeState(this, stateMachine, "Jump");
 
@@ -106,7 +105,7 @@ public class Player : Entity
         dashSpeed = dashSpeed * (1 - _slowPercentage);
         anim.speed = anim.speed * (1 - _slowPercentage);
 
-        Invoke("ReturnDefaultSpeed", _slowDuration);
+        Invoke(nameof(ReturnDefaultSpeed), _slowDuration);
     }
 
     protected override void ReturnDefaultSpeed()

@@ -1,31 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyDeathBringer : Enemy
 {
     #region States
+
     public DeathBringerBattleState battleState { get; private set; }
     public DeathBringerAttackState attackState { get; private set; }
     public DeathBringerIdleState idleState { get; private set; }
-    public DeathBringerDeadState deadState { get; private set; }
+    private DeathBringerDeadState deadState { get; set; }
     public DeathBringerSpellCastState spellCastState { get; private set; }
     public DeathBringerTeleportState teleportState { get; private set; }
 
     #endregion
+
     public bool bossFightBegun;
 
-    [Header("Spell cast details")]
-    [SerializeField] private GameObject spellPrefab;
+    [Header("Spell cast details")] [SerializeField]
+    private GameObject spellPrefab;
+
     public int amountOfSpells;
     public float spellCooldown;
     public float lastTimeCast;
     [SerializeField] private float spellStateCooldown;
     [SerializeField] private Vector2 spellOffset;
 
-    [Header("Teleport details")]
-    [SerializeField] private BoxCollider2D arena;
+    [Header("Teleport details")] [SerializeField]
+    private BoxCollider2D arena;
+
     [SerializeField] private Vector2 surroundingCheckSize;
     public float chanceToTeleport;
     public float defaultChanceToTeleport = 25;
@@ -53,11 +54,6 @@ public class EnemyDeathBringer : Enemy
         stateMachine.Initialize(idleState);
     }
 
-    protected override void Update()
-    {
-        base.Update();
-    }
-
     public override void Die()
     {
         base.Die();
@@ -73,7 +69,8 @@ public class EnemyDeathBringer : Enemy
         if (player.rb.velocity.x != 0)
             xOffset = player.facingDir * spellOffset.x;
 
-        Vector3 spellPosition = new Vector3(player.transform.position.x + xOffset, player.transform.position.y + spellOffset.y);
+        Vector3 spellPosition = new Vector3(player.transform.position.x + xOffset,
+            player.transform.position.y + spellOffset.y);
 
         GameObject newSpell = Instantiate(spellPrefab, spellPosition, Quaternion.identity);
         newSpell.GetComponent<DeathBringerSpellController>().SetupSpell(stats);
@@ -85,7 +82,8 @@ public class EnemyDeathBringer : Enemy
         float y = Random.Range(arena.bounds.min.y + 3, arena.bounds.max.y - 3);
 
         transform.position = new Vector3(x, y);
-        transform.position = new Vector3(transform.position.x, transform.position.y - GroundBelow().distance + (cd.size.y / 2));
+        transform.position = new Vector3(transform.position.x,
+            transform.position.y - GroundBelow().distance + (cd.size.y / 2));
 
         if (!GroundBelow() || SomethingIsAround())
         {
@@ -94,13 +92,16 @@ public class EnemyDeathBringer : Enemy
     }
 
     private RaycastHit2D GroundBelow() => Physics2D.Raycast(transform.position, Vector2.down, 100, whatIsGround);
-    private bool SomethingIsAround() => Physics2D.BoxCast(transform.position, surroundingCheckSize, 0, Vector2.zero, 0, whatIsGround);
+
+    private bool SomethingIsAround() =>
+        Physics2D.BoxCast(transform.position, surroundingCheckSize, 0, Vector2.zero, 0, whatIsGround);
 
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
 
-        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y - GroundBelow().distance));
+        Gizmos.DrawLine(transform.position,
+            new Vector3(transform.position.x, transform.position.y - GroundBelow().distance));
         Gizmos.DrawWireCube(transform.position, surroundingCheckSize);
     }
 
@@ -117,11 +118,6 @@ public class EnemyDeathBringer : Enemy
 
     public bool CanDoSpellCast()
     {
-        if (Time.time >= lastTimeCast + spellStateCooldown)
-        {
-            return true;
-        }
-
-        return false;
+        return Time.time >= lastTimeCast + spellStateCooldown;
     }
 }

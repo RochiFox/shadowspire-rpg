@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CrystalSkillController : MonoBehaviour
 {
+    private static readonly int Explode = Animator.StringToHash("Explode");
+
     private Animator anim => GetComponent<Animator>();
     private CircleCollider2D cd => GetComponent<CircleCollider2D>();
     private Player player;
@@ -13,11 +13,16 @@ public class CrystalSkillController : MonoBehaviour
     private bool canMove;
     private float moveSpeed;
     private bool canGrow;
-    private float growSpeed = 5;
+    private const float GROW_SPEED = 5;
 
     private Transform closestTarget;
     [SerializeField] private LayerMask whatIsEnemy;
-    public void SetupCrystal(float _crystalDuration, bool _canExplode, bool _canMove, float _moveSpeed, Transform _closestTarget, Player _player)
+
+    private readonly Collider2D[] randomEnemyResult = new Collider2D[10];
+    private readonly Collider2D[] animationsResult = new Collider2D[10];
+
+    public void SetupCrystal(float _crystalDuration, bool _canExplode, bool _canMove, float _moveSpeed,
+        Transform _closestTarget, Player _player)
     {
         player = _player;
         crystalExistTimer = _crystalDuration;
@@ -31,10 +36,10 @@ public class CrystalSkillController : MonoBehaviour
     {
         float radius = SkillManager.instance.blackhole.GetBlackholeRadius();
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius, whatIsEnemy);
+        int size = Physics2D.OverlapCircleNonAlloc(transform.position, radius, randomEnemyResult, whatIsEnemy);
 
-        if (colliders.Length > 0)
-            closestTarget = colliders[Random.Range(0, colliders.Length)].transform;
+        if (size > 0)
+            closestTarget = randomEnemyResult[Random.Range(0, size)].transform;
     }
 
     private void Update()
@@ -44,15 +49,15 @@ public class CrystalSkillController : MonoBehaviour
         if (crystalExistTimer < 0)
         {
             FinishCrystal();
-
         }
 
         if (canMove)
         {
-            if (closestTarget == null)
+            if (!closestTarget)
                 return;
 
-            transform.position = Vector2.MoveTowards(transform.position, closestTarget.position, moveSpeed * Time.deltaTime);
+            transform.position =
+                Vector2.MoveTowards(transform.position, closestTarget.position, moveSpeed * Time.deltaTime);
 
             if (Vector2.Distance(transform.position, closestTarget.position) < 1)
             {
@@ -62,26 +67,26 @@ public class CrystalSkillController : MonoBehaviour
         }
 
         if (canGrow)
-            transform.localScale = Vector2.Lerp(transform.localScale, new Vector2(3, 3), growSpeed * Time.deltaTime);
+            transform.localScale = Vector2.Lerp(transform.localScale, new Vector2(3, 3), GROW_SPEED * Time.deltaTime);
     }
 
     private void AnimationExplodeEvent()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, cd.radius);
+        int size = Physics2D.OverlapCircleNonAlloc(transform.position, cd.radius, animationsResult);
 
-        foreach (var hit in colliders)
+        for (int i = 0; i < size; i++)
         {
-            if (hit.GetComponent<Enemy>() != null)
-            {
+            Collider2D hit = animationsResult[i];
 
+            if (hit.GetComponent<Enemy>())
+            {
                 hit.GetComponent<Entity>().SetupKnockbackDir(transform);
                 player.stats.DoMagicalDamage(hit.GetComponent<CharacterStats>());
 
+                ItemDataEquipment equippedAmulet = Inventory.instance.GetEquipment(EquipmentType.Amulet);
 
-                ItemDataEquipment equipedAmulet = Inventory.instance.GetEquipment(EquipmentType.Amulet);
-
-                if (equipedAmulet != null)
-                    equipedAmulet.Effect(hit.transform);
+                if (equippedAmulet)
+                    equippedAmulet.Effect(hit.transform);
             }
         }
     }
@@ -91,7 +96,7 @@ public class CrystalSkillController : MonoBehaviour
         if (canExplode)
         {
             canGrow = true;
-            anim.SetTrigger("Explode");
+            anim.SetTrigger(Explode);
         }
         else
             SelfDestroy();

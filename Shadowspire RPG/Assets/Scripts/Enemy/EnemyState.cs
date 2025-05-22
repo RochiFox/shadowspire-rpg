@@ -1,34 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyState
 {
-    protected EnemyStateMachine stateMachine;
-    protected Enemy enemyBase;
-    protected Rigidbody2D rb;
+    protected readonly EnemyStateMachine StateMachine;
+    private readonly Enemy enemyBase;
+    protected Rigidbody2D Rb;
 
-    private string animBoolName;
+    private readonly string animBoolName;
 
-    protected float stateTimer;
-    protected bool triggerCalled;
+    protected float StateTimer;
+    protected bool TriggerCalled;
 
-    public EnemyState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName)
+    protected EnemyState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName)
     {
         this.enemyBase = _enemyBase;
-        this.stateMachine = _stateMachine;
+        this.StateMachine = _stateMachine;
         this.animBoolName = _animBoolName;
     }
 
     public virtual void Update()
     {
-        stateTimer -= Time.deltaTime;
+        StateTimer -= Time.deltaTime;
     }
 
     public virtual void Enter()
     {
-        triggerCalled = false;
-        rb = enemyBase.rb;
+        TriggerCalled = false;
+        Rb = enemyBase.rb;
         enemyBase.anim.SetBool(animBoolName, true);
     }
 
@@ -40,6 +38,6 @@ public class EnemyState
 
     public virtual void AnimationFinishTrigger()
     {
-        triggerCalled = true;
+        TriggerCalled = true;
     }
 }

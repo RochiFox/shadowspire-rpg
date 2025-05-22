@@ -1,11 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerItemDrop : ItemDrop
 {
-    [Header("Player's drop")]
-    [SerializeField] private float chanceToLooseItems;
+    [Header("Player's drop")] [SerializeField]
+    private float chanceToLooseItems;
+
     [SerializeField] private float chanceToLooseMaterials;
 
     public override void GenerateDrop()
@@ -24,9 +24,9 @@ public class PlayerItemDrop : ItemDrop
             }
         }
 
-        for (int i = 0; i < itemsToUnequip.Count; i++)
+        foreach (InventoryItem item in itemsToUnequip)
         {
-            inventory.UnequipItem(itemsToUnequip[i].data as ItemDataEquipment);
+            inventory.UnequipItem(item.data as ItemDataEquipment);
         }
 
         foreach (InventoryItem item in inventory.GetStashList())
@@ -38,9 +38,9 @@ public class PlayerItemDrop : ItemDrop
             }
         }
 
-        for (int i = 0; i < materialsToLoose.Count; i++)
+        foreach (InventoryItem material in materialsToLoose)
         {
-            inventory.RemoveItem(materialsToLoose[i].data);
+            inventory.RemoveItem(material.data);
         }
     }
 }

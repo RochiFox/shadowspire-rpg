@@ -1,9 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CloneSkillController : MonoBehaviour
 {
+    private static readonly int AttackNumber = Animator.StringToHash("AttackNumber");
+
     private Player player;
     private SpriteRenderer sr;
     private Animator anim;
@@ -17,10 +18,12 @@ public class CloneSkillController : MonoBehaviour
     private bool canDuplicateClone;
     private float chanceToDuplicate;
 
-    [Space]
-    [SerializeField] private LayerMask whatIsEnemy;
+    [Space] [SerializeField] private LayerMask whatIsEnemy;
     [SerializeField] private float closestEnemyCheckRadius = 25;
     [SerializeField] private Transform closestEnemy;
+
+    private readonly Collider2D[] attackResult = new Collider2D[10];
+    private readonly Collider2D[] closestEnemyResult = new Collider2D[10];
 
     private void Awake()
     {
@@ -43,10 +46,11 @@ public class CloneSkillController : MonoBehaviour
         }
     }
 
-    public void SetupClone(Transform _newTransform, float _cloneDuration, bool _canAttack, Vector3 _offset, bool _canDuplicate, float _chanceToDuplicate, Player _player, float _attackMultiplier)
+    public void SetupClone(Transform _newTransform, float _cloneDuration, bool _canAttack, Vector3 _offset,
+        bool _canDuplicate, float _chanceToDuplicate, Player _player, float _attackMultiplier)
     {
         if (_canAttack)
-            anim.SetInteger("AttackNumber", Random.Range(1, 3));
+            anim.SetInteger(AttackNumber, Random.Range(1, 3));
 
         attackMultiplier = _attackMultiplier;
         player = _player;
@@ -64,11 +68,13 @@ public class CloneSkillController : MonoBehaviour
 
     private void AttackTrigger()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(attackCheck.position, attackCheckRadius);
+        int size = Physics2D.OverlapCircleNonAlloc(attackCheck.position, attackCheckRadius, attackResult);
 
-        foreach (var hit in colliders)
+        for (int i = 0; i < size; i++)
         {
-            if (hit.GetComponent<Enemy>() != null)
+            Collider2D hit = attackResult[i];
+
+            if (hit.GetComponent<Enemy>())
             {
                 //player.stats.DoDamage(hit.GetComponent<CharacterStats>()); // make a new function for clone damage to regulate damage;
 
@@ -83,7 +89,7 @@ public class CloneSkillController : MonoBehaviour
                 {
                     ItemDataEquipment weaponData = Inventory.instance.GetEquipment(EquipmentType.Weapon);
 
-                    if (weaponData != null)
+                    if (weaponData)
                         weaponData.Effect(hit.transform);
                 }
 
@@ -104,7 +110,7 @@ public class CloneSkillController : MonoBehaviour
 
         FindClosestEnemy();
 
-        if (closestEnemy != null)
+        if (closestEnemy)
         {
             if (transform.position.x > closestEnemy.position.x)
             {
@@ -116,18 +122,19 @@ public class CloneSkillController : MonoBehaviour
 
     private void FindClosestEnemy()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, closestEnemyCheckRadius, whatIsEnemy);
+        int size = Physics2D.OverlapCircleNonAlloc(transform.position, closestEnemyCheckRadius, closestEnemyResult,
+            whatIsEnemy);
 
         float closestDistance = Mathf.Infinity;
 
-        foreach (var hit in colliders)
+        for (int i = 0; i < size; i++)
         {
-            float distanceToEnemy = Vector2.Distance(transform.position, hit.transform.position);
+            float distanceToEnemy = Vector2.Distance(transform.position, closestEnemyResult[i].transform.position);
 
             if (distanceToEnemy < closestDistance)
             {
                 closestDistance = distanceToEnemy;
-                closestEnemy = hit.transform;
+                closestEnemy = closestEnemyResult[i].transform;
             }
         }
     }

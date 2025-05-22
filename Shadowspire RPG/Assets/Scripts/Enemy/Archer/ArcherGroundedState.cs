@@ -1,15 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ArcherGroundedState : EnemyState
 {
-    protected Transform player;
-    protected EnemyArcher enemy;
+    private Transform player;
+    protected readonly EnemyArcher Enemy;
 
-    public ArcherGroundedState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyArcher _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    protected ArcherGroundedState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName,
+        EnemyArcher _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
-        this.enemy = _enemy;
+        this.Enemy = _enemy;
     }
 
     public override void Enter()
@@ -19,18 +18,14 @@ public class ArcherGroundedState : EnemyState
         player = PlayerManager.instance.player.transform;
     }
 
-    public override void Exit()
-    {
-        base.Exit();
-    }
-
     public override void Update()
     {
         base.Update();
 
-        if (enemy.IsPlayerDetected() || Vector2.Distance(enemy.transform.position, player.transform.position) < enemy.agroDistance)
+        if (Enemy.IsPlayerDetected() ||
+            Vector2.Distance(Enemy.transform.position, player.transform.position) < Enemy.agroDistance)
         {
-            stateMachine.ChangeState(enemy.battleState);
+            StateMachine.ChangeState(Enemy.battleState);
         }
     }
 }

@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class EquipmentSlotUI : ItemSlotUI
@@ -12,15 +9,15 @@ public class EquipmentSlotUI : ItemSlotUI
         gameObject.name = "Equipment slot - " + slotType.ToString();
     }
 
-    public override void OnPointerDown(PointerEventData eventData)
+    public override void OnPointerDown(PointerEventData _eventData)
     {
-        if (item == null || item.data == null)
+        if (item == null || !item.data)
             return;
 
         Inventory.instance.UnequipItem(item.data as ItemDataEquipment);
         Inventory.instance.AddItem(item.data as ItemDataEquipment);
 
-        ui.itemToolTip.HideToolTip();
+        UI.itemToolTip.HideToolTip();
 
         CleanUpSlot();
     }

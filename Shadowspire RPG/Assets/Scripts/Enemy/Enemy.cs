@@ -10,27 +10,24 @@ public class Enemy : Entity
 {
     [SerializeField] protected LayerMask whatIsPlayer;
 
-    [Header("Stunned info")]
-    public float stunDuration = 1;
+    [Header("Stunned info")] public float stunDuration = 1;
     public Vector2 stunDirection = new Vector2(10, 12);
-    protected bool canBeStunned;
+    private bool canBeStunned;
     [SerializeField] protected GameObject counterImage;
 
-    [Header("Move info")]
-    public float moveSpeed = 1.5f;
+    [Header("Move info")] public float moveSpeed = 1.5f;
     public float idleTime = 2;
     public float battleTime = 7;
     private float defaultMoveSpeed;
 
-    [Header("Attack info")]
-    public float agroDistance = 2;
+    [Header("Attack info")] public float agroDistance = 2;
     public float attackDistance = 2;
     public float attackCooldown;
     public float minAttackCooldown = 1;
     public float maxAttackCooldown = 2;
     [HideInInspector] public float lastTimeAttacked;
 
-    public EnemyStateMachine stateMachine { get; private set; }
+    protected EnemyStateMachine stateMachine { get; private set; }
     public EntityFX fx { get; private set; }
     public string lastAnimBoolName { get; private set; }
 
@@ -63,7 +60,7 @@ public class Enemy : Entity
         moveSpeed = moveSpeed * (1 - _slowPercentage);
         anim.speed = anim.speed * (1 - _slowPercentage);
 
-        Invoke("ReturnDefaultSpeed", _slowDuration);
+        Invoke(nameof(ReturnDefaultSpeed), _slowDuration);
     }
 
     protected override void ReturnDefaultSpeed()
@@ -99,6 +96,7 @@ public class Enemy : Entity
     }
 
     #region Counter Attack Window
+
     public virtual void OpenCounterAttackWindow()
     {
         canBeStunned = true;
@@ -110,6 +108,7 @@ public class Enemy : Entity
         canBeStunned = false;
         counterImage.SetActive(false);
     }
+
     #endregion
 
     public virtual bool CanBeStunned()
@@ -131,7 +130,8 @@ public class Enemy : Entity
 
     public virtual RaycastHit2D IsPlayerDetected()
     {
-        RaycastHit2D playerDetected = Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, 10, whatIsPlayer);
+        RaycastHit2D playerDetected =
+            Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, 10, whatIsPlayer);
         RaycastHit2D wallDetected = Physics2D.Raycast(wallCheck.position, Vector2.right * facingDir, 10, whatIsGround);
 
         if (wallDetected)
@@ -148,6 +148,7 @@ public class Enemy : Entity
         base.OnDrawGizmos();
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x + attackDistance * facingDir, transform.position.y));
+        Gizmos.DrawLine(transform.position,
+            new Vector3(transform.position.x + attackDistance * facingDir, transform.position.y));
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour, ISaveManager
@@ -8,9 +6,10 @@ public class PlayerManager : MonoBehaviour, ISaveManager
     public Player player;
 
     public int currency;
+
     private void Awake()
     {
-        if (instance != null)
+        if (instance)
             Destroy(instance.gameObject);
         else
             instance = this;
@@ -23,7 +22,7 @@ public class PlayerManager : MonoBehaviour, ISaveManager
             return false;
         }
 
-        currency = currency - _price;
+        currency -= _price;
         return true;
     }
 
@@ -31,11 +30,11 @@ public class PlayerManager : MonoBehaviour, ISaveManager
 
     public void LoadData(GameData _data)
     {
-        this.currency = _data.currency;
+        currency = _data.currency;
     }
 
     public void SaveData(ref GameData _data)
     {
-        _data.currency = this.currency;
+        _data.currency = currency;
     }
 }

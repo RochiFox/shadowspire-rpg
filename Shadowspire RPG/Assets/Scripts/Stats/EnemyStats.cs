@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyStats : CharacterStats
@@ -8,11 +6,10 @@ public class EnemyStats : CharacterStats
     private ItemDrop myDropSystem;
     public Stat soulsDropAmount;
 
-    [Header("Level details")]
-    [SerializeField] private int level = 1;
+    [Header("Level details")] [SerializeField]
+    private int level = 1;
 
-    [Range(0f, 1f)]
-    [SerializeField] private float percantageModifier = .4f;
+    [Range(0f, 1f)] [SerializeField] private float percentageModifier = .4f;
 
     protected override void Start()
     {
@@ -52,15 +49,10 @@ public class EnemyStats : CharacterStats
     {
         for (int i = 1; i < level; i++)
         {
-            float modifier = _stat.GetValue() * percantageModifier;
+            float modifier = _stat.GetValue() * percentageModifier;
 
             _stat.AddModifier(Mathf.RoundToInt(modifier));
         }
-    }
-
-    public override void TakeDamage(int _damage)
-    {
-        base.TakeDamage(_damage);
     }
 
     protected override void Die()

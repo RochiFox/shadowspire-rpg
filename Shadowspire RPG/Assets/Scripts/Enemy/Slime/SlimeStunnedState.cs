@@ -1,11 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SlimeStunnedState : EnemyState
 {
-    private EnemySlime enemy;
-    public SlimeStunnedState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemySlime _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    private static readonly int StunFold = Animator.StringToHash("StunFold");
+
+    private readonly EnemySlime enemy;
+
+    public SlimeStunnedState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemySlime _enemy)
+        : base(_enemyBase, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
     }
@@ -16,9 +18,9 @@ public class SlimeStunnedState : EnemyState
 
         enemy.fx.InvokeRepeating("RedColorBlink", 0, .1f);
 
-        stateTimer = enemy.stunDuration;
+        StateTimer = enemy.stunDuration;
 
-        rb.velocity = new Vector2(-enemy.facingDir * enemy.stunDirection.x, enemy.stunDirection.y);
+        Rb.velocity = new Vector2(-enemy.facingDir * enemy.stunDirection.x, enemy.stunDirection.y);
     }
 
     public override void Exit()
@@ -32,14 +34,14 @@ public class SlimeStunnedState : EnemyState
     {
         base.Update();
 
-        if (rb.velocity.y < .1f && enemy.IsGroundDetected())
+        if (Rb.velocity.y < .1f && enemy.IsGroundDetected())
         {
             enemy.fx.Invoke("CancelColorChange", 0);
-            enemy.anim.SetTrigger("StunFold");
+            enemy.anim.SetTrigger(StunFold);
             enemy.stats.MakeInvincible(true);
         }
 
-        if (stateTimer < 0)
-            stateMachine.ChangeState(enemy.idleState);
+        if (StateTimer < 0)
+            StateMachine.ChangeState(enemy.idleState);
     }
 }

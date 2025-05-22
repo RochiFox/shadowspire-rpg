@@ -23,17 +23,17 @@ public class HealthBarUI : MonoBehaviour
 
     private void OnEnable()
     {
-        entity.onFlipped += FlipUI;
-        myStats.onHealthChanged += UpdateHealthUI;
+        entity.OnFlipped += FlipUI;
+        myStats.OnHealthChanged += UpdateHealthUI;
     }
 
     private void OnDisable()
     {
-        if (entity != null)
-            entity.onFlipped -= FlipUI;
+        if (entity)
+            entity.OnFlipped -= FlipUI;
 
-        if (myStats != null)
-            myStats.onHealthChanged -= UpdateHealthUI;
+        if (myStats)
+            myStats.OnHealthChanged -= UpdateHealthUI;
     }
 
     private void FlipUI() => myTransform.Rotate(0, 180, 0);

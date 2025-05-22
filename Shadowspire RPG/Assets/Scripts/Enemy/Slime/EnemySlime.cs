@@ -1,25 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public enum SlimeType { big, medium, small }
+public enum SlimeType
+{
+    Big,
+    Medium,
+    Small
+}
 
 public class EnemySlime : Enemy
 {
-    [Header("Slime spesific")]
-    [SerializeField] private SlimeType slimeType;
+    [Header("Slime specific")] [SerializeField]
+    private SlimeType slimeType;
+
     [SerializeField] private int slimesToCreate;
     [SerializeField] private GameObject slimePrefab;
     [SerializeField] private Vector2 minCreationVelocity;
     [SerializeField] private Vector2 maxCreationVelocity;
 
     #region States
+
     public SlimeIdleState idleState { get; private set; }
     public SlimeMoveState moveState { get; private set; }
     public SlimeBattleState battleState { get; private set; }
     public SlimeAttackState attackState { get; private set; }
-    public SlimeStunnedState stunnedState { get; private set; }
-    public SlimeDeadState deadState { get; private set; }
+    private SlimeStunnedState stunnedState { get; set; }
+    private SlimeDeadState deadState { get; set; }
+
     #endregion
 
     protected override void Awake()
@@ -43,11 +49,6 @@ public class EnemySlime : Enemy
         stateMachine.Initialize(idleState);
     }
 
-    protected override void Update()
-    {
-        base.Update();
-    }
-
     public override bool CanBeStunned()
     {
         if (base.CanBeStunned())
@@ -65,7 +66,7 @@ public class EnemySlime : Enemy
 
         stateMachine.ChangeState(deadState);
 
-        if (slimeType == SlimeType.small)
+        if (slimeType == SlimeType.Small)
             return;
 
         CreateSlimes(slimesToCreate, slimePrefab);
@@ -81,21 +82,20 @@ public class EnemySlime : Enemy
         }
     }
 
-    public void SetupSlime(int _facingDir)
+    private void SetupSlime(int _facingDir)
     {
-
         if (_facingDir != facingDir)
             Flip();
 
         float xVelocity = Random.Range(minCreationVelocity.x, maxCreationVelocity.x);
         float yVelocity = Random.Range(minCreationVelocity.y, maxCreationVelocity.y);
 
-        isKnocked = true;
+        IsKnocked = true;
 
         GetComponent<Rigidbody2D>().velocity = new Vector2(xVelocity * -facingDir, yVelocity);
 
-        Invoke("CancelKnockback", 1.5f);
+        Invoke(nameof(CancelKnockback), 1.5f);
     }
 
-    private void CancelKnockback() => isKnocked = false;
+    private void CancelKnockback() => IsKnocked = false;
 }

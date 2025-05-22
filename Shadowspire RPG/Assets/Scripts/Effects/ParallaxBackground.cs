@@ -10,7 +10,7 @@ public class ParallaxBackground : MonoBehaviour
     private Vector3 targetPosition;
     [SerializeField] private float lerpSpeed = 10;
 
-    void Start()
+    private void Start()
     {
         cam = GameObject.Find("Main Camera");
 
@@ -18,7 +18,7 @@ public class ParallaxBackground : MonoBehaviour
         xPosition = transform.position.x;
     }
 
-    void Update()
+    private void Update()
     {
         float distanceMoved = cam.transform.position.x * (1 - parallaxEffect);
         float distanceToMove = cam.transform.position.x * parallaxEffect;
@@ -30,6 +30,5 @@ public class ParallaxBackground : MonoBehaviour
             xPosition = xPosition + length;
         else if (distanceMoved < xPosition - length)
             xPosition = xPosition - length;
-
     }
 }

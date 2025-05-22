@@ -1,10 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyAnimationTriggers : MonoBehaviour
 {
     private Enemy enemy => GetComponentInParent<Enemy>();
+
+    private readonly Collider2D[] attackResult = new Collider2D[10];
 
     private void AnimationTrigger()
     {
@@ -13,11 +13,13 @@ public class EnemyAnimationTriggers : MonoBehaviour
 
     private void AttackTrigger()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(enemy.attackCheck.position, enemy.attackCheckRadius);
+        int size = Physics2D.OverlapCircleNonAlloc(enemy.attackCheck.position, enemy.attackCheckRadius, attackResult);
 
-        foreach (var hit in colliders)
+        for (int i = 0; i < size; i++)
         {
-            if (hit.GetComponent<Player>() != null)
+            Collider2D hit = attackResult[i];
+
+            if (hit.GetComponent<Player>())
             {
                 PlayerStats target = hit.GetComponent<PlayerStats>();
                 enemy.stats.DoDamage(target);
@@ -25,7 +27,7 @@ public class EnemyAnimationTriggers : MonoBehaviour
         }
     }
 
-    private void SpeicalAttackTrigger()
+    protected void SpecialAttackTrigger()
     {
         enemy.AnimationSpecialAttackTrigger();
     }

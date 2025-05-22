@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ExplosiveController : MonoBehaviour
 {
+    private static readonly int Explode = Animator.StringToHash("Explode");
+
     private Animator anim;
     private CharacterStats myStats;
     private float growSpeed = 15;
@@ -12,17 +12,19 @@ public class ExplosiveController : MonoBehaviour
 
     private bool canGrow = true;
 
+    private readonly Collider2D[] animationExplodeResult = new Collider2D[10];
+
     private void Update()
     {
         if (canGrow)
-            transform.localScale = Vector2.Lerp(transform.localScale, new Vector2(maxSize, maxSize), growSpeed * Time.deltaTime);
+            transform.localScale = Vector2.Lerp(transform.localScale, new Vector2(maxSize, maxSize),
+                growSpeed * Time.deltaTime);
 
         if (maxSize - transform.localScale.x < .5f)
         {
             canGrow = false;
-            anim.SetTrigger("Explode");
+            anim.SetTrigger(Explode);
         }
-
     }
 
     public void SetupExplosive(CharacterStats _myStats, float _growSpeed, float _maxSize, float _radius)
@@ -37,13 +39,14 @@ public class ExplosiveController : MonoBehaviour
 
     private void AnimationExplodeEvent()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
+        int size = Physics2D.OverlapCircleNonAlloc(transform.position, explosionRadius, animationExplodeResult);
 
-        foreach (var hit in colliders)
+        for (int i = 0; i < size; i++)
         {
-            if (hit.GetComponent<CharacterStats>() != null)
-            {
+            Collider2D hit = animationExplodeResult[i];
 
+            if (hit.GetComponent<CharacterStats>())
+            {
                 hit.GetComponent<Entity>().SetupKnockbackDir(transform);
                 myStats.DoDamage(hit.GetComponent<CharacterStats>());
 

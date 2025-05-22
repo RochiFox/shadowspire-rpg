@@ -1,10 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAnimationTriggers : MonoBehaviour
 {
     private Player player => GetComponentInParent<Player>();
+
+    private readonly Collider2D[] triggersResult = new Collider2D[10];
 
     private void AnimationTrigger()
     {
@@ -13,23 +13,26 @@ public class PlayerAnimationTriggers : MonoBehaviour
 
     private void AttackTrigger()
     {
-        AudioManager.instance.PlaySFX(2, null);
+        AudioManager.instance.PlaySfx(2, null);
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(player.attackCheck.position, player.attackCheckRadius);
+        int size = Physics2D.OverlapCircleNonAlloc(player.attackCheck.position, player.attackCheckRadius,
+            triggersResult);
 
-        foreach (var hit in colliders)
+        for (int i = 0; i < size; i++)
         {
-            if (hit.GetComponent<Enemy>() != null)
-            {
-                EnemyStats _target = hit.GetComponent<EnemyStats>();
+            Collider2D hit = triggersResult[i];
 
-                if (_target != null)
-                    player.stats.DoDamage(_target);
+            if (hit.GetComponent<Enemy>())
+            {
+                EnemyStats target = hit.GetComponent<EnemyStats>();
+
+                if (target)
+                    player.stats.DoDamage(target);
 
                 ItemDataEquipment weaponData = Inventory.instance.GetEquipment(EquipmentType.Weapon);
 
-                if (weaponData != null)
-                    weaponData.Effect(_target.transform);
+                if (weaponData)
+                    weaponData.Effect(target.transform);
             }
         }
     }

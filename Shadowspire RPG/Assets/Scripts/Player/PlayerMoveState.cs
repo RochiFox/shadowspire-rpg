@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class PlayerMoveState : PlayerGroundedState
 {
-    public PlayerMoveState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public PlayerMoveState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player,
+        _stateMachine, _animBoolName)
     {
     }
 
@@ -12,23 +9,23 @@ public class PlayerMoveState : PlayerGroundedState
     {
         base.Enter();
 
-        AudioManager.instance.PlaySFX(8, null);
+        AudioManager.instance.PlaySfx(8, null);
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        AudioManager.instance.StopSFX(8);
+        AudioManager.instance.StopSfx(8);
     }
 
     public override void Update()
     {
         base.Update();
 
-        player.SetVelocity(xInput * player.moveSpeed, rb.velocity.y);
+        Player.SetVelocity(XInput * Player.moveSpeed, Rb.velocity.y);
 
-        if (xInput == 0 || player.IsWallDetected())
-            stateMachine.ChangeState(player.idleState);
+        if (XInput == 0 || Player.IsWallDetected())
+            StateMachine.ChangeState(Player.idleState);
     }
 }

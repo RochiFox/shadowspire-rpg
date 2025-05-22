@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class UI : MonoBehaviour, ISaveManager
 {
-    [Header("End screen")]
-    [SerializeField] private FadeScreenUI fadeScreen;
+    [Header("End screen")] [SerializeField]
+    private FadeScreenUI fadeScreen;
+
     [SerializeField] private GameObject endText;
     [SerializeField] private GameObject restartButton;
-    [Space]
-
-    [SerializeField] private GameObject characterUI;
+    [Space] [SerializeField] private GameObject characterUI;
     [SerializeField] private GameObject skillTreeUI;
     [SerializeField] private GameObject craftUI;
     [SerializeField] private GameObject optionsUI;
@@ -29,7 +28,7 @@ public class UI : MonoBehaviour, ISaveManager
         fadeScreen.gameObject.SetActive(true);
     }
 
-    void Start()
+    private void Start()
     {
         SwitchTo(inGameUI);
 
@@ -37,7 +36,7 @@ public class UI : MonoBehaviour, ISaveManager
         statToolTip.gameObject.SetActive(false);
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
             SwitchWithKeyTo(characterUI);
@@ -54,33 +53,29 @@ public class UI : MonoBehaviour, ISaveManager
 
     public void SwitchTo(GameObject _menu)
     {
-
         for (int i = 0; i < transform.childCount; i++)
         {
-            bool fadeScreen = transform.GetChild(i).GetComponent<FadeScreenUI>() != null;
+            bool fadeScreenUi = transform.GetChild(i).GetComponent<FadeScreenUI>();
 
-            if (fadeScreen == false)
+            if (fadeScreenUi == false)
                 transform.GetChild(i).gameObject.SetActive(false);
         }
 
-        if (_menu != null)
+        if (_menu)
         {
-            AudioManager.instance.PlaySFX(5, null);
+            AudioManager.instance.PlaySfx(5, null);
             _menu.SetActive(true);
         }
 
-        if (GameManager.instance != null)
+        if (GameManager.instance)
         {
-            if (_menu == inGameUI)
-                GameManager.instance.PauseGame(false);
-            else
-                GameManager.instance.PauseGame(true);
+            GameManager.PauseGame(_menu != inGameUI);
         }
     }
 
-    public void SwitchWithKeyTo(GameObject _menu)
+    private void SwitchWithKeyTo(GameObject _menu)
     {
-        if (_menu != null && _menu.activeSelf)
+        if (_menu && _menu.activeSelf)
         {
             _menu.SetActive(false);
             CheckForInGameUI();
@@ -94,7 +89,8 @@ public class UI : MonoBehaviour, ISaveManager
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            if (transform.GetChild(i).gameObject.activeSelf && transform.GetChild(i).GetComponent<FadeScreenUI>() == null)
+            if (transform.GetChild(i).gameObject.activeSelf &&
+                !transform.GetChild(i).GetComponent<FadeScreenUI>())
                 return;
         }
 
@@ -104,10 +100,10 @@ public class UI : MonoBehaviour, ISaveManager
     public void SwitchOnEndScreen()
     {
         fadeScreen.FadeOut();
-        StartCoroutine(EndScreenCorutione());
+        StartCoroutine(EndScreenCoroutine());
     }
 
-    IEnumerator EndScreenCorutione()
+    private IEnumerator EndScreenCoroutine()
     {
         yield return new WaitForSeconds(1);
         endText.SetActive(true);
@@ -115,7 +111,7 @@ public class UI : MonoBehaviour, ISaveManager
         restartButton.SetActive(true);
     }
 
-    public void RestartGameButton() => GameManager.instance.RestartScene();
+    public void RestartGameButton() => GameManager.RestartScene();
 
     public void LoadData(GameData _data)
     {
@@ -123,7 +119,7 @@ public class UI : MonoBehaviour, ISaveManager
         {
             foreach (VolumeSliderUI item in volumeSettings)
             {
-                if (item.parametr == pair.Key)
+                if (item.parameter == pair.Key)
                     item.LoadSlider(pair.Value);
             }
         }
@@ -135,7 +131,7 @@ public class UI : MonoBehaviour, ISaveManager
 
         foreach (VolumeSliderUI item in volumeSettings)
         {
-            _data.volumeSettings.Add(item.parametr, item.slider.value);
+            _data.volumeSettings.Add(item.parameter, item.slider.value);
         }
     }
 }

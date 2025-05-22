@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ArrowController : MonoBehaviour
@@ -37,32 +35,32 @@ public class ArrowController : MonoBehaviour
         stats = _stats;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D _collision)
     {
-        if (collision.GetComponent<CharacterStats>()?.isInvincible == true)
+        if (_collision.GetComponent<CharacterStats>()?.isInvincible == true)
             return;
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer(targetLayerName))
+        if (_collision.gameObject.layer == LayerMask.NameToLayer(targetLayerName))
         {
-            stats.DoDamage(collision.GetComponent<CharacterStats>());
+            stats.DoDamage(_collision.GetComponent<CharacterStats>());
 
             if (targetLayerName == "Enemy")
                 Destroy(gameObject);
 
-            StuckInto(collision);
+            StuckInto(_collision);
         }
-        else if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
-            StuckInto(collision);
+        else if (_collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            StuckInto(_collision);
     }
 
-    private void StuckInto(Collider2D collision)
+    private void StuckInto(Collider2D _collision)
     {
         GetComponentInChildren<ParticleSystem>().Stop();
         GetComponent<CapsuleCollider2D>().enabled = false;
         canMove = false;
         rb.isKinematic = true;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
-        transform.parent = collision.transform;
+        transform.parent = _collision.transform;
 
         Destroy(gameObject, Random.Range(5, 7));
     }

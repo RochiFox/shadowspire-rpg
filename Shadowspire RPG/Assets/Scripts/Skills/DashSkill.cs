@@ -1,27 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DashSkill : Skill
 {
-    [Header("Dash")]
-    [SerializeField] private SkillTreeSlotUI dashUnlockButton;
+    [Header("Dash")] [SerializeField] private SkillTreeSlotUI dashUnlockButton;
     public bool dashUnlocked { get; private set; }
 
-    [Header("Clone on dash")]
-    [SerializeField] private SkillTreeSlotUI cloneOnDashUnlockButton;
-    public bool cloneOnDashUnlocked { get; private set; }
+    [Header("Clone on dash")] [SerializeField]
+    private SkillTreeSlotUI cloneOnDashUnlockButton;
 
-    [Header("Clone on arrival")]
-    [SerializeField] private SkillTreeSlotUI cloneOnArrivalUnlockButton;
-    public bool cloneOnArrivalUnlocked { get; private set; }
+    private bool cloneOnDashUnlocked { get; set; }
 
-    public override void UseSkill()
-    {
-        base.UseSkill();
-    }
+    [Header("Clone on arrival")] [SerializeField]
+    private SkillTreeSlotUI cloneOnArrivalUnlockButton;
+
+    private bool cloneOnArrivalUnlocked { get; set; }
 
     protected override void Start()
     {
@@ -40,7 +33,7 @@ public class DashSkill : Skill
     }
 
     private void UnlockDash()
-    { 
+    {
         if (dashUnlockButton.unlocked)
             dashUnlocked = true;
     }
@@ -53,19 +46,19 @@ public class DashSkill : Skill
 
     private void UnlockCloneOnArrival()
     {
-        if(cloneOnArrivalUnlockButton.unlocked)
+        if (cloneOnArrivalUnlockButton.unlocked)
             cloneOnArrivalUnlocked = true;
     }
 
     public void CloneOnDash()
     {
-        if(cloneOnDashUnlocked)
-            SkillManager.instance.clone.CreateClone(player.transform, Vector3.zero);
+        if (cloneOnDashUnlocked)
+            SkillManager.instance.clone.CreateClone(Player.transform, Vector3.zero);
     }
 
     public void CloneOnArrival()
     {
-        if(cloneOnArrivalUnlocked)
-            SkillManager.instance.clone.CreateClone(player.transform, Vector3.zero);
+        if (cloneOnArrivalUnlocked)
+            SkillManager.instance.clone.CreateClone(Player.transform, Vector3.zero);
     }
 }

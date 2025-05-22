@@ -1,16 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FadeScreenUI : MonoBehaviour
 {
+    private static readonly int Out = Animator.StringToHash("fadeOut");
+    private static readonly int In = Animator.StringToHash("fadeIn");
+
     private Animator anim;
 
-    void Start()
+    private void Start()
     {
         anim = GetComponent<Animator>();
     }
 
-    public void FadeOut() => anim.SetTrigger("fadeOut");
-    public void FadeIn() => anim.SetTrigger("fadeIn");
+    public void FadeOut() => anim.SetTrigger(Out);
+    public void FadeIn() => anim.SetTrigger(In);
 }

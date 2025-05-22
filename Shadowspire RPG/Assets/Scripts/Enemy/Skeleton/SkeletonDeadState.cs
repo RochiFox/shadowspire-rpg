@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SkeletonDeadState : EnemyState
 {
-    private EnemySkeleton enemy;
+    private readonly EnemySkeleton enemy;
 
-    public SkeletonDeadState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemySkeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public SkeletonDeadState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName,
+        EnemySkeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
     }
@@ -19,14 +18,14 @@ public class SkeletonDeadState : EnemyState
         enemy.anim.speed = 0;
         enemy.cd.enabled = false;
 
-        stateTimer = 0.15f;
+        StateTimer = 0.15f;
     }
 
     public override void Update()
     {
         base.Update();
 
-        if (stateTimer > 0)
-            rb.velocity = new Vector2(0, 10);
+        if (StateTimer > 0)
+            Rb.velocity = new Vector2(0, 10);
     }
 }

@@ -1,23 +1,17 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
-public class Stat 
+public class Stat
 {
-   [SerializeField] private int baseValue;
+    [SerializeField] private int baseValue;
 
     public List<int> modifiers;
+
     public int GetValue()
     {
-        int finalValue = baseValue; 
-
-        foreach (int modifier in modifiers)
-        {
-            finalValue += modifier;
-        }
-
-        return finalValue;
+        return baseValue + modifiers.Sum();
     }
 
     public void SetDefaultValue(int _value)

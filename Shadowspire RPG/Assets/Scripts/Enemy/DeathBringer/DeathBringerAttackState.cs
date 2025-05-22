@@ -1,10 +1,11 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DeathBringerAttackState : EnemyState
 {
-    private EnemyDeathBringer enemy;
-    public DeathBringerAttackState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyDeathBringer _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    private readonly EnemyDeathBringer enemy;
+
+    public DeathBringerAttackState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName,
+        EnemyDeathBringer _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
     }
@@ -27,14 +28,14 @@ public class DeathBringerAttackState : EnemyState
     {
         base.Update();
 
-        enemy.SetZeroVelocity(); 
+        enemy.SetZeroVelocity();
 
-        if (triggerCalled)
+        if (TriggerCalled)
         {
             if (enemy.CanTeleport())
-                stateMachine.ChangeState(enemy.teleportState);
+                StateMachine.ChangeState(enemy.teleportState);
             else
-                stateMachine.ChangeState(enemy.battleState);   
+                StateMachine.ChangeState(enemy.battleState);
         }
     }
 }

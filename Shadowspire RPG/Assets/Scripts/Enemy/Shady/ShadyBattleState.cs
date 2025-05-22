@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 
-
 public class ShadyBattleState : EnemyState
 {
     private Transform player;
-    private EnemyShady enemy;
+    private readonly EnemyShady enemy;
     private int moveDir;
 
     private float defaultSpeed;
 
-    public ShadyBattleState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyShady _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public ShadyBattleState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemyShady _enemy)
+        : base(_enemyBase, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
     }
@@ -25,7 +25,7 @@ public class ShadyBattleState : EnemyState
         player = PlayerManager.instance.player.transform;
 
         if (player.GetComponent<PlayerStats>().isDead)
-            stateMachine.ChangeState(enemy.moveState);
+            StateMachine.ChangeState(enemy.moveState);
     }
 
     public override void Update()
@@ -34,15 +34,15 @@ public class ShadyBattleState : EnemyState
 
         if (enemy.IsPlayerDetected())
         {
-            stateTimer = enemy.battleTime;
+            StateTimer = enemy.battleTime;
 
             if (enemy.IsPlayerDetected().distance < enemy.attackDistance)
-                enemy.stats.KillEntity();       
+                enemy.stats.KillEntity();
         }
         else
         {
-            if (stateTimer < 0 || Vector2.Distance(player.transform.position, enemy.transform.position) > 7)
-                stateMachine.ChangeState(enemy.idleState);
+            if (StateTimer < 0 || Vector2.Distance(player.transform.position, enemy.transform.position) > 7)
+                StateMachine.ChangeState(enemy.idleState);
         }
 
         if (player.position.x > enemy.transform.position.x)
@@ -50,7 +50,7 @@ public class ShadyBattleState : EnemyState
         else if (player.position.x < enemy.transform.position.x)
             moveDir = -1;
 
-        enemy.SetVelocity(enemy.moveSpeed * moveDir, rb.velocity.y);
+        enemy.SetVelocity(enemy.moveSpeed * moveDir, Rb.velocity.y);
     }
 
     public override void Exit()
@@ -60,7 +60,7 @@ public class ShadyBattleState : EnemyState
         enemy.moveSpeed = defaultSpeed;
     }
 
-    private bool CanAttack()
+    protected bool CanAttack()
     {
         if (Time.time >= enemy.lastTimeAttacked + enemy.attackCooldown)
         {

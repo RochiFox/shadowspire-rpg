@@ -1,19 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SkeletonAttackState : EnemyState
 {
-    private EnemySkeleton enemy;
+    private readonly EnemySkeleton enemy;
 
-    public SkeletonAttackState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName, EnemySkeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
+    public SkeletonAttackState(Enemy _enemyBase, EnemyStateMachine _stateMachine, string _animBoolName,
+        EnemySkeleton _enemy) : base(_enemyBase, _stateMachine, _animBoolName)
     {
         this.enemy = _enemy;
-    }
-
-    public override void Enter()
-    {
-        base.Enter();
     }
 
     public override void Exit()
@@ -29,7 +23,7 @@ public class SkeletonAttackState : EnemyState
 
         enemy.SetZeroVelocity();
 
-        if (triggerCalled)
-            stateMachine.ChangeState(enemy.battleState);
+        if (TriggerCalled)
+            StateMachine.ChangeState(enemy.battleState);
     }
 }

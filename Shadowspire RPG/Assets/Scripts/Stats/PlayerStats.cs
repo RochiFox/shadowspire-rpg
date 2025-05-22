@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStats : CharacterStats
@@ -11,11 +9,6 @@ public class PlayerStats : CharacterStats
         base.Start();
 
         player = GetComponent<Player>();
-    }
-
-    public override void TakeDamage(int _damage)
-    {
-        base.TakeDamage(_damage);
     }
 
     protected override void Die()
@@ -42,16 +35,16 @@ public class PlayerStats : CharacterStats
             player.fx.ScreenShake(player.fx.shakeHighDamage);
 
             int randomSound = Random.Range(34, 35);
-            AudioManager.instance.PlaySFX(randomSound, null);
+            AudioManager.instance.PlaySfx(randomSound, null);
         }
 
         ItemDataEquipment currentArmor = Inventory.instance.GetEquipment(EquipmentType.Armor);
 
-        if (currentArmor != null)
+        if (currentArmor)
             currentArmor.Effect(player.transform);
     }
 
-    public override void OnEvasion()
+    protected override void OnEvasion()
     {
         player.skill.dodge.CreateMirageOnDodge();
     }

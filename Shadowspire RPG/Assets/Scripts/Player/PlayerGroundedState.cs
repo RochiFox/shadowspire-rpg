@@ -1,69 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerGroundedState : PlayerState
 {
-    public PlayerGroundedState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    protected PlayerGroundedState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(
+        _player, _stateMachine, _animBoolName)
     {
-    }
-
-    public override void Enter()
-    {
-        base.Enter();
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
     }
 
     public override void Update()
     {
         base.Update();
 
-        if (Input.GetKeyDown(KeyCode.R) && player.skill.blackhole.blackholeUnlocked)
+        if (Input.GetKeyDown(KeyCode.R) && Player.skill.blackhole.blackholeUnlocked)
         {
-            if (player.skill.blackhole.cooldownTimer > 0)
+            if (Player.skill.blackhole.cooldownTimer > 0)
             {
-                player.fx.CreatePopUpText("Cooldown!");
+                Player.fx.CreatePopUpText("Cooldown!");
                 return;
             }
 
-            stateMachine.ChangeState(player.blackHole);
+            StateMachine.ChangeState(Player.blackHole);
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword() && player.skill.sword.swordUnlocked)
-            stateMachine.ChangeState(player.aimSowrd);
+        if (Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword() && Player.skill.sword.swordUnlocked)
+            StateMachine.ChangeState(Player.aimSword);
 
-        if (Input.GetKeyDown(KeyCode.Q) && player.skill.parry.parryUnlocked)
+        if (Input.GetKeyDown(KeyCode.Q) && Player.skill.parry.parryUnlocked)
         {
-            if (player.skill.parry.cooldownTimer > 0)
+            if (Player.skill.parry.cooldownTimer > 0)
             {
                 return;
             }
 
-            stateMachine.ChangeState(player.counterAttack);
+            StateMachine.ChangeState(Player.counterAttack);
         }
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
-            stateMachine.ChangeState(player.primaryAttack);
+            StateMachine.ChangeState(Player.primaryAttack);
 
-        if (!player.IsGroundDetected())
-            stateMachine.ChangeState(player.airState);
+        if (!Player.IsGroundDetected())
+            StateMachine.ChangeState(Player.airState);
 
-        if (Input.GetKeyDown(KeyCode.Space) && player.IsGroundDetected())
-            stateMachine.ChangeState(player.jumpState);
+        if (Input.GetKeyDown(KeyCode.Space) && Player.IsGroundDetected())
+            StateMachine.ChangeState(Player.jumpState);
     }
 
     private bool HasNoSword()
     {
-        if (!player.sword)
+        if (!Player.sword)
         {
             return true;
         }
 
-        player.sword.GetComponent<SwordSkillController>().ReturnSword();
+        Player.sword.GetComponent<SwordSkillController>().ReturnSword();
         return false;
     }
 }

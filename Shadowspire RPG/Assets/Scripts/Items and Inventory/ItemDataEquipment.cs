@@ -101,7 +101,7 @@ public class ItemDataEquipment : ItemData
 
     public override string GetDescription()
     {
-        sb.Length = 0;
+        Sb.Length = 0;
         descriptionLength = 0;
 
         AddItemDescription(strength, "Strength");
@@ -122,12 +122,12 @@ public class ItemDataEquipment : ItemData
         AddItemDescription(iceDamage, "Ice damage");
         AddItemDescription(lightingDamage, "Lighting dmg. ");
 
-        for (int i = 0; i < itemEffects.Length; i++)
+        foreach (ItemEffect item in itemEffects)
         {
-            if (itemEffects[i].effectDescription.Length > 0)
+            if (item.effectDescription.Length > 0)
             {
-                sb.AppendLine();
-                sb.AppendLine("Unique: " + itemEffects[i].effectDescription);
+                Sb.AppendLine();
+                Sb.AppendLine("Unique: " + item.effectDescription);
                 descriptionLength++;
             }
         }
@@ -136,23 +136,23 @@ public class ItemDataEquipment : ItemData
         {
             for (int i = 0; i < 5 - descriptionLength; i++)
             {
-                sb.AppendLine();
-                sb.Append("");
+                Sb.AppendLine();
+                Sb.Append("");
             }
         }
 
-        return sb.ToString();
+        return Sb.ToString();
     }
 
     private void AddItemDescription(int _value, string _name)
     {
         if (_value != 0)
         {
-            if (sb.Length > 0)
-                sb.AppendLine();
+            if (Sb.Length > 0)
+                Sb.AppendLine();
 
             if (_value > 0)
-                sb.Append("+ " + _value + " " + _name);
+                Sb.Append("+ " + _value + " " + _name);
 
             descriptionLength++;
         }

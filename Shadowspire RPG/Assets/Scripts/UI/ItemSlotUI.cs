@@ -8,12 +8,12 @@ public class ItemSlotUI : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
     [SerializeField] protected Image itemImage;
     [SerializeField] protected TextMeshProUGUI itemText;
 
-    protected UI ui;
+    protected UI UI;
     public InventoryItem item;
 
     protected virtual void Start()
     {
-        ui = GetComponentInParent<UI>();
+        UI = GetComponentInParent<UI>();
     }
 
     public void UpdateSlot(InventoryItem _newItem)
@@ -26,14 +26,7 @@ public class ItemSlotUI : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         {
             itemImage.sprite = item.data.itemIcon;
 
-            if (item.stackSize > 1)
-            {
-                itemText.text = item.stackSize.ToString();
-            }
-            else
-            {
-                itemText.text = "";
-            }
+            itemText.text = item.stackSize > 1 ? item.stackSize.ToString() : "";
         }
     }
 
@@ -46,12 +39,12 @@ public class ItemSlotUI : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
         itemText.text = "";
     }
 
-    public virtual void OnPointerDown(PointerEventData eventData)
+    public virtual void OnPointerDown(PointerEventData _eventData)
     {
         if (item == null)
             return;
 
-        ui.itemToolTip.HideToolTip();
+        UI.itemToolTip.HideToolTip();
 
         if (Input.GetKey(KeyCode.LeftControl))
         {
@@ -61,22 +54,21 @@ public class ItemSlotUI : MonoBehaviour, IPointerDownHandler, IPointerEnterHandl
 
         if (item.data.itemType == ItemType.Equipment)
             Inventory.instance.EquipItem(item.data);
-
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public void OnPointerEnter(PointerEventData _eventData)
     {
         if (item == null)
             return;
 
-        ui.itemToolTip.ShowToolTip(item.data as ItemDataEquipment);
+        UI.itemToolTip.ShowToolTip(item.data as ItemDataEquipment);
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public void OnPointerExit(PointerEventData _eventData)
     {
         if (item == null)
             return;
 
-        ui.itemToolTip.HideToolTip();
+        UI.itemToolTip.HideToolTip();
     }
 }

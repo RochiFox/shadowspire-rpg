@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DeathBringerSpellController : MonoBehaviour
@@ -10,15 +8,19 @@ public class DeathBringerSpellController : MonoBehaviour
 
     private CharacterStats myStats;
 
+    private readonly Collider2D[] animationsResult = new Collider2D[10];
+
     public void SetupSpell(CharacterStats _stats) => myStats = _stats;
 
     private void AnimationTrigger()
     {
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(check.position, boxSize, whatIsPlayer);
+        int size = Physics2D.OverlapBoxNonAlloc(check.position, boxSize, whatIsPlayer, animationsResult);
 
-        foreach (var hit in colliders)
+        for (int i = 0; i < size; i++)
         {
-            if (hit.GetComponent<Player>() != null)
+            Collider2D hit = animationsResult[i];
+
+            if (hit.GetComponent<Player>())
             {
                 hit.GetComponent<Entity>().SetupKnockbackDir(transform);
                 myStats.DoDamage(hit.GetComponent<PlayerStats>());

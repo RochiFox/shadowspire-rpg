@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,7 +6,7 @@ public class MainMenuUI : MonoBehaviour
 {
     [SerializeField] private string sceneName = "MainScene";
     [SerializeField] private GameObject continueButton;
-    [SerializeField] FadeScreenUI fadeScreen;
+    [SerializeField] private FadeScreenUI fadeScreen;
 
     private void Start()
     {
@@ -31,7 +30,7 @@ public class MainMenuUI : MonoBehaviour
         Application.Quit();
     }
 
-    IEnumerator LoadSceneWithFadeEffect(float _delay)
+    private IEnumerator LoadSceneWithFadeEffect(float _delay)
     {
         fadeScreen.FadeOut();
 

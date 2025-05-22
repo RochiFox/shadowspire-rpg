@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SkillManager : MonoBehaviour
@@ -16,7 +14,7 @@ public class SkillManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null)
+        if (instance)
             Destroy(instance.gameObject);
         else
             instance = this;

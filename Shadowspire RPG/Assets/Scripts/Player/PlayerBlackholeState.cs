@@ -2,59 +2,60 @@ using UnityEngine;
 
 public class PlayerBlackholeState : PlayerState
 {
-    private float flyTime = .25f;
+    private readonly float flyTime = .25f;
     private bool skillUsed;
     private float defaultGravity;
 
-    public PlayerBlackholeState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public PlayerBlackholeState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player,
+        _stateMachine, _animBoolName)
     {
-    }
-
-    public override void AnimationFinishTrigger()
-    {
-        base.AnimationFinishTrigger();
     }
 
     public override void Enter()
     {
         base.Enter();
 
-        defaultGravity = player.rb.gravityScale;
+        defaultGravity = Player.rb.gravityScale;
 
         skillUsed = false;
-        stateTimer = flyTime;
-        rb.gravityScale = 0;
-        player.stats.MakeInvincible(true);
+        StateTimer = flyTime;
+        Rb.gravityScale = 0;
+        Player.stats.MakeInvincible(true);
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        player.rb.gravityScale = defaultGravity;
-        player.fx.MakeTransparent(false);
-        player.stats.MakeInvincible(false);
+        Player.rb.gravityScale = defaultGravity;
+        Player.fx.MakeTransparent(false);
+        Player.stats.MakeInvincible(false);
     }
 
     public override void Update()
     {
         base.Update();
 
-        if (stateTimer > 0)
-            rb.velocity = new Vector2(0, 15);
-
-        if (stateTimer < 0)
+        switch (StateTimer)
         {
-            rb.velocity = new Vector2(0, -.1f);
-
-            if (!skillUsed)
+            case > 0:
+                Rb.velocity = new Vector2(0, 15);
+                break;
+            case < 0:
             {
-                if (player.skill.blackhole.CanUseSkill())
-                    skillUsed = true;
+                Rb.velocity = new Vector2(0, -.1f);
+
+                if (!skillUsed)
+                {
+                    if (Player.skill.blackhole.CanUseSkill())
+                        skillUsed = true;
+                }
+
+                break;
             }
         }
 
-        if (player.skill.blackhole.SkillCompleted())
-            stateMachine.ChangeState(player.airState);
+        if (Player.skill.blackhole.SkillCompleted())
+            StateMachine.ChangeState(Player.airState);
     }
 }

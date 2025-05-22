@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -11,34 +9,34 @@ public class CraftListUI : MonoBehaviour, IPointerDownHandler
 
     [SerializeField] private List<ItemDataEquipment> craftEquipment;
 
-    void Start()
+    private void Start()
     {
         transform.parent.GetChild(0).GetComponent<CraftListUI>().SetupCraftList();
         SetupDefaultCraftWindow();
     }
 
-    public void SetupCraftList()
+    private void SetupCraftList()
     {
         for (int i = 0; i < craftSlotParent.childCount; i++)
         {
             Destroy(craftSlotParent.GetChild(i).gameObject);
         }
 
-        for (int i = 0; i < craftEquipment.Count; i++)
+        foreach (ItemDataEquipment equip in craftEquipment)
         {
             GameObject newSlot = Instantiate(craftSlotPrefab, craftSlotParent);
-            newSlot.GetComponent<CraftSlotUI>().SetupCraftSlot(craftEquipment[i]);
+            newSlot.GetComponent<CraftSlotUI>().SetupCraftSlot(equip);
         }
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData _eventData)
     {
         SetupCraftList();
     }
 
-    public void SetupDefaultCraftWindow()
+    private void SetupDefaultCraftWindow()
     {
-        if (craftEquipment[0] != null)
+        if (craftEquipment[0])
             GetComponentInParent<UI>().craftWindow.SetupCraftWindow(craftEquipment[0]);
     }
 }

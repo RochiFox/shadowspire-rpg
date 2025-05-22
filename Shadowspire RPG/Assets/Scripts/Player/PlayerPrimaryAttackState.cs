@@ -1,15 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerPrimaryAttackState : PlayerState
 {
+    private static readonly int ComboCounter = Animator.StringToHash("ComboCounter");
+
     public int comboCounter { get; private set; }
 
     private float lastTimeAttacked;
-    private float comboWindow = 2;
+    private const float COMBO_WINDOW = 2;
 
-    public PlayerPrimaryAttackState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(_player, _stateMachine, _animBoolName)
+    public PlayerPrimaryAttackState(Player _player, PlayerStateMachine _stateMachine, string _animBoolName) : base(
+        _player, _stateMachine, _animBoolName)
     {
     }
 
@@ -17,30 +18,30 @@ public class PlayerPrimaryAttackState : PlayerState
     {
         base.Enter();
 
-        // AudioManager.instance.PlaySFX(2); // attack sound effect
+        // AudioManager.instance.PlaySfx(2); // attack sound effect
 
-        xInput = 0;
+        XInput = 0;
 
-        if (comboCounter > 2 || Time.time >= lastTimeAttacked + comboWindow)
+        if (comboCounter > 2 || Time.time >= lastTimeAttacked + COMBO_WINDOW)
             comboCounter = 0;
 
-        player.anim.SetInteger("ComboCounter", comboCounter);
+        Player.anim.SetInteger(ComboCounter, comboCounter);
 
-        float attackDir = player.facingDir;
+        float attackDir = Player.facingDir;
 
-        if (xInput != 0)
-            attackDir = xInput;
+        if (XInput != 0)
+            attackDir = XInput;
 
-        player.SetVelocity(player.attackMovement[comboCounter].x * attackDir, player.attackMovement[comboCounter].y);
+        Player.SetVelocity(Player.attackMovement[comboCounter].x * attackDir, Player.attackMovement[comboCounter].y);
 
-        stateTimer = .1f;
+        StateTimer = .1f;
     }
 
     public override void Exit()
     {
         base.Exit();
 
-        player.StartCoroutine("BusyFor", .15f);
+        Player.StartCoroutine(nameof(global::Player.BusyFor), .15f);
 
         comboCounter++;
         lastTimeAttacked = Time.time;
@@ -50,10 +51,10 @@ public class PlayerPrimaryAttackState : PlayerState
     {
         base.Update();
 
-        if (stateTimer < 0)
-            player.SetZeroVelocity();
+        if (StateTimer < 0)
+            Player.SetZeroVelocity();
 
-        if (triggerCalled)
-            stateMachine.ChangeState(player.idleState);
+        if (TriggerCalled)
+            StateMachine.ChangeState(Player.idleState);
     }
 }
