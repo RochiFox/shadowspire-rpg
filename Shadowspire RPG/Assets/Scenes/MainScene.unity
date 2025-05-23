@@ -30707,7 +30707,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   knockbackPower: {x: 0, y: 0}
   knockbackOffset: {x: 0, y: 0}
-  knockbackDuration: 0.3
   attackCheck: {fileID: 525414668}
   attackCheckRadius: 0.8
   groundCheck: {fileID: 295805108}

@@ -14,10 +14,9 @@ public class Entity : MonoBehaviour
     #endregion
 
     [Header("Knockback info")] [SerializeField]
-    protected Vector2 knockbackPower = new Vector2(7, 12);
+    protected Vector2 knockbackPower = new(7, 12);
 
-    [SerializeField] protected Vector2 knockbackOffset = new Vector2(.5f, 2);
-    [SerializeField] protected float knockbackDuration = .07f;
+    [SerializeField] protected Vector2 knockbackOffset = new(.5f, 2);
     protected bool IsKnocked;
 
     [Header("Collision info")] public Transform attackCheck;
@@ -74,16 +73,11 @@ public class Entity : MonoBehaviour
 
     protected virtual IEnumerator HitKnockback()
     {
-        IsKnocked = true;
-
         float xOffset = Random.Range(knockbackOffset.x, knockbackOffset.y);
 
-        if (knockbackPower.x > 0 || knockbackPower.y > 0)
-            rb.velocity = new Vector2((knockbackPower.x + xOffset) * knockbackDir, knockbackPower.y);
+        rb.AddForce(new Vector2((knockbackPower.x + xOffset) * knockbackDir, knockbackPower.y), ForceMode2D.Impulse);
 
-        yield return new WaitForSeconds(knockbackDuration);
-        IsKnocked = false;
-        SetupZeroKnockbackPower();
+        yield return null;
     }
 
     protected virtual void SetupZeroKnockbackPower()
@@ -134,7 +128,7 @@ public class Entity : MonoBehaviour
 
     public virtual void Flip()
     {
-        facingDir = facingDir * -1;
+        facingDir *= -1;
         facingRight = !facingRight;
         transform.Rotate(0, 180, 0);
 

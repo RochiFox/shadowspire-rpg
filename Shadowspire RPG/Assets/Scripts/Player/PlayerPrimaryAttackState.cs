@@ -18,7 +18,7 @@ public class PlayerPrimaryAttackState : PlayerState
     {
         base.Enter();
 
-        // AudioManager.instance.PlaySfx(2); // attack sound effect
+        AudioManager.instance.PlaySfx(2, null);
 
         XInput = 0;
 
