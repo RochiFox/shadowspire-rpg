@@ -4645,7 +4645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 254001573}
-  parametr: sfx
+  parameter: 
   audioMixer: {fileID: 24100000, guid: b7725e6b8fda8d845bed26b071ee56d1, type: 2}
   multiplier: 25
 --- !u!1 &273800611
@@ -16662,7 +16662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 678401628}
-  parametr: bgm
+  parameter: 
   audioMixer: {fileID: 24100000, guid: b7725e6b8fda8d845bed26b071ee56d1, type: 2}
   multiplier: 25
 --- !u!224 &699969021 stripped
@@ -44541,7 +44541,7 @@ MonoBehaviour:
   stash: []
   inventorySlotParent: {fileID: 514710781}
   stashSlotParent: {fileID: 1305991360}
-  equpmentSlotParent: {fileID: 586833452}
+  equipmentSlotParent: {fileID: 586833452}
   statSlotParent: {fileID: 779268895}
   itemDataBase:
   - {fileID: 0}
@@ -56751,14 +56751,14 @@ MonoBehaviour:
   cloneAttackUnlockButton: {fileID: 1935701756}
   cloneAttackMultiplier: 0.3
   canAttack: 0
-  aggresiveCloneUnlockButton: {fileID: 976701345}
-  aggresiveCloneAttackMultiplier: 0.8
+  aggressiveCloneUnlockButton: {fileID: 976701345}
+  aggressiveCloneAttackMultiplier: 0.8
   multipleUnlockButton: {fileID: 1249616485}
   multiCloneAttackMultiplier: 0.3
   canDuplicateClone: 0
   chanceToDuplicate: 99
-  crystalInseadUnlockButton: {fileID: 170117334}
-  crystalInseadOfClone: 0
+  crystalInsteadUnlockButton: {fileID: 170117334}
+  crystalInsteadOfClone: 0
 --- !u!114 &1954985850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56795,7 +56795,7 @@ MonoBehaviour:
   timeStopUnlockButton: {fileID: 1755895159}
   vulnerableUnlockButton: {fileID: 1242629081}
   numberOfDots: 20
-  spaceBeetwenDots: 0.07
+  spaceBetweenDots: 0.07
   dotPrefab: {fileID: 9037650428537424703, guid: 5e4a7745cf1d09840b73d39b761e1f77, type: 3}
   dotsParent: {fileID: 1126719947}
 --- !u!114 &1954985851
@@ -56837,11 +56837,11 @@ MonoBehaviour:
   cooldownTimer: 0
   crystalDuration: 1.5
   crystalPrefab: {fileID: 4017398500736977651, guid: dc0a3fa34257af146a6a54bbdfdf5719, type: 3}
-  unlockCloneInstaedButton: {fileID: 46671541}
+  unlockCloneInsteadButton: {fileID: 170117334}
   cloneInsteadOfCrystal: 0
   unlockCrystalButton: {fileID: 1425335085}
   unlockExplosiveButton: {fileID: 975729232}
-  explisoveCooldown: 3.5
+  explosiveCooldown: 3.5
   canExplode: 0
   unlockMovingCrystalButton: {fileID: 1136683794}
   canMoveToEnemy: 0
@@ -56850,7 +56850,7 @@ MonoBehaviour:
   canUseMultiStacks: 0
   amountOfStacks: 3
   multiStackCooldown: 4
-  useTimeWondow: 2.5
+  useTimeWindow: 2.5
   crystalLeft:
   - {fileID: 4017398500736977651, guid: dc0a3fa34257af146a6a54bbdfdf5719, type: 3}
   - {fileID: 4017398500736977651, guid: dc0a3fa34257af146a6a54bbdfdf5719, type: 3}
@@ -56871,7 +56871,7 @@ MonoBehaviour:
   cooldownTimer: 0
   parryUnlockButton: {fileID: 1685389488}
   restoreUnlockButton: {fileID: 2120320692}
-  restoreHealthPerentage: 0.05
+  restoreHealthPercentage: 0.05
   parryWithMirageUnlockButton: {fileID: 873241599}
 --- !u!114 &1954985854
 MonoBehaviour:

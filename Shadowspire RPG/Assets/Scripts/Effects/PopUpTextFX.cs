@@ -6,10 +6,10 @@ public class PopUpTextFx : MonoBehaviour
     private TextMeshPro myText;
 
     [SerializeField] private float speed;
-    [SerializeField] private float disappearanceSpeed;
-    [SerializeField] private float colorDisappearanceSpeed;
+    [SerializeField] private float disappearanceSpeed = 1f;
+    [SerializeField] private float colorDisappearanceSpeed = 1f;
 
-    [SerializeField] private float lifeTime;
+    [SerializeField] private float lifeTime = 2f;
 
     private float textTimer;
 

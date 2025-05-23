@@ -131,7 +131,8 @@ public class UI : MonoBehaviour, ISaveManager
 
         foreach (VolumeSliderUI item in volumeSettings)
         {
-            _data.volumeSettings.Add(item.parameter, item.slider.value);
+            if (!_data.volumeSettings.ContainsKey(item.parameter))
+                _data.volumeSettings.Add(item.parameter, item.slider.value);
         }
     }
 }
