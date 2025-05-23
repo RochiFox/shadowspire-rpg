@@ -72,22 +72,25 @@ public class Inventory : MonoBehaviour, ISaveManager
 
     private void AddStartingItems()
     {
-        foreach (ItemDataEquipment item in loadedEquipment)
+        if (loadedItems.Count > 0 || loadedEquipment.Count > 0)
         {
-            EquipItem(item);
-        }
-
-        if (loadedItems.Count > 0)
-        {
-            foreach (InventoryItem item in loadedItems)
+            foreach (ItemDataEquipment item in loadedEquipment)
             {
-                for (int i = 0; i < item.stackSize; i++)
-                {
-                    AddItem(item.data);
-                }
+                EquipItem(item);
             }
 
-            return;
+            if (loadedItems.Count > 0)
+            {
+                foreach (InventoryItem item in loadedItems)
+                {
+                    for (int i = 0; i < item.stackSize; i++)
+                    {
+                        AddItem(item.data);
+                    }
+                }
+
+                return;
+            }
         }
 
         foreach (ItemData item in startingItems.Where(_item => _item))
@@ -99,7 +102,7 @@ public class Inventory : MonoBehaviour, ISaveManager
     public void EquipItem(ItemData _item)
     {
         ItemDataEquipment newEquipment = _item as ItemDataEquipment;
-        InventoryItem newItem = new InventoryItem(newEquipment);
+        InventoryItem newItem = new(newEquipment);
 
         ItemDataEquipment oldEquipment = null;
 
