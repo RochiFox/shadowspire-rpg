@@ -69,7 +69,10 @@ public class UI : MonoBehaviour, ISaveManager
 
         if (GameManager.instance)
         {
-            GameManager.PauseGame(_menu != inGameUI);
+            bool isGamePaused = _menu != inGameUI;
+            GameManager.PauseGame(isGamePaused);
+
+            AudioManager.instance.StopAllSfx(isGamePaused);
         }
     }
 

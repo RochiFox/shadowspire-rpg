@@ -1,8 +1,11 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+    private readonly HashSet<int> ignorePauseSfx = new HashSet<int> { 5 }; // Sounds we will ignore to stop playing
+
     public static AudioManager instance;
 
     [SerializeField] private float sfxMinimumDistance;
@@ -53,6 +56,20 @@ public class AudioManager : MonoBehaviour
     }
 
     public void StopSfx(int _index) => sfx[_index].Stop();
+
+    public void StopAllSfx(bool _isPaused)
+    {
+        for (int i = 0; i < sfx.Length; i++)
+        {
+            if (ignorePauseSfx.Contains(i))
+                continue;
+
+            if (_isPaused)
+                sfx[i].Pause();
+            else
+                sfx[i].UnPause();
+        }
+    }
 
     public void StopSfxWithTime(int _index) => StartCoroutine(DecreaseVolume(sfx[_index]));
 
