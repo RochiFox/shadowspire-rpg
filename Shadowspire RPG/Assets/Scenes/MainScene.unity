@@ -4645,7 +4645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 254001573}
-  parameter: 
+  parameter: sfx
   audioMixer: {fileID: 24100000, guid: b7725e6b8fda8d845bed26b071ee56d1, type: 2}
   multiplier: 25
 --- !u!1 &273800611
@@ -6002,10 +6002,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e107aede6b6f6664e9a42425ec2541f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xLimit: 960
-  yLimit: 540
-  xOffset: 150
-  yOffset: 150
+  xLimit: 600
+  yLimit: 250
+  xOffset: 100
+  yOffset: 100
   skillText: {fileID: 1377384998}
   skillName: {fileID: 1838090058}
   skillCost: {fileID: 232804527}
@@ -16662,7 +16662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 678401628}
-  parameter: 
+  parameter: bgm
   audioMixer: {fileID: 24100000, guid: b7725e6b8fda8d845bed26b071ee56d1, type: 2}
   multiplier: 25
 --- !u!224 &699969021 stripped
@@ -22938,10 +22938,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7057808808f4ad14cb61138d589394c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xLimit: 960
-  yLimit: 540
-  xOffset: 150
-  yOffset: 150
+  xLimit: 600
+  yLimit: 250
+  xOffset: 100
+  yOffset: 100
   itemNameText: {fileID: 1896231655}
   itemTypeText: {fileID: 552901342}
   itemDescription: {fileID: 795404099}
@@ -36715,10 +36715,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfea5f1e6061a63468d50c0746602b8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xLimit: 960
-  yLimit: 540
-  xOffset: 150
-  yOffset: 150
+  xLimit: 600
+  yLimit: 250
+  xOffset: 100
+  yOffset: 100
   description: {fileID: 287057043}
 --- !u!114 &1244190314
 MonoBehaviour:
