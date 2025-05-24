@@ -259,7 +259,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 5413061283461557538}
   m_HandleRect: {fileID: 0}
@@ -715,7 +715,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   knockbackPower: {x: 7, y: 12}
   knockbackOffset: {x: 0, y: 0}
-  knockbackDuration: 0.07
   attackCheck: {fileID: 5413061282480843610}
   attackCheckRadius: 1.2
   groundCheck: {fileID: 5413061283799475926}
@@ -860,7 +859,7 @@ MonoBehaviour:
     baseValue: 0
     modifiers: 
   level: 2
-  percantageModifier: 0.4
+  percentageModifier: 0.4
 --- !u!70 &5413061283600725299
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

@@ -314,15 +314,15 @@ public class Inventory : MonoBehaviour, ISaveManager
     {
         ItemDataEquipment currentFlask = GetEquipment(EquipmentType.Flask);
 
-        if (player.stats.currentHealth >= player.stats.maxHealth.GetValue())
-        {
-            player.fx.CreatePopUpText("You are already at full health");
-            return;
-        }
-
         if (!currentFlask)
         {
             player.fx.CreatePopUpText("You don't have flask");
+            return;
+        }
+
+        if (player.stats.currentHealth >= player.stats.maxHealth.GetValue())
+        {
+            player.fx.CreatePopUpText("You are already at full health");
             return;
         }
 
@@ -333,6 +333,8 @@ public class Inventory : MonoBehaviour, ISaveManager
             flaskCooldown = currentFlask.itemCooldown;
             currentFlask.Effect(null);
             lastTimeUsedFlask = Time.time;
+
+            InGameUI.instance.StartFlaskCooldown(flaskCooldown);
 
             UnequipItem(currentFlask);
 
@@ -347,7 +349,7 @@ public class Inventory : MonoBehaviour, ISaveManager
             UpdateSlotUI();
         }
         else
-            Debug.Log("Flask on cooldown;");
+            player.fx.CreatePopUpText("Flask on cooldown;");
     }
 
     public bool CanUseArmor()

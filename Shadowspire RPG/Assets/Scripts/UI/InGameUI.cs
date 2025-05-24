@@ -1,9 +1,12 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class InGameUI : MonoBehaviour
 {
+    public static InGameUI instance { get; private set; }
+
     [SerializeField] private PlayerStats playerStats;
     [SerializeField] private Slider slider;
 
@@ -12,7 +15,7 @@ public class InGameUI : MonoBehaviour
     [SerializeField] private Image crystalImage;
     [SerializeField] private Image swordImage;
     [SerializeField] private Image blackholeImage;
-    [SerializeField] private Image flaskImage;
+    [SerializeField] public Image flaskImage;
 
     private SkillManager skills;
 
@@ -28,6 +31,14 @@ public class InGameUI : MonoBehaviour
             playerStats.OnHealthChanged += UpdateHealthUI;
 
         skills = SkillManager.instance;
+    }
+
+    private void Awake()
+    {
+        if (!instance)
+            instance = this;
+        else
+            Destroy(gameObject);
     }
 
     private void Update()
@@ -81,6 +92,26 @@ public class InGameUI : MonoBehaviour
     {
         if (_image.fillAmount <= 0)
             _image.fillAmount = 1;
+    }
+
+    public void StartFlaskCooldown(float _cooldown)
+    {
+        StartCoroutine(FlaskCooldownRoutine(_cooldown));
+    }
+
+    private IEnumerator FlaskCooldownRoutine(float _cooldown)
+    {
+        flaskImage.fillAmount = 1f;
+        float elapsed = 0f;
+
+        while (elapsed < _cooldown)
+        {
+            elapsed += Time.deltaTime;
+            flaskImage.fillAmount = 1f - (elapsed / _cooldown);
+            yield return null;
+        }
+
+        flaskImage.fillAmount = 0f;
     }
 
     private static void CheckCooldownOf(Image _image, float _cooldown)
