@@ -9,7 +9,7 @@ public class PlayerWallJumpState : PlayerState
     {
         base.Enter();
 
-        StateTimer = 1f;
+        StateTimer = 0.5f;
         Player.SetVelocity(5 * -Player.facingDir, Player.jumpForce);
     }
 

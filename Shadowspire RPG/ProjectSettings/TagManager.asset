@@ -43,7 +43,10 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Background
+  - name: Background Back
+    uniqueID: 1300783839
+    locked: 0
+  - name: Background Front
     uniqueID: 3618260669
     locked: 0
   - name: Decor
