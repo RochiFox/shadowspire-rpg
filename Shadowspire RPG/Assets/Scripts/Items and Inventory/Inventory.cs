@@ -21,7 +21,8 @@ public class Inventory : MonoBehaviour, ISaveManager
     public List<InventoryItem> stash;
     private Dictionary<ItemData, InventoryItem> stashDictionary;
 
-    [Header("Inventory UI")] [SerializeField]
+    [Header("Inventory UI")]
+    [SerializeField]
     private Transform inventorySlotParent;
 
     [SerializeField] private Transform stashSlotParent;
@@ -264,17 +265,15 @@ public class Inventory : MonoBehaviour, ISaveManager
     {
         foreach (InventoryItem requiredItem in _requiredMaterials)
         {
-            if (stashDictionary.TryGetValue(requiredItem.data, out InventoryItem stashItem))
+            if (!stashDictionary.TryGetValue(requiredItem.data, out InventoryItem stashItem))
             {
-                if (stashItem.stackSize < requiredItem.stackSize)
-                {
-                    Debug.Log("Not enough materials: " + requiredItem.data.name);
-                }
-                else
-                {
-                    Debug.Log("Materials not found in stash: " + requiredItem.data.name);
-                }
+                Debug.Log("Materials not found in stash: " + requiredItem.data.name);
+                return false;
+            }
 
+            if (stashItem.stackSize < requiredItem.stackSize)
+            {
+                Debug.Log("Not enough materials: " + requiredItem.data.name);
                 return false;
             }
         }
@@ -386,9 +385,9 @@ public class Inventory : MonoBehaviour, ISaveManager
         }
 
         foreach (ItemData item in from loadedItemId in _data.equipmentId
-                 from item in itemDataBase
-                 where item && loadedItemId == item.itemId
-                 select item)
+                                  from item in itemDataBase
+                                  where item && loadedItemId == item.itemId
+                                  select item)
         {
             loadedEquipment.Add(item as ItemDataEquipment);
         }

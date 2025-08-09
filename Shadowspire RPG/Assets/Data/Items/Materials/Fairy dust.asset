@@ -16,4 +16,4 @@ MonoBehaviour:
   itemName: Fairy dust
   itemIcon: {fileID: 1397189960, guid: a9ca9a41598dd2e44b125928045c518f, type: 3}
   itemId: eb240d8e2c8358d448769b8c5bb1af05
-  dropChance: 0
+  dropChance: 60
