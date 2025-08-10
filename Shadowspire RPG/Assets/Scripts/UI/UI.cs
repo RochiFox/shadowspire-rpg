@@ -1,19 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class UI : MonoBehaviour, ISaveManager
 {
-    [Header("End screen")] [SerializeField]
+    [Header("End screen")]
+    [SerializeField]
     private FadeScreenUI fadeScreen;
 
     [SerializeField] private GameObject endText;
     [SerializeField] private GameObject restartButton;
-    [Space] [SerializeField] private GameObject characterUI;
+    [Space][SerializeField] private GameObject characterUI;
     [SerializeField] private GameObject skillTreeUI;
     [SerializeField] private GameObject craftUI;
     [SerializeField] private GameObject optionsUI;
     [SerializeField] private GameObject inGameUI;
+    [SerializeField] private GameObject councilUI;
+    [SerializeField] private GameObject councilHints;
 
     public SkillTooltipUI skillToolTip;
     public ItemTooltipUI itemToolTip;
@@ -49,16 +53,22 @@ public class UI : MonoBehaviour, ISaveManager
 
         if (Input.GetKeyDown(KeyCode.Escape))
             SwitchWithKeyTo(optionsUI);
+
+        if (Input.GetKeyDown(KeyCode.H) && inGameUI.activeSelf)
+            councilHints.SetActive(!councilHints.activeSelf);
     }
 
     public void SwitchTo(GameObject _menu)
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            bool fadeScreenUi = transform.GetChild(i).GetComponent<FadeScreenUI>();
+            Transform child = transform.GetChild(i);
 
-            if (fadeScreenUi == false)
-                transform.GetChild(i).gameObject.SetActive(false);
+            bool fadeScreenUi = child.GetComponent<FadeScreenUI>();
+            bool isCouncilUI = child.gameObject == councilUI;
+
+            if (!fadeScreenUi && !isCouncilUI)
+                child.gameObject.SetActive(false);
         }
 
         if (_menu)
